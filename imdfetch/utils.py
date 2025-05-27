@@ -13,8 +13,12 @@ from urllib3.util.retry import Retry
 import urllib3
 
 from .constants import (
-    DEFAULT_TIMEOUT, DEFAULT_MAX_RETRIES, DEFAULT_BACKOFF_FACTOR,
-    DEFAULT_HEADERS, DATE_FORMATS, MONTH_ABBREV
+    DEFAULT_TIMEOUT,
+    DEFAULT_MAX_RETRIES,
+    DEFAULT_BACKOFF_FACTOR,
+    DEFAULT_HEADERS,
+    DATE_FORMATS,
+    MONTH_ABBREV,
 )
 from .exceptions import NetworkError
 
@@ -23,152 +27,148 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 
 def make_robust_request(
-    url: str, 
+    url: str,
     max_retries: int = DEFAULT_MAX_RETRIES,
     backoff_factor: float = DEFAULT_BACKOFF_FACTOR,
     timeout: int = DEFAULT_TIMEOUT,
-    verify_ssl: bool = True
+    verify_ssl: bool = True,
 ) -> Optional[requests.Response]:
     """
     Make HTTP request with retry logic and SSL error handling
-    
+
     Args:
         url: URL to fetch
         max_retries: Maximum number of retry attempts
         backoff_factor: Backoff factor for exponential retry delay
         timeout: Request timeout in seconds
         verify_ssl: Whether to verify SSL certificates
-        
+
     Returns:
         Response object if successful, None if all retries failed
-        
+
     Raises:
         NetworkError: If all retries failed
     """
-    
+
     for attempt in range(max_retries + 1):
         try:
             response = requests.get(
-                url, 
-                headers=DEFAULT_HEADERS, 
-                timeout=timeout,
-                verify=verify_ssl
+                url, headers=DEFAULT_HEADERS, timeout=timeout, verify=verify_ssl
             )
             response.raise_for_status()
             return response
-            
+
         except requests.exceptions.SSLError as e:
             print(f"SSL Error on attempt {attempt + 1}/{max_retries + 1}: {e}")
-            
+
             if attempt < max_retries:
                 try:
                     print("Retrying with SSL verification disabled...")
                     response = requests.get(
-                        url, 
-                        headers=DEFAULT_HEADERS, 
-                        timeout=timeout,
-                        verify=False
+                        url, headers=DEFAULT_HEADERS, timeout=timeout, verify=False
                     )
                     response.raise_for_status()
                     print("✅ Request succeeded with SSL verification disabled")
                     return response
                 except Exception as fallback_error:
                     print(f"❌ Fallback also failed: {fallback_error}")
-            
+
         except requests.exceptions.ConnectionError as e:
             print(f"Connection Error on attempt {attempt + 1}/{max_retries + 1}: {e}")
-            
+
         except requests.exceptions.Timeout as e:
             print(f"Timeout Error on attempt {attempt + 1}/{max_retries + 1}: {e}")
-            
+
         except requests.exceptions.RequestException as e:
             print(f"Request Error on attempt {attempt + 1}/{max_retries + 1}: {e}")
-            
+
         except Exception as e:
             print(f"Unexpected Error on attempt {attempt + 1}/{max_retries + 1}: {e}")
-        
+
         # Wait before retrying (exponential backoff)
         if attempt < max_retries:
-            wait_time = backoff_factor * (2 ** attempt)
+            wait_time = backoff_factor * (2**attempt)
             print(f"⏳ Waiting {wait_time:.1f} seconds before retry...")
             time.sleep(wait_time)
-    
+
     print(f"❌ All {max_retries + 1} attempts failed")
-    raise NetworkError(f"Failed to fetch data from {url} after {max_retries + 1} attempts")
+    raise NetworkError(
+        f"Failed to fetch data from {url} after {max_retries + 1} attempts"
+    )
 
 
 def make_request_with_session(
     url: str,
     max_retries: int = DEFAULT_MAX_RETRIES,
     backoff_factor: float = DEFAULT_BACKOFF_FACTOR,
-    timeout: int = DEFAULT_TIMEOUT
+    timeout: int = DEFAULT_TIMEOUT,
 ) -> Optional[requests.Response]:
     """
     Alternative approach using requests Session with built-in retry strategy
-    
+
     Args:
         url: URL to fetch
         max_retries: Maximum number of retry attempts
         backoff_factor: Backoff factor for retry delay
         timeout: Request timeout in seconds
-        
+
     Returns:
         Response object if successful, None if failed
     """
-    
+
     session = requests.Session()
-    
+
     retry_strategy = Retry(
         total=max_retries,
         backoff_factor=backoff_factor,
         status_forcelist=[429, 500, 502, 503, 504],
-        allowed_methods=["HEAD", "GET", "OPTIONS"]
+        allowed_methods=["HEAD", "GET", "OPTIONS"],
     )
-    
+
     adapter = HTTPAdapter(max_retries=retry_strategy)
     session.mount("http://", adapter)
     session.mount("https://", adapter)
-    
+
     try:
         response = session.get(url, headers=DEFAULT_HEADERS, timeout=timeout)
         response.raise_for_status()
         return response
-        
+
     except requests.exceptions.SSLError as e:
         print(f"SSL Error with session: {e}")
         try:
             print("Retrying with SSL verification disabled...")
-            response = session.get(url, headers=DEFAULT_HEADERS, timeout=timeout, verify=False)
+            response = session.get(
+                url, headers=DEFAULT_HEADERS, timeout=timeout, verify=False
+            )
             response.raise_for_status()
             return response
         except Exception as fallback_error:
             print(f"Session fallback failed: {fallback_error}")
             return None
-            
+
     except Exception as e:
         print(f"Session request failed: {e}")
         return None
-    
+
     finally:
         session.close()
 
 
 def safe_get(
-    url: str, 
-    max_retries: int = DEFAULT_MAX_RETRIES, 
-    timeout: int = DEFAULT_TIMEOUT
+    url: str, max_retries: int = DEFAULT_MAX_RETRIES, timeout: int = DEFAULT_TIMEOUT
 ) -> requests.Response:
     """
     Simple drop-in replacement for requests.get() with retry logic
-    
+
     Args:
         url: URL to fetch
         max_retries: Maximum retry attempts
         timeout: Request timeout
-        
+
     Returns:
         requests.Response object
-        
+
     Raises:
         NetworkError: If request fails after all retries
     """
@@ -178,26 +178,26 @@ def safe_get(
 def parse_date(date_text: str) -> Optional[str]:
     """
     Parse various date formats commonly found on IMD pages
-    
+
     Args:
         date_text: Raw date text
-        
+
     Returns:
         Standardized date in YYYY-MM-DD format, or None if parsing fails
     """
     if not date_text:
         return None
-    
+
     # Clean the date text
-    date_text = re.sub(r'[^\w\s\/\-,:]', '', date_text.strip())
-    
+    date_text = re.sub(r"[^\w\s\/\-,:]", "", date_text.strip())
+
     for fmt in DATE_FORMATS:
         try:
             parsed_date = datetime.strptime(date_text, fmt)
-            return parsed_date.strftime('%Y-%m-%d')
+            return parsed_date.strftime("%Y-%m-%d")
         except ValueError:
             continue
-    
+
     return None
 
 

@@ -13,7 +13,7 @@ from .exceptions import IMDWeatherError, DataParsingError, NetworkError
 
 __all__ = [
     "IMDWeatherClient",
-    "WeatherDataParser", 
+    "WeatherDataParser",
     "WeatherData",
     "ForecastData",
     "CityInfo",
