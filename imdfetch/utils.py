@@ -315,3 +315,154 @@ def clean_parameter_name(param_text: str) -> str:
         return "Moonrise (IST)"
     else:
         return param_text
+
+
+def colorize_temperature(temp: float, unit: str = "°C") -> str:
+    """
+    Color-code temperature values based on ranges.
+
+    Args:
+        temp: Temperature value in Celsius
+        unit: Temperature unit to append (default: "°C")
+
+    Returns:
+        Colored temperature string with ANSI escape codes
+    """
+    if isinstance(temp, str):
+        if temp.upper() in ["NA", "N/A", "-", "--", ""]:
+            return f"{temp}"
+        try:
+            temp = float(temp)
+        except ValueError:
+            return f"{temp}{unit}"
+    # ANSI color codes
+    RESET = "\033[0m"
+    BLUE = "\033[94m"  # Cold: < 10°C
+    CYAN = "\033[96m"  # Cool: 10-20°C
+    GREEN = "\033[92m"  # Comfortable: 20-25°C
+    YELLOW = "\033[93m"  # Warm: 25-30°C
+    ORANGE = "\033[38;5;208m"  # Hot: 30-35°C
+    RED = "\033[91m"  # Very Hot: > 35°C
+
+    # Determine color based on temperature range
+    if temp < 10:
+        color = BLUE
+    elif temp < 20:
+        color = CYAN
+    elif temp < 25:
+        color = GREEN
+    elif temp < 30:
+        color = YELLOW
+    elif temp < 35:
+        color = ORANGE
+    else:
+        color = RED
+
+    return f"{color}{temp}{unit}{RESET}"
+
+
+def get_temperature_legend() -> str:
+    """
+    Get a legend showing temperature color coding.
+
+    Returns:
+        Formatted legend string
+    """
+    RESET = "\033[0m"
+    BLUE = "\033[94m"
+    CYAN = "\033[96m"
+    GREEN = "\033[92m"
+    YELLOW = "\033[93m"
+    ORANGE = "\033[38;5;208m"
+    RED = "\033[91m"
+
+    legend = "Temperature Color Legend:\n"
+    legend += f"  {BLUE}■{RESET} < 10°C (Cold)\n"
+    legend += f"  {CYAN}■{RESET} 10-20°C (Cool)\n"
+    legend += f"  {GREEN}■{RESET} 20-25°C (Comfortable)\n"
+    legend += f"  {YELLOW}■{RESET} 25-30°C (Warm)\n"
+    legend += f"  {ORANGE}■{RESET} 30-35°C (Hot)\n"
+    legend += f"  {RED}■{RESET} > 35°C (Very Hot)"
+
+    return legend
+
+
+def get_humidity_legend() -> str:
+    """
+    Get a legend showing humidity color coding.
+
+    Returns:
+        Formatted legend string
+    """
+    RESET = "\033[0m"
+    BROWN = "\033[38;5;130m"
+    YELLOW = "\033[93m"
+    GREEN = "\033[92m"
+    CYAN = "\033[96m"
+    BLUE = "\033[94m"
+    PURPLE = "\033[95m"
+
+    legend = "Relative Humidity Color Legend:\n"
+    legend += f"  {BROWN}■{RESET} < 30% (Very Dry)\n"
+    legend += f"  {YELLOW}■{RESET} 30-40% (Dry)\n"
+    legend += f"  {GREEN}■{RESET} 40-60% (Comfortable)\n"
+    legend += f"  {CYAN}■{RESET} 60-70% (Humid)\n"
+    legend += f"  {BLUE}■{RESET} 70-80% (Very Humid)\n"
+    legend += f"  {PURPLE}■{RESET} > 80% (Extremely Humid)"
+
+    return legend
+
+
+def colorize_humidity(humidity: float, unit: str = "%") -> str:
+    """
+    Color-code relative humidity values based on comfort ranges.
+
+    Args:
+        humidity: Relative humidity percentage (0-100)
+        unit: Unit to append (default: "%")
+
+    Returns:
+        Colored humidity string with ANSI escape codes
+    """
+    if isinstance(humidity, str):
+        if humidity.upper() in ["NA", "N/A", "-", "--", ""]:
+            return f"{humidity}"
+        try:
+            humidity = float(humidity)
+        except ValueError:
+            return f"{humidity}{unit}"
+
+    # ANSI color codes
+    RESET = "\033[0m"
+    BROWN = "\033[38;5;130m"  # Very Dry: < 30%
+    YELLOW = "\033[93m"  # Dry: 30-40%
+    GREEN = "\033[92m"  # Comfortable: 40-60%
+    CYAN = "\033[96m"  # Humid: 60-70%
+    BLUE = "\033[94m"  # Very Humid: 70-80%
+    PURPLE = "\033[95m"  # Extremely Humid: > 80%
+
+    # Determine color based on humidity range
+    if humidity < 30:
+        color = BROWN
+    elif humidity < 40:
+        color = YELLOW
+    elif humidity < 60:
+        color = GREEN
+    elif humidity < 70:
+        color = CYAN
+    elif humidity < 80:
+        color = BLUE
+    else:
+        color = PURPLE
+
+    return f"{color}{humidity}{unit}{RESET}"
+
+
+def get_combined_legend() -> str:
+    """
+    Get a combined legend showing both temperature and humidity color coding.
+
+    Returns:
+        Formatted legend string
+    """
+    return get_temperature_legend() + "\n\n" + get_humidity_legend()

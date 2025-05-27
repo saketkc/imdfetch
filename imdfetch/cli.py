@@ -10,6 +10,7 @@ from typing import Optional
 
 from . import IMDWeatherClient
 from .exceptions import IMDWeatherError, CityNotFoundError
+from .utils import colorize_temperature, colorize_humidity
 
 
 def search_cities(
@@ -47,19 +48,21 @@ def get_weather(
         else:
             print(f"🌤️ Current Weather for {weather.city}")
             print(f"📅 Date: {weather.date}")
-            print(
-                f"🌡️ Max Temperature (°C): {weather.get_parameter('Maximum Temperature')}"
-            )
-            print(
-                f"🌡️ Min Temperature (°C): {weather.get_parameter('Minimum Temperature')}"
-            )
+
+            # Get temperature values
+            max_temp = weather.get_parameter("Maximum Temperature")
+            min_temp = weather.get_parameter("Minimum Temperature")
+
+            # Get humidity values
+            humidity_0830 = weather.get_parameter("Relative Humidity at 08:30")
+            humidity_1730 = weather.get_parameter("Relative Humidity at 17:30")
+
+            # Display with color coding
+            print(f"🌡️ Max Temperature: {colorize_temperature(max_temp)}")
+            print(f"🌡️ Min Temperature: {colorize_temperature(min_temp)}")
             print(f"🌧️ 24h Rainfall (mm): {weather.get_parameter('24 Hours Rainfall')}")
-            print(
-                f"💧 Relative Humidity at 08:30 (%): {weather.get_parameter('Relative Humidity at 08:30')}"
-            )
-            print(
-                f"💧 Relative Humidity at 17:30 (%): {weather.get_parameter('Relative Humidity at 17:30')}"
-            )
+            print(f"💧 Relative Humidity at 08:30: {colorize_humidity(humidity_0830)}")
+            print(f"💧 Relative Humidity at 17:30: {colorize_humidity(humidity_1730)}")
 
     except CityNotFoundError as e:
         print(f"❌ {e}")
@@ -90,7 +93,10 @@ def get_forecast(
             print("-" * 50)
             for i, day in enumerate(forecast.days[:days]):
                 print(f"📅 {day.date} ({day.iso_date})")
-                print(f"   🌡️  Temperature: {day.min_temp}°C - {day.max_temp}°C")
+                # Color code the temperature range
+                min_colored = colorize_temperature(day.min_temp)
+                max_colored = colorize_temperature(day.max_temp)
+                print(f"   🌡️  Temperature: {min_colored} - {max_colored}")
                 print(f"   🌤️  Forecast: {day.forecast}")
                 if day.warnings:
                     print(f"   ⚠️  Warnings: {day.warnings}")
