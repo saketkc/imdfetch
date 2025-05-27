@@ -10,7 +10,7 @@ from typing import Optional
 
 from . import IMDWeatherClient
 from .exceptions import IMDWeatherError, CityNotFoundError
-from .utils import colorize_temperature, colorize_humidity
+from .utils import colorize_temperature, colorize_humidity, format_date
 
 
 def search_cities(
@@ -47,7 +47,7 @@ def get_weather(
             print(json.dumps(weather.to_dict(), indent=2))
         else:
             print(f"🌤️ Current Weather for {weather.city}")
-            print(f"📅 Date: {weather.date}")
+            print(f"📅 Date: {format_date(weather.date)}")
 
             # Get temperature values
             max_temp = weather.get_parameter("Maximum Temperature")
@@ -89,10 +89,10 @@ def get_forecast(
             print(json.dumps(forecast.to_dict(), indent=2))
         else:
             print(f"🔮 {days}-Day Weather Forecast for {forecast.city}")
-            print(f"📅 Forecast Date: {forecast.forecast_date}")
+            print(f"📅 Forecast Date: {format_date(forecast.forecast_date)}")
             print("-" * 50)
             for i, day in enumerate(forecast.days[:days]):
-                print(f"📅 {day.date} ({day.iso_date})")
+                print(f"📅 {format_date(day.iso_date)}")
                 # Color code the temperature range
                 min_colored = colorize_temperature(day.min_temp)
                 max_colored = colorize_temperature(day.max_temp)

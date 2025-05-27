@@ -466,3 +466,40 @@ def get_combined_legend() -> str:
         Formatted legend string
     """
     return get_temperature_legend() + "\n\n" + get_humidity_legend()
+
+
+def format_date(date_str: str, include_day: bool = True) -> str:
+    """
+    Format date string to a more readable format with day of week.
+
+    Args:
+        date_str: Date string in various formats (e.g., "2027-05-25", "25-05-2027", "25/05/2027")
+        include_day: Whether to include the day of week
+
+    Returns:
+        Formatted date string like "25 May, 2027 (Tuesday)"
+    """
+
+    # Try different date formats
+    date_formats = [
+        "%Y-%m-%d",  # ISO format: 2027-05-25
+        "%d-%m-%Y",  # DD-MM-YYYY: 25-05-2027
+        "%d/%m/%Y",  # DD/MM/YYYY: 25/05/2027
+        "%d %b %Y",  # DD Mon YYYY: 25 May 2027
+        "%d %B %Y",  # DD Month YYYY: 25 May 2027
+    ]
+
+    for fmt in date_formats:
+        try:
+            date_obj = datetime.strptime(date_str.strip(), fmt)
+            # Format the date
+            formatted = date_obj.strftime("%d %B, %Y")
+            if include_day:
+                day_name = date_obj.strftime("%A")
+                formatted += f" ({day_name})"
+            return formatted
+        except ValueError:
+            continue
+
+    # If no format matches, return the original string
+    return date_str
