@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Command-line interface for IMD Weather package
+Command-line interface for imdfetch package
 """
 
 import argparse
@@ -137,7 +137,7 @@ def list_cities(client: IMDWeatherClient, limit: Optional[int] = None) -> None:
 def main():
     """Main CLI entry point"""
     parser = argparse.ArgumentParser(
-        description="IMD Weather CLI - Get weather data from India Meteorological Department",
+        description="imdfetch CLI - Get weather data from India Meteorological Department",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
@@ -147,16 +147,6 @@ Examples:
   imd-weather forecast "Bangalore" --days 5
   imd-weather cities --limit 10
         """,
-    )
-
-    parser.add_argument(
-        "--test", action="store_true", help="Use test endpoint (if available)"
-    )
-    parser.add_argument(
-        "--format",
-        choices=["text", "json"],
-        default="text",
-        help="Output format (default: text)",
     )
 
     subparsers = parser.add_subparsers(dest="command", help="Available commands")
@@ -171,12 +161,24 @@ Examples:
     # Weather command
     weather_parser = subparsers.add_parser("weather", help="Get current weather")
     weather_parser.add_argument("city", help="City name or ID")
+    weather_parser.add_argument(
+        "--format",
+        choices=["text", "json"],
+        default="text",
+        help="Output format (default: text)",
+    )
 
     # Forecast command
     forecast_parser = subparsers.add_parser("forecast", help="Get weather forecast")
     forecast_parser.add_argument("city", help="City name or ID")
     forecast_parser.add_argument(
         "--days", type=int, default=7, help="Number of forecast days (default: 7)"
+    )
+    forecast_parser.add_argument(
+        "--format",
+        choices=["text", "json"],
+        default="text",
+        help="Output format (default: text)",
     )
 
     # Cities command
@@ -195,7 +197,7 @@ Examples:
         sys.exit(1)
 
     # Initialize client
-    client = IMDWeatherClient(use_test_endpoint=args.test)
+    client = IMDWeatherClient(use_test_endpoint=True)
 
     # Execute command
     try:
