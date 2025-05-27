@@ -32,19 +32,18 @@ pip install -e .
 ```bash
 # Search for cities
 imdfetch search Mumbai
-imdfetch search "New Delhi" --exact
+imdfetch search "New Delhi"
 ```
 
 ```bash
 # Get current weather
-imdfetch weather "Mumbai"
-imdfetch weather 99945  # Using city ID
+imdfetch weather "Mumbai (Santacruz)"
+imdfetch weather 13001  # Using city ID
 ```
 
 ```bash
 # Get weather forecast
-imdfetch forecast "Delhi"
-imdfetch forecast "Chennai" --days 5
+imdfetch forecast "Mumbai-Powai"
 ```
 
 ```bash
@@ -53,11 +52,6 @@ imdfetch cities --limit 10
 imdfetch cities --limit 0  # Show all cities
 ```
 
-```bash
-# Get output in JSON format
-imdfetch weather "Bangalore" --format json
-imdfetch forecast "Kolkata" --format json
-```
 
 ## Python API
 
