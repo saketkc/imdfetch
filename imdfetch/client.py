@@ -17,7 +17,7 @@ class IMDWeatherClient:
     Main client for fetching weather data from India Meteorological Department
     """
     
-    def __init__(self, use_test_endpoint: bool = False):
+    def __init__(self, use_test_endpoint: bool = True):
         """
         Initialize the IMD Weather Client
         
@@ -25,7 +25,7 @@ class IMDWeatherClient:
             use_test_endpoint: Whether to use the test endpoint for weather data
         """
         self.parser = WeatherDataParser()
-        self.weather_url_prefix = WEATHER_TEST_URL_PREFIX if use_test_endpoint else WEATHER_URL_PREFIX
+        self.weather_url_prefix = WEATHER_TEST_URL_PREFIX# if use_test_endpoint else WEATHER_URL_PREFIX
         self._cities_cache = None
     
     def get_cities(self, refresh_cache: bool = False) -> List[CityInfo]:

@@ -183,15 +183,13 @@ class WeatherDataParser:
             forecast_table = None
             for table in soup.find_all("table"):
                 table_text = table.get_text()
-                if "7 Day's Forecast" in table_text or "Forecast" in table_text:
+                if "7 Day's Forecast" in table.get_text():
                     forecast_table = table
                     break
-            
             if not forecast_table:
                 raise DataParsingError("7-day forecast table not found")
             
             rows = forecast_table.find_all("tr")
-            
             # Find header row
             header_row = None
             for i, row in enumerate(rows):
@@ -205,11 +203,10 @@ class WeatherDataParser:
             
             # Extract forecast days
             forecast_days = []
-            for row in rows[header_row + 1:]:
+            for row in rows[(header_row + 1):]:
                 cells = row.find_all(["td", "th"])
                 if len(cells) >= 7:
                     cell_texts = [cell.get_text(strip=True) for cell in cells]
-                    
                     if len(cell_texts) >= 9:
                         date = cell_texts[0]
                         min_temp = cell_texts[1]
@@ -220,7 +217,6 @@ class WeatherDataParser:
                         warnings = cell_texts[6]
                         rh_0830 = cell_texts[7]
                         rh_1730 = cell_texts[8]
-                        
                         # Only add if we have a valid date
                         if date and re.match(r"\d{2}-[A-Za-z]{3}", date):
                             iso_date = convert_date_to_iso(date)

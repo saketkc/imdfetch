@@ -38,7 +38,7 @@ imdfetch search "New Delhi" --exact
 ```bash
 # Get current weather
 imdfetch weather "Mumbai"
-imdfetch weather 12001  # Using city ID
+imdfetch weather 99945  # Using city ID
 ```
 
 ```bash

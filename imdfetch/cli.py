@@ -41,13 +41,13 @@ def get_weather(client: IMDWeatherClient, city_identifier: str, output_format: s
         if output_format == "json":
             print(json.dumps(weather.to_dict(), indent=2))
         else:
-            print(f"🌤️  Current Weather for {weather.city}")
+            print(f"🌤️ Current Weather for {weather.city}")
             print(f"📅 Date: {weather.date}")
-            print(f"🌡️  Max Temperature: {weather.get_parameter('Maximum Temperature')}")
-            print(f"🌡️  Min Temperature: {weather.get_parameter('Minimum Temperature')}")
-            print(f"🌧️  24h Rainfall: {weather.get_parameter('24 Hours Rainfall')}")
-            print(f"💧 Humidity (08:30): {weather.get_parameter('Relative Humidity at 08:30')}")
-            print(f"💧 Humidity (17:30): {weather.get_parameter('Relative Humidity at 17:30')}")
+            print(f"🌡️ Max Temperature (°C): {weather.get_parameter('Maximum Temperature')}")
+            print(f"🌡️ Min Temperature (°C): {weather.get_parameter('Minimum Temperature')}")
+            print(f"🌧️ 24h Rainfall (m): {weather.get_parameter('24 Hours Rainfall')}")
+            print(f"💧 Relative Humidity at 08:30 (%): {weather.get_parameter('Relative Humidity at 08:30')}")
+            print(f"💧 Relative Humidity at 17:30 (%): {weather.get_parameter('Relative Humidity at 17:30')}")
     
     except CityNotFoundError as e:
         print(f"❌ {e}")
@@ -65,14 +65,12 @@ def get_forecast(client: IMDWeatherClient, city_identifier: str, days: int = 7, 
             city_identifier = int(city_identifier)
         
         forecast = client.get_forecast(city_identifier)
-        
         if output_format == "json":
             print(json.dumps(forecast.to_dict(), indent=2))
         else:
             print(f"🔮 {days}-Day Weather Forecast for {forecast.city}")
             print(f"📅 Forecast Date: {forecast.forecast_date}")
             print("-" * 50)
-            
             for i, day in enumerate(forecast.days[:days]):
                 print(f"📅 {day.date} ({day.iso_date})")
                 print(f"   🌡️  Temperature: {day.min_temp}°C - {day.max_temp}°C")
