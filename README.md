@@ -62,7 +62,7 @@ imd-weather forecast "Kolkata" --format json
 ## Python API
 
 ```python
-from imd_weather import IMDWeatherClient
+from imdfetch import IMDWeatherClient
 
 # Initialize the client
 client = IMDWeatherClient()
@@ -162,7 +162,7 @@ print(f"Tomorrow's forecast: {forecast.days[1].forecast}")
 ### Error Handling
 
 ```python
-from imd_weather.exceptions import CityNotFoundError, NetworkError, DataParsingError
+from imdfetch.exceptions import CityNotFoundError, NetworkError, DataParsingError
 
 try:
     weather = client.get_current_weather("NonExistentCity")
