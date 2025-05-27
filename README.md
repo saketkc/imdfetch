@@ -27,6 +27,8 @@ pip install -e .
 
 ## Quick Start
 
+[See notebook](notebooks/demo.ipynb)
+
 ### Command Line Interface
 
 ```bash
