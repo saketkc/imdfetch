@@ -1,0 +1,11 @@
+city,date,status,max_temp,min_temp,rainfall,humidity_morning,humidity_evening
+New Delhi-Delhi University,2025-05-27,success,36.7,26.0,NIL,68,NA
+Bengaluru-,2025-05-27,success,28.2,20.2,5.2,93,70
+Mumbai-Santacruz,2025-05-27,success,27.8,22.5,144,95,89
+Hyderabad,2025-05-27,success,30.6,23.3,2,84,90
+Chennai-Ennore,2025-05-27,success,-,27.6,NIL,55,NA
+Kolkata-Salt Lake,2025-05-27,success,33.3,26.2,35.1,88,83
+Ahmedabad,2025-05-27,success,36.4,29.7,2,79,56
+Jaipur-Amer,2025-05-27,success,NA,28.8,NIL,47,NA
+Pune-Pashan,2025-05-27,success,23.6,20.8,51.4,95,98
+Lucknow-Malihabad,2025-05-27,success,NA,27.2,NIL,66,NA
