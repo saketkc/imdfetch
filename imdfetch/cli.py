@@ -45,7 +45,7 @@ def get_weather(client: IMDWeatherClient, city_identifier: str, output_format: s
             print(f"📅 Date: {weather.date}")
             print(f"🌡️ Max Temperature (°C): {weather.get_parameter('Maximum Temperature')}")
             print(f"🌡️ Min Temperature (°C): {weather.get_parameter('Minimum Temperature')}")
-            print(f"🌧️ 24h Rainfall (m): {weather.get_parameter('24 Hours Rainfall')}")
+            print(f"🌧️ 24h Rainfall (mm): {weather.get_parameter('24 Hours Rainfall')}")
             print(f"💧 Relative Humidity at 08:30 (%): {weather.get_parameter('Relative Humidity at 08:30')}")
             print(f"💧 Relative Humidity at 17:30 (%): {weather.get_parameter('Relative Humidity at 17:30')}")
     
