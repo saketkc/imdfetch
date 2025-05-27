@@ -1,4 +1,4 @@
-# IMD Weather
+# imdfetch
 
 A Python package for fetching and parsing weather data from India Meteorological Department (IMD).
 
