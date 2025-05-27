@@ -27,6 +27,40 @@ pip install -e .
 
 ## Quick Start
 
+### Command Line Interface
+
+```bash
+# Search for cities
+imd-weather search Mumbai
+imd-weather search "New Delhi" --exact
+```
+
+```bash
+# Get current weather
+imd-weather weather "Mumbai"
+imd-weather weather 12001  # Using city ID
+```
+
+```bash
+# Get weather forecast
+imd-weather forecast "Delhi"
+imd-weather forecast "Chennai" --days 5
+```
+
+```bash
+# List available cities
+imd-weather cities --limit 10
+imd-weather cities --limit 0  # Show all cities
+```
+
+```bash
+# Get output in JSON format
+imd-weather weather "Bangalore" --format json
+imd-weather forecast "Kolkata" --format json
+```
+
+## Python API
+
 ```python
 from imd_weather import IMDWeatherClient
 
