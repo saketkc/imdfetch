@@ -37,6 +37,80 @@
 <h1>imdfetch command line demo<a class="headerlink" href="#imdfetch-command-line-demo" title="Link to this heading">¶</a></h1>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>git+https://github.com/saketlab/imdfetch
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Collecting git+https://github.com/saketlab/imdfetch
+  Cloning https://github.com/saketlab/imdfetch to /tmp/pip-req-build-af3ey5n3
+  Running command git clone --filter=blob:none --quiet https://github.com/saketlab/imdfetch /tmp/pip-req-build-af3ey5n3
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  Resolved https://github.com/saketlab/imdfetch to commit 73ad76af6f305ff893974afc5de4dc64db352bff
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  Installing build dependencies ... ?25l-
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> \
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> |
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> done
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>?25h  Getting requirements to build wheel ... ?25l-
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> done
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>?25h  Preparing metadata (pyproject.toml) ... ?25l-
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> done
+?25hRequirement already satisfied: requests&gt;=2.25.0 in /opt/hostedtoolcache/Python/3.11.12/x64/lib/python3.11/site-packages (from imdfetch==0.1.0) (2.32.3)
+Requirement already satisfied: beautifulsoup4&gt;=4.9.0 in /opt/hostedtoolcache/Python/3.11.12/x64/lib/python3.11/site-packages (from imdfetch==0.1.0) (4.13.4)
+Requirement already satisfied: pandas&gt;=1.3.0 in /opt/hostedtoolcache/Python/3.11.12/x64/lib/python3.11/site-packages (from imdfetch==0.1.0) (2.2.3)
+Requirement already satisfied: urllib3&gt;=1.26.0 in /opt/hostedtoolcache/Python/3.11.12/x64/lib/python3.11/site-packages (from imdfetch==0.1.0) (2.4.0)
+Requirement already satisfied: lxml&gt;=4.6.0 in /opt/hostedtoolcache/Python/3.11.12/x64/lib/python3.11/site-packages (from imdfetch==0.1.0) (5.4.0)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Requirement already satisfied: soupsieve&gt;1.2 in /opt/hostedtoolcache/Python/3.11.12/x64/lib/python3.11/site-packages (from beautifulsoup4&gt;=4.9.0-&gt;imdfetch==0.1.0) (2.7)
+Requirement already satisfied: typing-extensions&gt;=4.0.0 in /opt/hostedtoolcache/Python/3.11.12/x64/lib/python3.11/site-packages (from beautifulsoup4&gt;=4.9.0-&gt;imdfetch==0.1.0) (4.13.2)
+Requirement already satisfied: numpy&gt;=1.23.2 in /opt/hostedtoolcache/Python/3.11.12/x64/lib/python3.11/site-packages (from pandas&gt;=1.3.0-&gt;imdfetch==0.1.0) (2.2.6)
+Requirement already satisfied: python-dateutil&gt;=2.8.2 in /opt/hostedtoolcache/Python/3.11.12/x64/lib/python3.11/site-packages (from pandas&gt;=1.3.0-&gt;imdfetch==0.1.0) (2.9.0.post0)
+Requirement already satisfied: pytz&gt;=2020.1 in /opt/hostedtoolcache/Python/3.11.12/x64/lib/python3.11/site-packages (from pandas&gt;=1.3.0-&gt;imdfetch==0.1.0) (2025.2)
+Requirement already satisfied: tzdata&gt;=2022.7 in /opt/hostedtoolcache/Python/3.11.12/x64/lib/python3.11/site-packages (from pandas&gt;=1.3.0-&gt;imdfetch==0.1.0) (2025.2)
+Requirement already satisfied: six&gt;=1.5 in /opt/hostedtoolcache/Python/3.11.12/x64/lib/python3.11/site-packages (from python-dateutil&gt;=2.8.2-&gt;pandas&gt;=1.3.0-&gt;imdfetch==0.1.0) (1.17.0)
+Requirement already satisfied: charset-normalizer&lt;4,&gt;=2 in /opt/hostedtoolcache/Python/3.11.12/x64/lib/python3.11/site-packages (from requests&gt;=2.25.0-&gt;imdfetch==0.1.0) (3.4.2)
+Requirement already satisfied: idna&lt;4,&gt;=2.5 in /opt/hostedtoolcache/Python/3.11.12/x64/lib/python3.11/site-packages (from requests&gt;=2.25.0-&gt;imdfetch==0.1.0) (3.10)
+Requirement already satisfied: certifi&gt;=2017.4.17 in /opt/hostedtoolcache/Python/3.11.12/x64/lib/python3.11/site-packages (from requests&gt;=2.25.0-&gt;imdfetch==0.1.0) (2025.4.26)
+Building wheels for collected packages: imdfetch
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  Building wheel for imdfetch (pyproject.toml) ... ?25l-
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> done
+?25h  Created wheel for imdfetch: filename=imdfetch-0.1.0-py3-none-any.whl size=17190 sha256=90dc2a3cb54cca1db4e689e2ef9710d14c5af98c1e1098af129026f533be9c18
+  Stored in directory: /tmp/pip-ephem-wheel-cache-_9frecek/wheels/21/c5/68/743e082688d40fbdfbe6cdd062f7b0a89a05b0e4abc9015eb6
+Successfully built imdfetch
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Installing collected packages: imdfetch
+Successfully installed imdfetch-0.1.0
+</pre></div>
+</div>
+</div>
+</div>
+<section id="features">
+<h2>Features<a class="headerlink" href="#features" title="Link to this heading">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>imdfetch<span class="w"> </span>search<span class="w"> </span><span class="s2">&quot;Mumbai&quot;</span>
 </pre></div>
 </div>
@@ -62,11 +136,11 @@
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>🌤️ Current Weather for Mumbai-Colaba
-📅 Date: 27 May, 2025 (Tuesday)
+📅 Date: 28 May, 2025 (Wednesday)
 🌡️ Max Temperature: 26.8°C
-🌡️ Min Temperature: 23.6°C
-🌧️ 24h Rainfall (mm): 162
-💧 Relative Humidity at 08:30: 92.0%
+🌡️ Min Temperature: 24.3°C
+🌧️ 24h Rainfall (mm): 17
+💧 Relative Humidity at 08:30: 90.0%
 💧 Relative Humidity at 17:30: 95.0%
 </pre></div>
 </div>
@@ -80,11 +154,11 @@
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>🌤️ Current Weather for Mumbai-Santacruz
-📅 Date: 27 May, 2025 (Tuesday)
+📅 Date: 28 May, 2025 (Wednesday)
 🌡️ Max Temperature: 27.8°C
-🌡️ Min Temperature: 22.5°C
-🌧️ 24h Rainfall (mm): 144
-💧 Relative Humidity at 08:30: 95.0%
+🌡️ Min Temperature: 23.6°C
+🌧️ 24h Rainfall (mm): 1
+💧 Relative Humidity at 08:30: 89.0%
 💧 Relative Humidity at 17:30: 89.0%
 </pre></div>
 </div>
@@ -99,21 +173,21 @@
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{
   &quot;city&quot;: &quot;Mumbai-Santacruz&quot;,
-  &quot;date&quot;: &quot;2025-05-27&quot;,
+  &quot;date&quot;: &quot;2025-05-28&quot;,
   &quot;city_id&quot;: 43003,
   &quot;raw_city_text&quot;: &quot;Mumbai-Santacruz&quot;,
-  &quot;raw_date_text&quot;: &quot;May 27, 2025&quot;,
+  &quot;raw_date_text&quot;: &quot;May 28, 2025&quot;,
   &quot;parameters&quot;: {
     &quot;Maximum Temperature (\u00b0C)&quot;: &quot;27.8&quot;,
-    &quot;Temperature Departure from Normal (\u00b0C)&quot;: &quot;-5.6&quot;,
-    &quot;Minimum Temperature (\u00b0C)&quot;: &quot;22.5&quot;,
-    &quot;24 Hours Rainfall (mm)&quot;: &quot;144&quot;,
-    &quot;Relative Humidity at 08:30 (%)&quot;: &quot;95&quot;,
+    &quot;Temperature Departure from Normal (\u00b0C)&quot;: &quot;-4.5&quot;,
+    &quot;Minimum Temperature (\u00b0C)&quot;: &quot;23.6&quot;,
+    &quot;24 Hours Rainfall (mm)&quot;: &quot;1&quot;,
+    &quot;Relative Humidity at 08:30 (%)&quot;: &quot;89&quot;,
     &quot;Relative Humidity at 17:30 (%)&quot;: &quot;89&quot;,
     &quot;Today&#39;s Sunset (IST)&quot;: &quot;19:11&quot;,
     &quot;Tomorrow&#39;s Sunrise (IST)&quot;: &quot;06:01&quot;,
-    &quot;Moonset (IST)&quot;: &quot;19:42&quot;,
-    &quot;Moonrise (IST)&quot;: &quot;05:48&quot;
+    &quot;Moonset (IST)&quot;: &quot;20:50&quot;,
+    &quot;Moonrise (IST)&quot;: &quot;06:49&quot;
   }
 }
 </pre></div>
@@ -128,42 +202,37 @@
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>🔮 7-Day Weather Forecast for Mumbai-Santacruz
-📅 Forecast Date: 27 May, 2025 (Tuesday)
+📅 Forecast Date: 28 May, 2025 (Wednesday)
 --------------------------------------------------
-📅 27 May, 2025 (Tuesday)
-   🌡️  Temperature: 23.0°C - <span class=" -Color -Color-C208">31.0°C</span>
-   🌤️  Forecast: Generally cloudy sky with Heavy rain
-   ⚠️  Warnings: Heavy Rainfall
-
 📅 28 May, 2025 (Wednesday)
-   🌡️  Temperature: 24.0°C - <span class=" -Color -Color-C208">31.0°C</span>
-   🌤️  Forecast: Generally cloudy sky with Heavy rain
-   ⚠️  Warnings: Heavy Rainfall
+🌡️ Temperature: 24.0°C - <span class=" -Color -Color-C208">31.0°C</span>
+🌤️ Forecast: Generally cloudy sky with Heavy rain
+⚠️ Warnings: Heavy Rainfall
 
 📅 29 May, 2025 (Thursday)
-   🌡️  Temperature: 24.0°C - <span class=" -Color -Color-C208">32.0°C</span>
-   🌤️  Forecast: Generally cloudy sky with moderate rain
-   ⚠️  Warnings: No warning
+🌡️ Temperature: 24.0°C - <span class=" -Color -Color-C208">32.0°C</span>
+🌤️ Forecast: Generally cloudy sky with moderate rain
+⚠️ Warnings: No warning
 
 📅 30 May, 2025 (Friday)
-   🌡️  Temperature: 24.0°C - <span class=" -Color -Color-C208">32.0°C</span>
-   🌤️  Forecast: Generally cloudy sky with moderate rain
-   ⚠️  Warnings: No warning
+🌡️ Temperature: 24.0°C - <span class=" -Color -Color-C208">32.0°C</span>
+🌤️ Forecast: Generally cloudy sky with moderate rain
+⚠️ Warnings: No warning
 
 📅 31 May, 2025 (Saturday)
-   🌡️  Temperature: 24.0°C - <span class=" -Color -Color-C208">33.0°C</span>
-   🌤️  Forecast: Generally cloudy sky with moderate rain
-   ⚠️  Warnings: No warning
+🌡️ Temperature: 24.0°C - <span class=" -Color -Color-C208">33.0°C</span>
+🌤️ Forecast: Generally cloudy sky with moderate rain
+⚠️ Warnings: No warning
 
 📅 01 June, 2025 (Sunday)
-   🌡️  Temperature: 24.0°C - <span class=" -Color -Color-C208">33.0°C</span>
-   🌤️  Forecast: Partly cloudy sky with possibility of rain or Thunderstorm
-   ⚠️  Warnings: No warning
+🌡️ Temperature: 24.0°C - <span class=" -Color -Color-C208">33.0°C</span>
+🌤️ Forecast: Partly cloudy sky with possibility of rain or Thunderstorm
+⚠️ Warnings: No warning
 
 📅 02 June, 2025 (Monday)
-   🌡️  Temperature: 24.0°C - <span class=" -Color -Color-C208">33.0°C</span>
-   🌤️  Forecast: Partly cloudy sky with possibility of rain or Thunderstorm
-   ⚠️  Warnings: No warning
+🌡️ Temperature: 24.0°C - <span class=" -Color -Color-C208">33.0°C</span>
+🌤️ Forecast: Partly cloudy sky with possibility of rain or Thunderstorm
+⚠️ Warnings: No warning
 </pre></div>
 </div>
 </div>
@@ -177,19 +246,9 @@
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{
   &quot;city&quot;: &quot;Mumbai-Santacruz&quot;,
-  &quot;forecast_date&quot;: &quot;2025-05-27&quot;,
+  &quot;forecast_date&quot;: &quot;2025-05-28&quot;,
   &quot;city_id&quot;: 43003,
   &quot;days&quot;: [
-    {
-      &quot;date&quot;: &quot;27-May&quot;,
-      &quot;min_temp&quot;: &quot;23.0&quot;,
-      &quot;max_temp&quot;: &quot;31.0&quot;,
-      &quot;forecast&quot;: &quot;Generally cloudy sky with Heavy rain&quot;,
-      &quot;warnings&quot;: &quot;Heavy Rainfall&quot;,
-      &quot;rh_0830&quot;: &quot;0&quot;,
-      &quot;rh_1730&quot;: &quot;0&quot;,
-      &quot;iso_date&quot;: &quot;2025-05-27&quot;
-    },
     {
       &quot;date&quot;: &quot;28-May&quot;,
       &quot;min_temp&quot;: &quot;24.0&quot;,
@@ -264,42 +323,37 @@
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>🔮 7-Day Weather Forecast for Mumbai-Colaba
-📅 Forecast Date: 27 May, 2025 (Tuesday)
+📅 Forecast Date: 28 May, 2025 (Wednesday)
 --------------------------------------------------
-📅 27 May, 2025 (Tuesday)
-   🌡️  Temperature: 23.0°C - <span class=" -Color -Color-C208">30.0°C</span>
-   🌤️  Forecast: Generally cloudy sky with Heavy rain
-   ⚠️  Warnings: Heavy Rainfall
-
 📅 28 May, 2025 (Wednesday)
-   🌡️  Temperature: 23.0°C - <span class=" -Color -Color-C208">30.0°C</span>
-   🌤️  Forecast: Generally cloudy sky with Heavy rain
-   ⚠️  Warnings: Heavy Rainfall
+🌡️ Temperature: 23.0°C - <span class=" -Color -Color-C208">30.0°C</span>
+🌤️ Forecast: Generally cloudy sky with Heavy rain
+⚠️ Warnings: Heavy Rainfall
 
 📅 29 May, 2025 (Thursday)
-   🌡️  Temperature: 24.0°C - <span class=" -Color -Color-C208">31.0°C</span>
-   🌤️  Forecast: Generally cloudy sky with moderate rain
-   ⚠️  Warnings: No warning
+🌡️ Temperature: 24.0°C - <span class=" -Color -Color-C208">31.0°C</span>
+🌤️ Forecast: Generally cloudy sky with moderate rain
+⚠️ Warnings: No warning
 
 📅 30 May, 2025 (Friday)
-   🌡️  Temperature: 24.0°C - <span class=" -Color -Color-C208">32.0°C</span>
-   🌤️  Forecast: Generally cloudy sky with moderate rain
-   ⚠️  Warnings: No warning
+🌡️ Temperature: 24.0°C - <span class=" -Color -Color-C208">32.0°C</span>
+🌤️ Forecast: Generally cloudy sky with moderate rain
+⚠️ Warnings: No warning
 
 📅 31 May, 2025 (Saturday)
-   🌡️  Temperature: 24.0°C - <span class=" -Color -Color-C208">32.0°C</span>
-   🌤️  Forecast: Generally cloudy sky with moderate rain
-   ⚠️  Warnings: No warning
+🌡️ Temperature: 24.0°C - <span class=" -Color -Color-C208">32.0°C</span>
+🌤️ Forecast: Generally cloudy sky with moderate rain
+⚠️ Warnings: No warning
 
 📅 01 June, 2025 (Sunday)
-   🌡️  Temperature: 24.0°C - <span class=" -Color -Color-C208">32.0°C</span>
-   🌤️  Forecast: Partly cloudy sky with possibility of rain or Thunderstorm
-   ⚠️  Warnings: No warning
+🌡️ Temperature: 24.0°C - <span class=" -Color -Color-C208">32.0°C</span>
+🌤️ Forecast: Partly cloudy sky with possibility of rain or Thunderstorm
+⚠️ Warnings: No warning
 
 📅 02 June, 2025 (Monday)
-   🌡️  Temperature: 24.0°C - <span class=" -Color -Color-C208">32.0°C</span>
-   🌤️  Forecast: Partly cloudy sky with possibility of rain or Thunderstorm
-   ⚠️  Warnings: No warning
+🌡️ Temperature: 24.0°C - <span class=" -Color -Color-C208">32.0°C</span>
+🌤️ Forecast: Partly cloudy sky with possibility of rain or Thunderstorm
+⚠️ Warnings: No warning
 </pre></div>
 </div>
 </div>
@@ -326,11 +380,11 @@
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>🌤️ Current Weather for Kota
-📅 Date: 27 May, 2025 (Tuesday)
+📅 Date: 28 May, 2025 (Wednesday)
 🌡️ Max Temperature: 43.1°C
-🌡️ Min Temperature: <span class=" -Color -Color-C208">31.8°C</span>
+🌡️ Min Temperature: <span class=" -Color -Color-C208">32.5°C</span>
 🌧️ 24h Rainfall (mm): NIL
-💧 Relative Humidity at 08:30: 49.0%
+💧 Relative Humidity at 08:30: 58.0%
 💧 Relative Humidity at 17:30: <span class=" -Color -Color-C130">22.0%</span>
 </pre></div>
 </div>
@@ -357,11 +411,11 @@
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>🌤️ Current Weather for Jaisalmer
-📅 Date: 27 May, 2025 (Tuesday)
+📅 Date: 28 May, 2025 (Wednesday)
 🌡️ Max Temperature: 45.4°C
-🌡️ Min Temperature: <span class=" -Color -Color-C208">33.1°C</span>
+🌡️ Min Temperature: <span class=" -Color -Color-C208">33.0°C</span>
 🌧️ 24h Rainfall (mm): NIL
-💧 Relative Humidity at 08:30: 36.0%
+💧 Relative Humidity at 08:30: 61.0%
 💧 Relative Humidity at 17:30: <span class=" -Color -Color-C130">21.0%</span>
 </pre></div>
 </div>
@@ -375,42 +429,42 @@
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>🔮 7-Day Weather Forecast for Jaisalmer
-📅 Forecast Date: 27 May, 2025 (Tuesday)
+📅 Forecast Date: 28 May, 2025 (Wednesday)
 --------------------------------------------------
-📅 27 May, 2025 (Tuesday)
-   🌡️  Temperature: <span class=" -Color -Color-C208">32.0°C</span> - 45.0°C
-   🌤️  Forecast: Heat Wave
-   ⚠️  Warnings: Heat Wave
-
 📅 28 May, 2025 (Wednesday)
-   🌡️  Temperature: <span class=" -Color -Color-C208">33.0°C</span> - 45.0°C
-   🌤️  Forecast: Heat Wave
-   ⚠️  Warnings: Heat Wave
+🌡️ Temperature: <span class=" -Color -Color-C208">32.0°C</span> - 44.0°C
+🌤️ Forecast: Partly cloudy sky with possibility of development of thunder lightning
+⚠️ Warnings: Thunderstorm accompanied with Lightning
 
 📅 29 May, 2025 (Thursday)
-   🌡️  Temperature: <span class=" -Color -Color-C208">32.0°C</span> - 45.0°C
-   🌤️  Forecast: Heat Wave
-   ⚠️  Warnings: Heat Wave
+🌡️ Temperature: <span class=" -Color -Color-C208">32.0°C</span> - 43.0°C
+🌤️ Forecast: Partly cloudy sky with possibility of development of thunder lightning
+⚠️ Warnings: Thunderstorm accompanied with Lightning
 
 📅 30 May, 2025 (Friday)
-   🌡️  Temperature: 29.0°C - 44.0°C
-   🌤️  Forecast: Partly cloudy sky
-   ⚠️  Warnings: No warning
+🌡️ Temperature: <span class=" -Color -Color-C208">33.0°C</span> - 44.0°C
+🌤️ Forecast: Partly cloudy sky
+⚠️ Warnings: No warning
 
 📅 31 May, 2025 (Saturday)
-   🌡️  Temperature: 29.0°C - 43.0°C
-   🌤️  Forecast: Partly cloudy sky
-   ⚠️  Warnings: No warning
+🌡️ Temperature: <span class=" -Color -Color-C208">32.0°C</span> - 43.0°C
+🌤️ Forecast: Partly cloudy sky
+⚠️ Warnings: No warning
 
 📅 01 June, 2025 (Sunday)
-   🌡️  Temperature: 28.0°C - 41.0°C
-   🌤️  Forecast: Mainly Clear sky
-   ⚠️  Warnings: No warning
+🌡️ Temperature: <span class=" -Color -Color-C208">32.0°C</span> - 43.0°C
+🌤️ Forecast: Mainly Clear sky
+⚠️ Warnings: No warning
 
 📅 02 June, 2025 (Monday)
-   🌡️  Temperature: 28.0°C - 40.0°C
-   🌤️  Forecast: Partly cloudy sky
-   ⚠️  Warnings: No warning
+🌡️ Temperature: <span class=" -Color -Color-C208">32.0°C</span> - 42.0°C
+🌤️ Forecast: Mainly Clear sky
+⚠️ Warnings: No warning
+
+📅 03 June, 2025 (Tuesday)
+🌡️ Temperature: <span class=" -Color -Color-C208">32.0°C</span> - 42.0°C
+🌤️ Forecast: Mainly Clear sky
+⚠️ Warnings: No warning
 </pre></div>
 </div>
 </div>
@@ -1840,6 +1894,7 @@
 </div>
 </div>
 </section>
+</section>
 
 
           </div>
@@ -1868,7 +1923,10 @@
 </search>
 <script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">imdfetch command line demo</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">imdfetch command line demo</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#features">Features</a></li>
+</ul>
+</li>
 </ul>
 
 <div class="relations">
