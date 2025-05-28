@@ -2,14 +2,6 @@
 
 A Python package for fetching and parsing weather data from India Meteorological Department (IMD).
 
-## Features
-
-- 🌤️ Fetch current weather data (Past 24 Hours)
-- 📅 Get 7-day weather forecasts
-- 🏙️ Search and browse all available cities
-- 🔄 Robust error handling and retry mechanisms
-- 📊 Easy data export to pandas DataFrames
-- 🐍 Clean, pythonic API
 
 ## Installation
 
@@ -76,6 +68,17 @@ cities = client.find_city("Bangalore")
 for city in cities:
     print(f"ID: {city.city_id}, Name: {city.display_name}")
 ```
+
+
+## Features
+
+- 🌤️ Fetch current weather data (Past 24 Hours)
+- 📅 Get 7-day weather forecasts
+- 🏙️ Search and browse all available cities
+- 🔄 Robust error handling and retry mechanisms
+- 📊 Easy data export to pandas DataFrames
+- 🐍 Clean, pythonic API
+
 
 ## Detailed Usage
 
