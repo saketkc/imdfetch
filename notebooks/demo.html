@@ -1,0 +1,1910 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>imdfetch command line demo &#8212; imdfetch documentation 0.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=b08954a9" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=27fed22d" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <script src="../_static/documentation_options.js?v=2709fde1"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="imdfetch" href="../index.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section class="tex2jax_ignore mathjax_ignore" id="imdfetch-command-line-demo">
+<h1>imdfetch command line demo<a class="headerlink" href="#imdfetch-command-line-demo" title="Link to this heading">¶</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>imdfetch<span class="w"> </span>search<span class="w"> </span><span class="s2">&quot;Mumbai&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>🏙️  Found 7 cities matching &#39;Mumbai&#39;:
+   📍 MUMBAI (SANTACRUZ) (A) (ID: 43003)
+   📍 MUMBAI (COLABA) (ID: 43057)
+   📍 MUMBAI-Borivali (ID: 99941)
+   📍 MUMBAI-Powai (ID: 99942)
+   📍 MUMBAI-Chembur (ID: 99943)
+   📍 MUMBAI-Mulund (ID: 99944)
+   📍 MUMBAI-Worli (ID: 99945)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>imdfetch<span class="w"> </span>weather<span class="w"> </span><span class="m">43057</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>🌤️ Current Weather for Mumbai-Colaba
+📅 Date: 27 May, 2025 (Tuesday)
+🌡️ Max Temperature: 26.8°C
+🌡️ Min Temperature: 23.6°C
+🌧️ 24h Rainfall (mm): 162
+💧 Relative Humidity at 08:30: 92.0%
+💧 Relative Humidity at 17:30: 95.0%
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>imdfetch<span class="w"> </span>weather<span class="w"> </span><span class="m">43003</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>🌤️ Current Weather for Mumbai-Santacruz
+📅 Date: 27 May, 2025 (Tuesday)
+🌡️ Max Temperature: 27.8°C
+🌡️ Min Temperature: 22.5°C
+🌧️ 24h Rainfall (mm): 144
+💧 Relative Humidity at 08:30: 95.0%
+💧 Relative Humidity at 17:30: 89.0%
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>imdfetch<span class="w"> </span>weather<span class="w"> </span><span class="s2">&quot;Mumbai (Santacruz)&quot;</span><span class="w"> </span>--format<span class="w"> </span>json
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{
+  &quot;city&quot;: &quot;Mumbai-Santacruz&quot;,
+  &quot;date&quot;: &quot;2025-05-27&quot;,
+  &quot;city_id&quot;: 43003,
+  &quot;raw_city_text&quot;: &quot;Mumbai-Santacruz&quot;,
+  &quot;raw_date_text&quot;: &quot;May 27, 2025&quot;,
+  &quot;parameters&quot;: {
+    &quot;Maximum Temperature (\u00b0C)&quot;: &quot;27.8&quot;,
+    &quot;Temperature Departure from Normal (\u00b0C)&quot;: &quot;-5.6&quot;,
+    &quot;Minimum Temperature (\u00b0C)&quot;: &quot;22.5&quot;,
+    &quot;24 Hours Rainfall (mm)&quot;: &quot;144&quot;,
+    &quot;Relative Humidity at 08:30 (%)&quot;: &quot;95&quot;,
+    &quot;Relative Humidity at 17:30 (%)&quot;: &quot;89&quot;,
+    &quot;Today&#39;s Sunset (IST)&quot;: &quot;19:11&quot;,
+    &quot;Tomorrow&#39;s Sunrise (IST)&quot;: &quot;06:01&quot;,
+    &quot;Moonset (IST)&quot;: &quot;19:42&quot;,
+    &quot;Moonrise (IST)&quot;: &quot;05:48&quot;
+  }
+}
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>imdfetch<span class="w"> </span>forecast<span class="w"> </span><span class="m">43003</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>🔮 7-Day Weather Forecast for Mumbai-Santacruz
+📅 Forecast Date: 27 May, 2025 (Tuesday)
+--------------------------------------------------
+📅 27 May, 2025 (Tuesday)
+   🌡️  Temperature: 23.0°C - <span class=" -Color -Color-C208">31.0°C</span>
+   🌤️  Forecast: Generally cloudy sky with Heavy rain
+   ⚠️  Warnings: Heavy Rainfall
+
+📅 28 May, 2025 (Wednesday)
+   🌡️  Temperature: 24.0°C - <span class=" -Color -Color-C208">31.0°C</span>
+   🌤️  Forecast: Generally cloudy sky with Heavy rain
+   ⚠️  Warnings: Heavy Rainfall
+
+📅 29 May, 2025 (Thursday)
+   🌡️  Temperature: 24.0°C - <span class=" -Color -Color-C208">32.0°C</span>
+   🌤️  Forecast: Generally cloudy sky with moderate rain
+   ⚠️  Warnings: No warning
+
+📅 30 May, 2025 (Friday)
+   🌡️  Temperature: 24.0°C - <span class=" -Color -Color-C208">32.0°C</span>
+   🌤️  Forecast: Generally cloudy sky with moderate rain
+   ⚠️  Warnings: No warning
+
+📅 31 May, 2025 (Saturday)
+   🌡️  Temperature: 24.0°C - <span class=" -Color -Color-C208">33.0°C</span>
+   🌤️  Forecast: Generally cloudy sky with moderate rain
+   ⚠️  Warnings: No warning
+
+📅 01 June, 2025 (Sunday)
+   🌡️  Temperature: 24.0°C - <span class=" -Color -Color-C208">33.0°C</span>
+   🌤️  Forecast: Partly cloudy sky with possibility of rain or Thunderstorm
+   ⚠️  Warnings: No warning
+
+📅 02 June, 2025 (Monday)
+   🌡️  Temperature: 24.0°C - <span class=" -Color -Color-C208">33.0°C</span>
+   🌤️  Forecast: Partly cloudy sky with possibility of rain or Thunderstorm
+   ⚠️  Warnings: No warning
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>imdfetch<span class="w"> </span>forecast<span class="w"> </span><span class="m">43003</span><span class="w"> </span>--format<span class="w"> </span>json
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{
+  &quot;city&quot;: &quot;Mumbai-Santacruz&quot;,
+  &quot;forecast_date&quot;: &quot;2025-05-27&quot;,
+  &quot;city_id&quot;: 43003,
+  &quot;days&quot;: [
+    {
+      &quot;date&quot;: &quot;27-May&quot;,
+      &quot;min_temp&quot;: &quot;23.0&quot;,
+      &quot;max_temp&quot;: &quot;31.0&quot;,
+      &quot;forecast&quot;: &quot;Generally cloudy sky with Heavy rain&quot;,
+      &quot;warnings&quot;: &quot;Heavy Rainfall&quot;,
+      &quot;rh_0830&quot;: &quot;0&quot;,
+      &quot;rh_1730&quot;: &quot;0&quot;,
+      &quot;iso_date&quot;: &quot;2025-05-27&quot;
+    },
+    {
+      &quot;date&quot;: &quot;28-May&quot;,
+      &quot;min_temp&quot;: &quot;24.0&quot;,
+      &quot;max_temp&quot;: &quot;31.0&quot;,
+      &quot;forecast&quot;: &quot;Generally cloudy sky with Heavy rain&quot;,
+      &quot;warnings&quot;: &quot;Heavy Rainfall&quot;,
+      &quot;rh_0830&quot;: &quot;0&quot;,
+      &quot;rh_1730&quot;: &quot;0&quot;,
+      &quot;iso_date&quot;: &quot;2025-05-28&quot;
+    },
+    {
+      &quot;date&quot;: &quot;29-May&quot;,
+      &quot;min_temp&quot;: &quot;24.0&quot;,
+      &quot;max_temp&quot;: &quot;32.0&quot;,
+      &quot;forecast&quot;: &quot;Generally cloudy sky with moderate rain&quot;,
+      &quot;warnings&quot;: &quot;No warning&quot;,
+      &quot;rh_0830&quot;: &quot;0&quot;,
+      &quot;rh_1730&quot;: &quot;0&quot;,
+      &quot;iso_date&quot;: &quot;2025-05-29&quot;
+    },
+    {
+      &quot;date&quot;: &quot;30-May&quot;,
+      &quot;min_temp&quot;: &quot;24.0&quot;,
+      &quot;max_temp&quot;: &quot;32.0&quot;,
+      &quot;forecast&quot;: &quot;Generally cloudy sky with moderate rain&quot;,
+      &quot;warnings&quot;: &quot;No warning&quot;,
+      &quot;rh_0830&quot;: &quot;0&quot;,
+      &quot;rh_1730&quot;: &quot;0&quot;,
+      &quot;iso_date&quot;: &quot;2025-05-30&quot;
+    },
+    {
+      &quot;date&quot;: &quot;31-May&quot;,
+      &quot;min_temp&quot;: &quot;24.0&quot;,
+      &quot;max_temp&quot;: &quot;33.0&quot;,
+      &quot;forecast&quot;: &quot;Generally cloudy sky with moderate rain&quot;,
+      &quot;warnings&quot;: &quot;No warning&quot;,
+      &quot;rh_0830&quot;: &quot;0&quot;,
+      &quot;rh_1730&quot;: &quot;0&quot;,
+      &quot;iso_date&quot;: &quot;2025-05-31&quot;
+    },
+    {
+      &quot;date&quot;: &quot;01-Jun&quot;,
+      &quot;min_temp&quot;: &quot;24.0&quot;,
+      &quot;max_temp&quot;: &quot;33.0&quot;,
+      &quot;forecast&quot;: &quot;Partly cloudy sky with possibility of rain or Thunderstorm&quot;,
+      &quot;warnings&quot;: &quot;No warning&quot;,
+      &quot;rh_0830&quot;: &quot;0&quot;,
+      &quot;rh_1730&quot;: &quot;0&quot;,
+      &quot;iso_date&quot;: &quot;2025-06-01&quot;
+    },
+    {
+      &quot;date&quot;: &quot;02-Jun&quot;,
+      &quot;min_temp&quot;: &quot;24.0&quot;,
+      &quot;max_temp&quot;: &quot;33.0&quot;,
+      &quot;forecast&quot;: &quot;Partly cloudy sky with possibility of rain or Thunderstorm&quot;,
+      &quot;warnings&quot;: &quot;No warning&quot;,
+      &quot;rh_0830&quot;: &quot;0&quot;,
+      &quot;rh_1730&quot;: &quot;0&quot;,
+      &quot;iso_date&quot;: &quot;2025-06-02&quot;
+    }
+  ]
+}
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>imdfetch<span class="w"> </span>forecast<span class="w"> </span><span class="m">43057</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>🔮 7-Day Weather Forecast for Mumbai-Colaba
+📅 Forecast Date: 27 May, 2025 (Tuesday)
+--------------------------------------------------
+📅 27 May, 2025 (Tuesday)
+   🌡️  Temperature: 23.0°C - <span class=" -Color -Color-C208">30.0°C</span>
+   🌤️  Forecast: Generally cloudy sky with Heavy rain
+   ⚠️  Warnings: Heavy Rainfall
+
+📅 28 May, 2025 (Wednesday)
+   🌡️  Temperature: 23.0°C - <span class=" -Color -Color-C208">30.0°C</span>
+   🌤️  Forecast: Generally cloudy sky with Heavy rain
+   ⚠️  Warnings: Heavy Rainfall
+
+📅 29 May, 2025 (Thursday)
+   🌡️  Temperature: 24.0°C - <span class=" -Color -Color-C208">31.0°C</span>
+   🌤️  Forecast: Generally cloudy sky with moderate rain
+   ⚠️  Warnings: No warning
+
+📅 30 May, 2025 (Friday)
+   🌡️  Temperature: 24.0°C - <span class=" -Color -Color-C208">32.0°C</span>
+   🌤️  Forecast: Generally cloudy sky with moderate rain
+   ⚠️  Warnings: No warning
+
+📅 31 May, 2025 (Saturday)
+   🌡️  Temperature: 24.0°C - <span class=" -Color -Color-C208">32.0°C</span>
+   🌤️  Forecast: Generally cloudy sky with moderate rain
+   ⚠️  Warnings: No warning
+
+📅 01 June, 2025 (Sunday)
+   🌡️  Temperature: 24.0°C - <span class=" -Color -Color-C208">32.0°C</span>
+   🌤️  Forecast: Partly cloudy sky with possibility of rain or Thunderstorm
+   ⚠️  Warnings: No warning
+
+📅 02 June, 2025 (Monday)
+   🌡️  Temperature: 24.0°C - <span class=" -Color -Color-C208">32.0°C</span>
+   🌤️  Forecast: Partly cloudy sky with possibility of rain or Thunderstorm
+   ⚠️  Warnings: No warning
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>imdfetch<span class="w"> </span>search<span class="w"> </span><span class="s2">&quot;Kota&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>🏙️  Found 2 cities matching &#39;Kota&#39;:
+   📍 KOTA (A) (ID: 42452)
+   📍 GARHAKOTA (ID: 101424)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>imdfetch<span class="w"> </span>weather<span class="w"> </span><span class="m">42452</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>🌤️ Current Weather for Kota
+📅 Date: 27 May, 2025 (Tuesday)
+🌡️ Max Temperature: 43.1°C
+🌡️ Min Temperature: <span class=" -Color -Color-C208">31.8°C</span>
+🌧️ 24h Rainfall (mm): NIL
+💧 Relative Humidity at 08:30: 49.0%
+💧 Relative Humidity at 17:30: <span class=" -Color -Color-C130">22.0%</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>imdfetch<span class="w"> </span>search<span class="w"> </span><span class="s2">&quot;Jaisal&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>🏙️  Found 1 cities matching &#39;Jaisal&#39;:
+   📍 JAISALMER (ID: 42328)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>imdfetch<span class="w"> </span>weather<span class="w"> </span><span class="m">42328</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>🌤️ Current Weather for Jaisalmer
+📅 Date: 27 May, 2025 (Tuesday)
+🌡️ Max Temperature: 45.4°C
+🌡️ Min Temperature: <span class=" -Color -Color-C208">33.1°C</span>
+🌧️ 24h Rainfall (mm): NIL
+💧 Relative Humidity at 08:30: 36.0%
+💧 Relative Humidity at 17:30: <span class=" -Color -Color-C130">21.0%</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>imdfetch<span class="w"> </span>forecast<span class="w"> </span><span class="m">42328</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>🔮 7-Day Weather Forecast for Jaisalmer
+📅 Forecast Date: 27 May, 2025 (Tuesday)
+--------------------------------------------------
+📅 27 May, 2025 (Tuesday)
+   🌡️  Temperature: <span class=" -Color -Color-C208">32.0°C</span> - 45.0°C
+   🌤️  Forecast: Heat Wave
+   ⚠️  Warnings: Heat Wave
+
+📅 28 May, 2025 (Wednesday)
+   🌡️  Temperature: <span class=" -Color -Color-C208">33.0°C</span> - 45.0°C
+   🌤️  Forecast: Heat Wave
+   ⚠️  Warnings: Heat Wave
+
+📅 29 May, 2025 (Thursday)
+   🌡️  Temperature: <span class=" -Color -Color-C208">32.0°C</span> - 45.0°C
+   🌤️  Forecast: Heat Wave
+   ⚠️  Warnings: Heat Wave
+
+📅 30 May, 2025 (Friday)
+   🌡️  Temperature: 29.0°C - 44.0°C
+   🌤️  Forecast: Partly cloudy sky
+   ⚠️  Warnings: No warning
+
+📅 31 May, 2025 (Saturday)
+   🌡️  Temperature: 29.0°C - 43.0°C
+   🌤️  Forecast: Partly cloudy sky
+   ⚠️  Warnings: No warning
+
+📅 01 June, 2025 (Sunday)
+   🌡️  Temperature: 28.0°C - 41.0°C
+   🌤️  Forecast: Mainly Clear sky
+   ⚠️  Warnings: No warning
+
+📅 02 June, 2025 (Monday)
+   🌡️  Temperature: 28.0°C - 40.0°C
+   🌤️  Forecast: Partly cloudy sky
+   ⚠️  Warnings: No warning
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>imdfetch<span class="w"> </span>cities<span class="w"> </span>--limit<span class="w"> </span><span class="m">0</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>🏙️  All 1412 available cities:
+   📍 CHAMBA (HP) (ID: 8205)
+   📍 FARIDABAD (ID: 10001)
+   📍 BHADRAK (RANITAL) (ID: 10002)
+   📍 HAMIRPUR (HP) (ID: 11001)
+   📍 BOKARO (ID: 13001)
+   📍 DEOGARH (ID: 13002)
+   📍 GIRIDIH (ID: 13003)
+   📍 THANE (ID: 18001)
+   📍 CHAMPHAI (ID: 19001)
+   📍 KOHIMA-DIMAPUR (ID: 21001)
+   📍 MOKOKCHUNG (ID: 21002)
+   📍 BHABANIPATNA (ID: 23001)
+   📍 MANGAN (ID: 26001)
+   📍 GYALSINGH (ID: 26002)
+   📍 NAMCHI (ID: 26003)
+   📍 TAWANG (ID: 30001)
+   📍 ANNI (ID: 30002)
+   📍 CHITRKOOT (ID: 30012)
+   📍 ORCHHA (ID: 30013)
+   📍 SANCHI (ID: 30014)
+   📍 RAMESHWARAM (ID: 30017)
+   📍 PANIPAT (ID: 30025)
+   📍 Baidyanath Dham (ID: 30026)
+   📍 SHAHJAHANPUR (ID: 30051)
+   📍 MUZAFFARNAGAR (ID: 30052)
+   📍 CHAMPAWAT (ID: 31001)
+   📍 BARPETA (ID: 40001)
+   📍 TAPOVAN (ID: 40062)
+   📍 GULMARG (ID: 42026)
+   📍 SRINAGAR- City (ID: 42027)
+   📍 PAHALGAM (ID: 42028)
+   📍 KUPWARA (ID: 42031)
+   📍 LEH (ID: 42034)
+   📍 BATOTE (ID: 42043)
+   📍 QUAZIGUND (ID: 42044)
+   📍 BANIHAL (ID: 42045)
+   📍 KUKERNAG (ID: 42046)
+   📍 BHADERWAH (ID: 42048)
+   📍 KATRA (ID: 42054)
+   📍 JAMMU (ID: 42056)
+   📍 PATHANKOT (ID: 42057)
+   📍 DALHOUSIE (ID: 42059)
+   📍 DHARAMSHALA (ID: 42062)
+   📍 KYELONG (ID: 42063)
+   📍 MANALI (ID: 42065)
+   📍 KALPA (ID: 42066)
+   📍 AMRITSAR (RAJASANSI) (A) (ID: 42071)
+   📍 KAPURTHALA (ID: 42074)
+   📍 JALANDHAR (ID: 42075)
+   📍 Kangra (ID: 42076)
+   📍 UNA (ID: 42077)
+   📍 SUNDERNAGAR (ID: 42079)
+   📍 BILASPUR (H P) (ID: 42080)
+   📍 BHUNTAR, KULLU (A) (ID: 42081)
+   📍 SHIMLA-City (ID: 42083)
+   📍 SHIMLA- AIRPORT (ID: 42084)
+   📍 FEROZEPORE (ID: 42096)
+   📍 BHATINDA (ID: 42097)
+   📍 LUDHIANA (ID: 42099)
+   📍 PATIALA (ID: 42101)
+   📍 AMBALA (ID: 42103)
+   📍 NAHAN (ID: 42104)
+   📍 CHANDIGARH (ID: 42105)
+   📍 SOLAN (ID: 42106)
+   📍 UTTARKASHI (ID: 42108)
+   📍 DEHRA DUN-Mokampur (ID: 42111)
+   📍 MUSSOORIE (ID: 42112)
+   📍 TEHRI (ID: 42114)
+   📍 JOSHIMATH (ID: 42116)
+   📍 SRIGANGANAGAR (ID: 42123)
+   📍 HISSAR (ID: 42131)
+   📍 KARNAL (ID: 42137)
+   📍 MEERUT (ID: 42139)
+   📍 NAINITAL (ID: 42146)
+   📍 MUKTESWAR (KUMAUN) (ID: 42147)
+   📍 PANTNAGAR (ID: 42148)
+   📍 BIKANER (ID: 42165)
+   📍 CHURU (ID: 42170)
+   📍 PILANI (ID: 42174)
+   📍 ROHTAK (ID: 42176)
+   📍 NARNAUL (ID: 42177)
+   📍 GURGAON (ID: 42178)
+   📍 NEW DELHI-AYANAGAR (ID: 42180)
+   📍 NEW DELHI (PALAM) (A) (ID: 42181)
+   📍 NEW DELHI (SAFDARJUNG) (ID: 42182)
+   📍 DELHI-RIDGE (ID: 42184)
+   📍 MORADABAD (ID: 42187)
+   📍 BAREILLY (ID: 42189)
+   📍 GANGTOK-TADONG (ID: 42217)
+   📍 PASIGHAT (ID: 42220)
+   📍 PHALODI (ID: 42237)
+   📍 NAGAUR (ID: 42242)
+   📍 SIKAR (ID: 42249)
+   📍 ALWAR (ID: 42255)
+   📍 BHARATPUR (ID: 42258)
+   📍 AGRA (IAF) (ID: 42260)
+   📍 ALIGARH (ID: 42262)
+   📍 HARDOI (ID: 42271)
+   📍 BAHRAICH (ID: 42273)
+   📍 DARJEELING (ID: 42293)
+   📍 KALIMPONG (ID: 42296)
+   📍 GANGTOK (ID: 42299)
+   📍 ITANAGAR (ID: 42308)
+   📍 NORTH LAKHIMPUR (ID: 42309)
+   📍 SIBSAGAR (ID: 42311)
+   📍 DIBRUGARH (ID: 42314)
+   📍 TINSUKIA (ID: 42317)
+   📍 JAISALMER (ID: 42328)
+   📍 JODHPUR (ID: 42339)
+   📍 AJMER (ID: 42343)
+   📍 JAIPUR (ID: 42348)
+   📍 TONK (ID: 42349)
+   📍 BHIWANI (ID: 42350)
+   📍 DHOLPUR (ID: 42354)
+   📍 GWALIOR (ID: 42361)
+   📍 KANPUR (A) (ID: 42366)
+   📍 LUCKNOW (AMAUSI) (A) (ID: 42369)
+   📍 FURSATGANJ (ID: 42372)
+   📍 AYODHYA (ID: 42374)
+   📍 SULTANPUR (ID: 42375)
+   📍 GORAKHPUR (ID: 42379)
+   📍 MOTIHARI (ID: 42383)
+   📍 MUZAFFARPUR (ID: 42387)
+   📍 SUPAUL (ID: 42393)
+   📍 FORBESGANJ (ID: 42395)
+   📍 JALPAIGURI (ID: 42399)
+   📍 COOCH BEHAR (ID: 42403)
+   📍 DHUBRI (ID: 42404)
+   📍 DHUBRI (RUPSI) (A) (ID: 42406)
+   📍 GOALPARA (ID: 42407)
+   📍 GUWAHATI (ID: 42410)
+   📍 MAJBAT (ID: 42413)
+   📍 TEZPUR (ID: 42415)
+   📍 GOLAGHAT (ID: 42420)
+   📍 JORHAT (ID: 42423)
+   📍 BARMER (ID: 42435)
+   📍 JALORE (ID: 42439)
+   📍 BHILWARA (ID: 42447)
+   📍 BUNDI (ID: 42450)
+   📍 KOTA (A) (ID: 42452)
+   📍 SAWAI MADHOPUR (ID: 42453)
+   📍 JHANSI (ID: 42463)
+   📍 BANDA (ID: 42473)
+   📍 PRAYAGRAJ (ID: 42474)
+   📍 VARANASI (BABATPUR) (A) (ID: 42479)
+   📍 CHAPRA (ID: 42488)
+   📍 PATNA-Airport (ID: 42492)
+   📍 BHAGALPUR (ID: 42498)
+   📍 PURNEA (ID: 42500)
+   📍 MALDA (ID: 42503)
+   📍 CHERRAPUNJI (ID: 42515)
+   📍 SHILLONG (ID: 42516)
+   📍 LUMDING (ID: 42523)
+   📍 KOHIMA (ID: 42527)
+   📍 DEESA (ID: 42539)
+   📍 MOUNT ABU (ID: 42540)
+   📍 UDAIPUR (DABOK) (A) (ID: 42542)
+   📍 CHITTORGARH (ID: 42546)
+   📍 JHALAWAR (ID: 42555)
+   📍 RAJGARH (ID: 42557)
+   📍 GUNA (ID: 42559)
+   📍 KHAJURAHO (ID: 42567)
+   📍 SATNA (ID: 42571)
+   📍 REWA (ID: 42574)
+   📍 DALTONGANJ (ID: 42587)
+   📍 GAYA (ID: 42591)
+   📍 DUMKA (ID: 42599)
+   📍 BERHAMPORE (ID: 42603)
+   📍 KAILASHAHAR (A) (ID: 42618)
+   📍 SILCHAR (ID: 42619)
+   📍 IMPHAL (TULIHAL) (A) (ID: 42623)
+   📍 NALIYA (ID: 42631)
+   📍 BHUJ (ID: 42634)
+   📍 KANDLA (A) (ID: 42638)
+   📍 AHMEDABAD (ID: 42647)
+   📍 IDAR (ID: 42651)
+   📍 BANSWARA (ID: 42655)
+   📍 UJJAIN (ID: 42662)
+   📍 BHOPAL-Arera Hills (ID: 42667)
+   📍 SAGAR (ID: 42671)
+   📍 JABALPUR (ID: 42675)
+   📍 UMARIA (ID: 42679)
+   📍 AMBIKAPUR (ID: 42693)
+   📍 RANCHI (A) (ID: 42701)
+   📍 PANAGARH (ID: 42704)
+   📍 BANKURA (ID: 42706)
+   📍 SRI NIKETAN (ID: 42708)
+   📍 BURDWAN (ID: 42709)
+   📍 KRISHNANAGAR (ID: 42711)
+   📍 ASANSOL (ID: 42712)
+   📍 AGARTALA (ID: 42724)
+   📍 AIZWAL (ID: 42726)
+   📍 Aizawl-LENGPUI (ID: 42727)
+   📍 OKHA (ID: 42730)
+   📍 DWARKA (ID: 42731)
+   📍 RAJKOT (A) (ID: 42737)
+   📍 BARODA (A) (ID: 42748)
+   📍 INDORE (ID: 42754)
+   📍 PACHMARHI (ID: 42767)
+   📍 SEONI (ID: 42771)
+   📍 PENDRA ROAD (ID: 42779)
+   📍 BILASPUR (ID: 42782)
+   📍 ROURKELA (ID: 42793)
+   📍 CHAIBASA (ID: 42795)
+   📍 JAMSHEDPUR (A) (ID: 42798)
+   📍 MIDNAPORE (ID: 42803)
+   📍 KOLKATA-Howrah-ULUBERIA (ID: 42805)
+   📍 HALDIA (ID: 42806)
+   📍 KOLKATA-Alipur (ID: 42807)
+   📍 KOLKATA (DUM DUM) (A) (ID: 42809)
+   📍 DIAMOND HARBOUR (ID: 42811)
+   📍 KOLKATA-Salt Lake (ID: 42816)
+   📍 PORBANDAR (A) (ID: 42830)
+   📍 AMRELI (ID: 42834)
+   📍 BHAVNAGAR (A) (ID: 42838)
+   📍 SURAT (ID: 42840)
+   📍 JALGAON (ID: 42851)
+   📍 KHANDWA (ID: 42855)
+   📍 BETUL (ID: 42860)
+   📍 NAGPUR-Sonegaon Airport (ID: 42867)
+   📍 GONDIA (ID: 42871)
+   📍 RAIPUR-MANA (ID: 42872)
+   📍 RAIPUR-Lalpur (ID: 42874)
+   📍 DURG (ID: 42876)
+   📍 DHENKANAL (ID: 42881)
+   📍 SAMBALPUR (ID: 42883)
+   📍 JHARSUGUDA (ID: 42886)
+   📍 KEONJHARGARH (ID: 42891)
+   📍 BALASORE (ID: 42895)
+   📍 DIGHA (ID: 42901)
+   📍 VERAVAL (ID: 42909)
+   📍 DAMAN (ID: 42916)
+   📍 NASHIK (ID: 42921)
+   📍 MALEGAON (ID: 42925)
+   📍 BULDANA (ID: 42931)
+   📍 AKOLA (ID: 42933)
+   📍 AMRAOTI (ID: 42937)
+   📍 WARDHA (ID: 42939)
+   📍 YEOTMAL (ID: 42943)
+   📍 RAJNANDGAON (ID: 42948)
+   📍 TITLAGARH (ID: 42961)
+   📍 PHULBANI (ID: 42966)
+   📍 ANGUL (ID: 42969)
+   📍 BHUBANESHWAR-CUTTACK (ID: 42970)
+   📍 BHUBANESHWAR (ID: 42971)
+   📍 CHANDBALI (ID: 42973)
+   📍 PARADIP PORT (ID: 42976)
+   📍 DAHANU (ID: 43001)
+   📍 MUMBAI (SANTACRUZ) (A) (ID: 43003)
+   📍 AHMEDNAGAR (ID: 43009)
+   📍 BEED (BIR) (ID: 43011)
+   📍 AURANGABAD (CHIKALTHANA) (A) (ID: 43014)
+   📍 PARBHANI (ID: 43017)
+   📍 NANDED (ID: 43021)
+   📍 ADILABAD (ID: 43025)
+   📍 CHANDRAPUR (CHANDA) (ID: 43029)
+   📍 JAGDALPUR (ID: 43041)
+   📍 GOPALPUR (ID: 43049)
+   📍 PURI (ID: 43053)
+   📍 MUMBAI (COLABA) (ID: 43057)
+   📍 ALIBAG (ID: 43058)
+   📍 PUNE- SHIVAJINAGAR (ID: 43063)
+   📍 PUNE-LOHOGAON AIRPORT (ID: 43064)
+   📍 PUNE-PASHAN (ID: 43067)
+   📍 JEUR (ID: 43071)
+   📍 OSMANABAD (ID: 43075)
+   📍 UDGIR (ID: 43076)
+   📍 NIZAMABAD (ID: 43081)
+   📍 MEDAK (ID: 43083)
+   📍 RAMGUNDAM (ID: 43086)
+   📍 HANAMKONDA (ID: 43087)
+   📍 KORAPUT (ID: 43097)
+   📍 KALINGAPATANAM (ID: 43105)
+   📍 HARNAI (ID: 43109)
+   📍 RATNAGIRI (ID: 43110)
+   📍 MAHABALESHWAR (ID: 43111)
+   📍 SATARA (ID: 43113)
+   📍 SOLAPUR (ID: 43117)
+   📍 GULBARGA (ID: 43121)
+   📍 BIDAR (ID: 43125)
+   📍 HYDERABAD (ID: 43128)
+   📍 NALGONDA (ID: 43133)
+   📍 KOTHAGUDEM (BHADRACHALAM) (ID: 43136)
+   📍 KHAMMAM (ID: 43137)
+   📍 TUNI (ID: 43147)
+   📍 VISHAKHAPATNAM (ID: 43149)
+   📍 KOLHAPUR (ID: 43157)
+   📍 SANGLI (ID: 43158)
+   📍 BIJAPUR (ID: 43161)
+   📍 MAHBUBNAGAR (ID: 43168)
+   📍 RAICHUR (ID: 43169)
+   📍 VIJAYAWADA-GANNAVARAM (ID: 43181)
+   📍 MACHILIPATNAM (ID: 43185)
+   📍 AMARAVATI-AP (ID: 43186)
+   📍 NARSAPUR (ID: 43187)
+   📍 KAKINADA (ID: 43189)
+   📍 PANJIM (ID: 43192)
+   📍 VENGURLA (ID: 43193)
+   📍 BELGAUM (SAMBRE) (A) (ID: 43198)
+   📍 DHARWAD (ID: 43200)
+   📍 GADAG (ID: 43201)
+   📍 BELLARY (ID: 43205)
+   📍 KHADAKWASLA (ID: 43209)
+   📍 KURNOOL (ID: 43213)
+   📍 BAPATLA (ID: 43220)
+   📍 ONGOLE (ID: 43221)
+   📍 KARWAR (ID: 43225)
+   📍 HONAVAR (ID: 43226)
+   📍 CHITRADURGA (ID: 43233)
+   📍 CUDDAPAH (ID: 43241)
+   📍 KAVALI (ID: 43243)
+   📍 NELLORE (ID: 43245)
+   📍 AGUMBE (ID: 43257)
+   📍 HASSAN (ID: 43263)
+   📍 AGATHI (ID: 43266)
+   📍 TIRUPATHI (ID: 43275)
+   📍 CHENNAI (NUNGAMBAKKAM) (ID: 43278)
+   📍 CHENNAI (MINAMBAKKAM) (A) (ID: 43279)
+   📍 MANGALORE (BAJPE) (A) (ID: 43284)
+   📍 MADIKERI (MERCARA) (ID: 43287)
+   📍 MANDYA (ID: 43289)
+   📍 MYSORE (ID: 43291)
+   📍 BENGALURU (ID: 43295)
+   📍 DHARMAPURI (ID: 43301)
+   📍 VELLORE (ID: 43303)
+   📍 MAYABANDAR (ID: 43309)
+   📍 AMINI DIVI (ID: 43311)
+   📍 KOZHIKODE (CALICUT) (ID: 43314)
+   📍 CANNANORE (KANNUR) (ID: 43315)
+   📍 COONOOR (ID: 43318)
+   📍 COIMBATORE (PEELAMEDU) (A) (ID: 43321)
+   📍 SALEM (ID: 43325)
+   📍 PUDUCHERRY (PONDICHERRY) (ID: 43328)
+   📍 PORT BLAIR (ID: 43333)
+   📍 KAVARATTI (ID: 43337)
+   📍 KODAIKANAL (ID: 43339)
+   📍 YERCAUD (ID: 43340)
+   📍 TIRUCHIRAPALLI (A) (ID: 43344)
+   📍 KARAIKAL (ID: 43346)
+   📍 NAGAPATTINAM (ID: 43347)
+   📍 ALAPUZHA (ALLEPPEY) (ID: 43352)
+   📍 KOCHI (COCHIN) (ID: 43353)
+   📍 PUNALUR (ID: 43354)
+   📍 KOTTAYAM (ID: 43355)
+   📍 MADURAI (A) (ID: 43360)
+   📍 TONDI (ID: 43361)
+   📍 PAMBAN (ID: 43363)
+   📍 CAR NICOBAR (ID: 43367)
+   📍 MINICOY (ID: 43369)
+   📍 THIRUVANANTHAPURAM-City (ID: 43371)
+   📍 PALAYAMKOTTAI (ID: 43376)
+   📍 KANYAKUMARI (ID: 43377)
+   📍 NANCOWRY (ID: 43382)
+   📍 MADHUBANI (ID: 50001)
+   📍 NALANDA (ID: 50002)
+   📍 AURANGABAD (BIHAR) (ID: 50003)
+   📍 RAJGIR (ID: 50004)
+   📍 Mirpur (ID: 88803)
+   📍 Kasauli (ID: 88814)
+   📍 Spiti Valley (ID: 88815)
+   📍 Silvassa (ID: 88816)
+   📍 Sasan Gir (ID: 88817)
+   📍 Patan (ID: 88818)
+   📍 Junagarh (ID: 88819)
+   📍 BADAMI (ID: 88820)
+   📍 GOKARNA (ID: 88821)
+   📍 HAMPI (ID: 88822)
+   📍 BISHNUPUR (ID: 88823)
+   📍 SUNDERBAN (ID: 88824)
+   📍 KAZIRANGA (ID: 88825)
+   📍 NAGAON (ID: 88826)
+   📍 NALBARI (ID: 88827)
+   📍 LUNGLEI (ID: 88828)
+   📍 KAUSANI (ID: 88829)
+   📍 LANSDOWNE (ID: 88831)
+   📍 Amarnath Holy Cave (ID: 88835)
+   📍 Panjtarni (ID: 88836)
+   📍 Baltal (ID: 88837)
+   📍 Sheshnag (ID: 88838)
+   📍 Chandanwari (ID: 88839)
+   📍 Rishikesh (ID: 90014)
+   📍 Kalaikunda (ID: 90107)
+   📍 PUSA (ID: 90141)
+   📍 JAFARPUR (ID: 90142)
+   📍 MUNGESHPUR (ID: 90143)
+   📍 NAJAFGARH (ID: 90144)
+   📍 PITAMPURA (ID: 90145)
+   📍 SALWAN PUBLIC SCHOOL (ID: 90146)
+   📍 PRAGATI MAIDAN (ID: 90147)
+   📍 RAJGHAT (ID: 90148)
+   📍 JAJPUR (ID: 93252)
+   📍 DEOGARH (ID: 93255)
+   📍 BARGARH (ID: 93256)
+   📍 NABARANGPUR (ID: 93258)
+   📍 JAGATSINGHPUR (ID: 93260)
+   📍 KENDRAPARA (ID: 93261)
+   📍 PITHORAGARH (ID: 99911)
+   📍 ALMORA (ID: 99912)
+   📍 KURUKSHETRA (ID: 99915)
+   📍 SIRSA (ID: 99916)
+   📍 ANANDPUR SAHIB (ID: 99917)
+   📍 HARIDWAR (ID: 99918)
+   📍 HANUMANGARH (ID: 99919)
+   📍 PALI (ID: 99920)
+   📍 DELHI-DELHI UNIVERSITY (ID: 99921)
+   📍 DELHI-NARELA (ID: 99922)
+   📍 NEW DELHI (LODI ROAD) (ID: 99923)
+   📍 GAUTAM BUDHNAGAR (ID: 99926)
+   📍 GHAZIABAD (ID: 99927)
+   📍 Chandigarh Airport (ID: 99928)
+   📍 Chandigarh-Panchkula (ID: 99929)
+   📍 Chandigarh-Mohali (ID: 99930)
+   📍 HYDERABAD-Rajinder Nagar (ID: 99931)
+   📍 HYDERABAD-Hayathnagar (ID: 99932)
+   📍 HYDERABAD-Hakimpet IAF (ID: 99933)
+   📍 Icrisat Patancheru (ID: 99934)
+   📍 Ahmedabad- Airport (ID: 99935)
+   📍 Ahmedabad-Navrangpura (S.P.Stadium) (ID: 99936)
+   📍 Ahmedabad-Rakhiyal (ID: 99937)
+   📍 Ahmedabad-Chandkheda (ID: 99938)
+   📍 Ahmedabad-Satellite Area (ISRO-SAC) (ID: 99939)
+   📍 Panvel (ID: 99940)
+   📍 MUMBAI-Borivali (ID: 99941)
+   📍 MUMBAI-Powai (ID: 99942)
+   📍 MUMBAI-Chembur (ID: 99943)
+   📍 MUMBAI-Mulund (ID: 99944)
+   📍 MUMBAI-Worli (ID: 99945)
+   📍 CHENNAI (MADHAVARAM) (ID: 99947)
+   📍 CHENNAI (ENNORE) (ID: 99948)
+   📍 BHUBANESHWAR-OUAT (ID: 99949)
+   📍 RANCHI-Kanke (ID: 99950)
+   📍 DEHRADUN-KARANPUR (ID: 99951)
+   📍 DEHRADUN-SAHASHTRADHARA (ID: 99953)
+   📍 DEHRADUN-ASHARORI (ID: 99954)
+   📍 DEHRADUN-UCOST (ID: 99955)
+   📍 Ahmedabad-Ambli-Bopal (ID: 99956)
+   📍 Ahmedabad-Raikhad (ID: 99957)
+   📍 Ahmedabad-PIRANA (ID: 99958)
+   📍 Ahmedabad-IIPH,Gandhi Nagar (ID: 99959)
+   📍 Ahmedabad-GIFT CITY,GANDHI NAGAR (ID: 99960)
+   📍 BENGALURU-INTERNATIONAL AIRPORT (ID: 99962)
+   📍 BENGALURU-GKVK (ID: 99963)
+   📍 DADRA NAGAR HAVELI (ID: 99964)
+   📍 JAIPUR-VAISHALI NAGAR (ID: 99966)
+   📍 JAIPUR-TRANSPORT NAGAR (ID: 99967)
+   📍 JAIPUR-COLLECTORATE CIRCLE (ID: 99968)
+   📍 JAIPUR-AMER (ID: 99969)
+   📍 LUCKNOW-HANUMAN SETU (ID: 99970)
+   📍 LUCKNOW-CONTROL ROOM (ID: 99971)
+   📍 LUCKNOW-MALIHABAD (ID: 99972)
+   📍 LUCKNOW-MOHANLALGANJ (ID: 99973)
+   📍 RAIPUR-LABHANGI (ID: 99974)
+   📍 SRINAGAR- AIRPORT (ID: 99975)
+   📍 SRINAGAR-DAL LAKE (ID: 99976)
+   📍 BHOPAL AIRPORT (ID: 99977)
+   📍 BHOPAL-NABI BAGH (ID: 99978)
+   📍 GUWAHATI-DISPUR (ID: 99979)
+   📍 JAMMU-MATA VAISHNO DEVI JI (ID: 99980)
+   📍 JAMMU AIRPORT (ID: 99981)
+   📍 NAGPUR-COLLEGE OF AGRICULTURE (ID: 99982)
+   📍 PANJIM-PERNEM (ID: 99983)
+   📍 PANJIM-MAPUSA (ID: 99984)
+   📍 PANJIM-OLD GOA (ID: 99985)
+   📍 PATNA-CITY (ID: 99986)
+   📍 IIT GUWAHATI (ID: 99987)
+   📍 GILGIT (ID: 99990)
+   📍 SKARDU (ID: 99991)
+   📍 MUZAFFARABAD (ID: 99996)
+   📍 Dindigul IAF (ID: 99997)
+   📍 CHAKULIA (ID: 100001)
+   📍 DHANBAD (ID: 100002)
+   📍 GARHWA (ID: 100003)
+   📍 GUMLA (ID: 100004)
+   📍 HAZARIBAGH (ID: 100005)
+   📍 KODERMA (ID: 100006)
+   📍 LOHARDAGA (ID: 100007)
+   📍 PAKUR (ID: 100008)
+   📍 Ramgarh (ID: 100009)
+   📍 SAHEBGANJ (ID: 100010)
+   📍 SIMDEGA (ID: 100011)
+   📍 APMC CHINCHOLI (ID: 100012)
+   📍 AABU ROAD (ID: 100013)
+   📍 ANOOPGARH (ID: 100014)
+   📍 ANTA (ID: 100015)
+   📍 ATRU (ID: 100016)
+   📍 BAJJU (ID: 100017)
+   📍 BALOTRA (ID: 100018)
+   📍 BANDIKUI (ID: 100019)
+   📍 BARAN (ID: 100020)
+   📍 BARISADRI (ID: 100021)
+   📍 BARODAMEV (ID: 100022)
+   📍 BASSI (ID: 100023)
+   📍 BAYANA (ID: 100024)
+   📍 BEAWAR (ID: 100025)
+   📍 BEGU (ID: 100026)
+   📍 BHADRA (ID: 100027)
+   📍 BHAWANI MANDI (ID: 100028)
+   📍 BHINMAL (ID: 100029)
+   📍 BIJAY NAGAR (ID: 100030)
+   📍 BIJOLIYA (ID: 100031)
+   📍 BILARA (ID: 100032)
+   📍 CHABRA (ID: 100033)
+   📍 CHAKSU (ID: 100034)
+   📍 CHIRAWA (ID: 100035)
+   📍 CHOMEHLA (ID: 100036)
+   📍 CHOMU F AND V (ID: 100037)
+   📍 CHOMU GRAIN (ID: 100038)
+   📍 CHOTTISADRI (ID: 100039)
+   📍 DAUSA (ID: 100040)
+   📍 DEEDWANA (ID: 100041)
+   📍 DEEG (ID: 100042)
+   📍 DEGANA (ID: 100043)
+   📍 DEI (ID: 100044)
+   📍 DEOLI (ID: 100045)
+   📍 DOONI (ID: 100046)
+   📍 DUNGARPUR (ID: 100047)
+   📍 FATEHNAGAR (ID: 100048)
+   📍 FATEHPUR (ID: 100049)
+   📍 GAJSINGHPUR (ID: 100050)
+   📍 GANGAPUR CITY (ID: 100051)
+   📍 GANGAPUR-RJ (ID: 100052)
+   📍 GHARSANA (ID: 100053)
+   📍 GOLUWALA (ID: 100054)
+   📍 GUDA GODJI (ID: 100055)
+   📍 HINDOUN (ID: 100056)
+   📍 IKLERA (ID: 100057)
+   📍 ITAWA (ID: 100058)
+   📍 JAITARAN (ID: 100059)
+   📍 JAITSAR (ID: 100060)
+   📍 JHUNJHUNU (ID: 100061)
+   📍 KAMAN (ID: 100062)
+   📍 KAPASAN (ID: 100063)
+   📍 KEKRI (ID: 100064)
+   📍 KESHORAIPATAN (ID: 100065)
+   📍 KESRISINGHPUR (ID: 100066)
+   📍 KHAIRTHAL (ID: 100067)
+   📍 KHAJUWALA (ID: 100068)
+   📍 KHANPUR (ID: 100069)
+   📍 KHERLI (ID: 100070)
+   📍 KISHANGARH RENWAL (ID: 100071)
+   📍 KOTPUTLI (ID: 100072)
+   📍 KUCHAMANCITY (ID: 100073)
+   📍 LALSOT (ID: 100074)
+   📍 LOONKARANSAR (ID: 100075)
+   📍 M. KISHANGARH (ID: 100076)
+   📍 MAHUWA MANDAWAR (ID: 100077)
+   📍 MAHUWA RJ (ID: 100078)
+   📍 MALPURA (ID: 100079)
+   📍 MANDALGARH (ID: 100080)
+   📍 MANDAWARI (ID: 100081)
+   📍 MERTA CITY (ID: 100082)
+   📍 NADBAI (ID: 100083)
+   📍 NAGAR (ID: 100084)
+   📍 NAWALGARH (ID: 100085)
+   📍 NEEM KA THANA (ID: 100086)
+   📍 NIMBAHERA (ID: 100087)
+   📍 NIWAI (ID: 100088)
+   📍 NOHAR (ID: 100089)
+   📍 NOKHA (ID: 100090)
+   📍 PADAMPUR (ID: 100091)
+   📍 PALSANA (ID: 100092)
+   📍 PILIBANGA (ID: 100094)
+   📍 PIPARCITY (ID: 100095)
+   📍 PRATAPGARH RJ (ID: 100096)
+   📍 RAISINGHNAGAR (ID: 100097)
+   📍 RAJDHANI MANDI KUKARKHERA (ID: 100098)
+   📍 RAMGANJ MANDI (ID: 100099)
+   📍 RANI (ID: 100100)
+   📍 RANIWARA (ID: 100101)
+   📍 RATANGARH (ID: 100102)
+   📍 RAWATSAR (ID: 100103)
+   📍 RAWLA (ID: 100104)
+   📍 SADULPUR (ID: 100105)
+   📍 SADULSHAHAR (ID: 100106)
+   📍 SANCHORE (ID: 100107)
+   📍 SANGARIYA (ID: 100108)
+   📍 SARDAR SHAHAR (ID: 100109)
+   📍 SHAHPURA (ID: 100110)
+   📍 SOJAT ROAD (ID: 100111)
+   📍 SRI DUNGARGARH (ID: 100112)
+   📍 SRI MADHOPUR (ID: 100113)
+   📍 SRI VIJAYNAGAR (ID: 100114)
+   📍 SRIGANGANAGAR F AND V (ID: 100115)
+   📍 SRIKARANPUR (ID: 100116)
+   📍 SUJANGARH (ID: 100117)
+   📍 SUMERGANJ (ID: 100118)
+   📍 SUMERPUR (ID: 100119)
+   📍 SURAJGARH (ID: 100120)
+   📍 SURATGARH (ID: 100121)
+   📍 UNIYARA (ID: 100122)
+   📍 ACHHALDA APMC (ID: 100123)
+   📍 ACHNERA (ID: 100124)
+   📍 AJUHA (ID: 100125)
+   📍 AKBARPUR (ID: 100126)
+   📍 ANAND NAGAR APMC (ID: 100127)
+   📍 ATARRA APMC (ID: 100128)
+   📍 AURAIYA (ID: 100129)
+   📍 BADAUN (ID: 100130)
+   📍 BALRAMPUR APMC (ID: 100131)
+   📍 BANGARMAU (ID: 100132)
+   📍 BASTI (ID: 100133)
+   📍 BHARTHANA (ID: 100134)
+   📍 BHARUASUMERPUR (ID: 100135)
+   📍 BILSI (ID: 100136)
+   📍 BINDIKI (ID: 100137)
+   📍 BISALPUR (ID: 100138)
+   📍 BULANDSHAHAR (ID: 100139)
+   📍 CHANDAULI (ID: 100140)
+   📍 CHANDAUSI (ID: 100141)
+   📍 CHARRA (ID: 100142)
+   📍 CHAUBEPUR (ID: 100143)
+   📍 CHIBRAMAU (ID: 100144)
+   📍 DADRI UP (ID: 100145)
+   📍 DEORIA (ID: 100146)
+   📍 ETAH (ID: 100147)
+   📍 FARRUKHABAD (ID: 100148)
+   📍 FATEHPUR APMC (ID: 100149)
+   📍 FATEHPUR SIKRI (ID: 100150)
+   📍 FIROZABAD APMC (ID: 100151)
+   📍 GHIROR (ID: 100152)
+   📍 GOLAGOKARNATH (ID: 100153)
+   📍 HAPUR (ID: 100154)
+   📍 HASANPUR APMC (ID: 100155)
+   📍 HATHRAS (ID: 100156)
+   📍 JAIS (ID: 100157)
+   📍 JALALABAD APMC (ID: 100158)
+   📍 JALAUN (ID: 100159)
+   📍 JANGIPURA (ID: 100160)
+   📍 JAUNPUR APMC (ID: 100161)
+   📍 KAIMGANJ (ID: 100162)
+   📍 KANNAUJ (ID: 100163)
+   📍 KARWI APMC (ID: 100164)
+   📍 KASGANJ (ID: 100165)
+   📍 KHAIR (ID: 100166)
+   📍 KHALILABAD (ID: 100167)
+   📍 KHURJA (ID: 100168)
+   📍 KONCH (ID: 100169)
+   📍 KOSIKALAN (ID: 100170)
+   📍 LALITPUR (ID: 100171)
+   📍 MADHOGANJ (ID: 100172)
+   📍 MAHMUDABAD (ID: 100173)
+   📍 MAHOBA (ID: 100174)
+   📍 MAURANIPUR (ID: 100175)
+   📍 MILAK (ID: 100176)
+   📍 MIRZAPUR (ID: 100177)
+   📍 MUSKERA (ID: 100178)
+   📍 NAANPARA (ID: 100179)
+   📍 NAJIBABAD APMC (ID: 100180)
+   📍 NAUGARH APMC (ID: 100181)
+   📍 NAUTANWA APMC (ID: 100182)
+   📍 NAWABGANJ APMC (ID: 100183)
+   📍 PALIA KALAN (ID: 100184)
+   📍 PARTAWAL (ID: 100185)
+   📍 POWAYAN (ID: 100186)
+   📍 PRATAPGARH (ID: 100187)
+   📍 HINGOLI (ID: 100188)
+   📍 PURANPUR (ID: 100189)
+   📍 RAE BARELI (ID: 100190)
+   📍 RAMPUR (ID: 100191)
+   📍 RAMPUR BILASPUR (ID: 100192)
+   📍 RASRA APMC (ID: 100193)
+   📍 RATH (ID: 100194)
+   📍 ROBERTSGANJ (ID: 100195)
+   📍 SADABAD APMC (ID: 100196)
+   📍 SAFDARGANJ (ID: 100197)
+   📍 SAHIYAPUR (ID: 100198)
+   📍 SAHJANWA APMC (ID: 100199)
+   📍 SAMBHAL APMC (ID: 100200)
+   📍 SANDILA APMC (ID: 100201)
+   📍 SHAGANJ (ID: 100202)
+   📍 SHAHBAD HARDOI (ID: 100203)
+   📍 SHAMLI (ID: 100204)
+   📍 SHIKOHABAD (ID: 100205)
+   📍 SIRSAGANJ (ID: 100206)
+   📍 SITAPUR (ID: 100207)
+   📍 TIKUNIYA (ID: 100208)
+   📍 TULSIPUR APMC (ID: 100209)
+   📍 TUNDLA (ID: 100210)
+   📍 UJHANI (ID: 100211)
+   📍 UNNAO APMC (ID: 100212)
+   📍 URAI (ID: 100213)
+   📍 WAZIRGANJ APMC (ID: 100214)
+   📍 BAZPUR (ID: 100215)
+   📍 GADARPUR (ID: 100216)
+   📍 HALDWANI (ID: 100217)
+   📍 JASPUR (ID: 100218)
+   📍 KASHIPUR (ID: 100219)
+   📍 KHATIMA (ID: 100220)
+   📍 NANAKMATTA (ID: 100221)
+   📍 RAMNAGAR (ID: 100222)
+   📍 ROORKEE (ID: 100223)
+   📍 SITARGANJ (ID: 100224)
+   📍 VIKASNAGAR (ID: 100225)
+   📍 BAGDA KRISHAK BAZAR (ID: 100226)
+   📍 BETHUADAHARI PRINCIPAL MARKET YARD (ID: 100227)
+   📍 BISHNUPUR (ID: 100228)
+   📍 DHUPGURI PRINCIPAL MARKET YARD (ID: 100229)
+   📍 FALAKATA (ID: 100230)
+   📍 GANGARAMPUR (ID: 100231)
+   📍 ISLAMPUR PRINCIPAL MARKET YARD (ID: 100232)
+   📍 JIYAGANJ KRISHAK BAZAR (ID: 100233)
+   📍 KALNA SUB MARKET YARD (ID: 100234)
+   📍 KARIMPUR SUBMARKET YARD (ID: 100235)
+   📍 MOHAMAD BAZAR KRISHAK BAZAR (ID: 100236)
+   📍 NAKASHIPARA KRISHAK BAZAR (ID: 100237)
+   📍 PANSKURA I KRISHAK BAZAR (ID: 100238)
+   📍 SAMSHERGANJ KRISHAK BAZAR (ID: 100239)
+   📍 SAMSI SUB MARKET YARD (ID: 100240)
+   📍 SHEORAPHULI (ID: 100241)
+   📍 SIMLAPAL (ID: 100242)
+   📍 BALOD (ID: 100243)
+   📍 BHATAPARA (ID: 100244)
+   📍 DHAMTARI (ID: 100245)
+   📍 KAWARADHA (ID: 100246)
+   📍 KURUD (ID: 100247)
+   📍 MUNGELI (ID: 100248)
+   📍 NAVAPARA (ID: 100249)
+   📍 PATELPALI RAIGARH (ID: 100250)
+   📍 RAJIM (ID: 100251)
+   📍 HIMMATNAGAR (ID: 100252)
+   📍 VADALI APMC (ID: 100253)
+   📍 ADAMPUR (ID: 100254)
+   📍 ASANDH (ID: 100255)
+   📍 ATELI APMC (ID: 100256)
+   📍 BHATTU KALAN APMC (ID: 100257)
+   📍 CH DADRI (ID: 100258)
+   📍 CHEEKA (ID: 100259)
+   📍 CHHACHHRAULI (ID: 100260)
+   📍 DABWALI (ID: 100261)
+   📍 DHAND (ID: 100262)
+   📍 ELLANABAD (ID: 100263)
+   📍 FATEHABAD (ID: 100264)
+   📍 FEROZPUR JHIRKA APMC (ID: 100265)
+   📍 GANAUR (ID: 100266)
+   📍 GOHANA (ID: 100267)
+   📍 HODAL (ID: 100268)
+   📍 INDRI (ID: 100269)
+   📍 ISMAILABAD (ID: 100270)
+   📍 ISRANA APMC (ID: 100271)
+   📍 JAGADHRI APMC (ID: 100272)
+   📍 JAKHAL (ID: 100273)
+   📍 JHAJJAR (ID: 100274)
+   📍 JIND (ID: 100275)
+   📍 JULANA (ID: 100276)
+   📍 KAITHAL (ID: 100277)
+   📍 KALANWALI (ID: 100278)
+   📍 KALAYAT (ID: 100279)
+   📍 KANINA APMC (ID: 100280)
+   📍 KOSLI APMC (ID: 100281)
+   📍 LADWA (ID: 100282)
+   📍 MADLAUDA (ID: 100283)
+   📍 MEHAM APMC (ID: 100284)
+   📍 MOHINDERGARH APMC (ID: 100285)
+   📍 MULLANA (ID: 100286)
+   📍 NARAINGARH APMC (ID: 100287)
+   📍 NARNAUND (ID: 100288)
+   📍 NARWANA (ID: 100289)
+   📍 NIGDHU APMC (ID: 100290)
+   📍 NISSING (ID: 100291)
+   📍 NUH APMC (ID: 100292)
+   📍 PAI APMC (ID: 100293)
+   📍 PALWAL (ID: 100294)
+   📍 PANCHKULA APMC (ID: 100295)
+   📍 PEHOWA (ID: 100296)
+   📍 PILLUKHERA (ID: 100297)
+   📍 PUNDRI (ID: 100298)
+   📍 PUNHANA APMC (ID: 100299)
+   📍 RAIPUR RANI APMC (ID: 100300)
+   📍 RANIA (ID: 100301)
+   📍 RATIA (ID: 100302)
+   📍 REWARI (ID: 100303)
+   📍 SADHAURA APMC (ID: 100304)
+   📍 SAFIDON (ID: 100305)
+   📍 SAMALKHA (ID: 100306)
+   📍 SHAHBAD (ID: 100307)
+   📍 SHAHZADPUR APMC (ID: 100308)
+   📍 SIWANI (ID: 100309)
+   📍 SONEPAT (ID: 100310)
+   📍 TAURU APMC (ID: 100311)
+   📍 TOHANA (ID: 100312)
+   📍 UCHANA (ID: 100313)
+   📍 UKLANA APMC (ID: 100314)
+   📍 YAMUNA NAGAR APMC (ID: 100315)
+   📍 NARWAL (ID: 100316)
+   📍 PARIMPORA SGR (ID: 100317)
+   📍 AGAR (ID: 100318)
+   📍 ASHTA (ID: 100319)
+   📍 BALAGHAT (ID: 100320)
+   📍 BARELI (ID: 100321)
+   📍 BIAORA (ID: 100322)
+   📍 BINA (ID: 100323)
+   📍 BURHANPUR (ID: 100324)
+   📍 CHHINDWARA (ID: 100325)
+   📍 DABRA (ID: 100326)
+   📍 DAMOH (ID: 100327)
+   📍 DATIA (ID: 100328)
+   📍 GADARWARA (ID: 100329)
+   📍 HARDA (ID: 100330)
+   📍 ITARSI (ID: 100331)
+   📍 JAORA (ID: 100332)
+   📍 KATNI (ID: 100333)
+   📍 KHARGONE (ID: 100334)
+   📍 KHATEGAON (ID: 100335)
+   📍 KHIRKIYA (ID: 100336)
+   📍 KRISHI UPAJ MANDI SAMITI-ANJAD (ID: 100337)
+   📍 KRISHI UPAJ MANDI SAMITI-BADWAHA (ID: 100338)
+   📍 KRISHI UPAJ MANDI SAMITI-BANAPURA (ID: 100339)
+   📍 KRISHI UPAJ MANDI SAMITI-BHIKANGAON (ID: 100340)
+   📍 KRISHI UPAJ MANDI SAMITI-KARELI (ID: 100341)
+   📍 KRISHI UPAJ MANDI SAMITI-KARHI (ID: 100342)
+   📍 KRISHI UPAJ MANDI SAMITI-KUKSHI (ID: 100343)
+   📍 KRISHI UPAJ MANDI SAMITI-NASRULLAGANJ (ID: 100344)
+   📍 KRISHI UPAJ MANDI SAMITI-PANDHURNA (ID: 100345)
+   📍 KRISHI UPAJ MANDI SAMITI-SANAWAD (ID: 100346)
+   📍 KRISHI UPAJ MANDI SAMITI-SAUNSAR (ID: 100347)
+   📍 KRISHI UPAJ MANDI SAMITI-SINGRAULI (ID: 100348)
+   📍 KRISHI UPAJ MANDI SAMITI-UDAIPURA (ID: 100349)
+   📍 MANDSAUR (ID: 100350)
+   📍 MHOW (ID: 100351)
+   📍 NEEMUCH (ID: 100352)
+   📍 PIPARIYA (ID: 100353)
+   📍 RATLAM (ID: 100354)
+   📍 SENDHWA (ID: 100355)
+   📍 SHAJAPUR (ID: 100356)
+   📍 SHEOPURKALAN (ID: 100357)
+   📍 SHUJALPUR (ID: 100358)
+   📍 TIKAMGARH (ID: 100359)
+   📍 TIMARNI (ID: 100360)
+   📍 AATPADI (ID: 100361)
+   📍 AHERI (ID: 100362)
+   📍 AMALNER (ID: 100363)
+   📍 ARJUNI MORGOAN (ID: 100364)
+   📍 AUSA (ID: 100365)
+   📍 BARAMATI (ID: 100366)
+   📍 CHAMORSHI (ID: 100367)
+   📍 CHANDVAD (ID: 100368)
+   📍 CHIKHALI (ID: 100369)
+   📍 DEVALA (ID: 100370)
+   📍 DIGRAS (ID: 100371)
+   📍 DONDAICHA (ID: 100372)
+   📍 GEVRAI (ID: 100374)
+   📍 KANNAD (ID: 100375)
+   📍 LONAND (ID: 100376)
+   📍 MANGALWEDHA (ID: 100377)
+   📍 MANGRULPEER (ID: 100378)
+   📍 MANORA (ID: 100379)
+   📍 NANDURBAR (ID: 100380)
+   📍 RISOD (ID: 100381)
+   📍 SINDI (ID: 100382)
+   📍 VARORA (ID: 100383)
+   📍 WASHIM (ID: 100384)
+   📍 YEOLA (ID: 100385)
+   📍 ANANDAPUR (ID: 100386)
+   📍 BAHADAJHOLA (ID: 100387)
+   📍 BALUGAON (ID: 100388)
+   📍 BARIPADA (ID: 100390)
+   📍 BETNOTI (ID: 100391)
+   📍 BHADRAK (ID: 100392)
+   📍 BONAI (ID: 100393)
+   📍 DUNGURIPALI (ID: 100395)
+   📍 GUNUPUR (ID: 100396)
+   📍 JALESWAR (ID: 100399)
+   📍 KUCHINDA (ID: 100401)
+   📍 MALKANGIRI (ID: 100402)
+   📍 NIMAPARA (ID: 100404)
+   📍 PADAMPUR OD (ID: 100405)
+   📍 PANPOSH (ID: 100406)
+   📍 PARALAKHEMUNDI (ID: 100407)
+   📍 RAYAGADA (ID: 100408)
+   📍 TIKABALI (ID: 100409)
+   📍 UDALA (ID: 100410)
+   📍 THATTANCHAVADY (ID: 100411)
+   📍 ABOHAR (ID: 100412)
+   📍 AMLOH APMC (ID: 100413)
+   📍 BARNALA (ID: 100414)
+   📍 BHIKHI APMC (ID: 100415)
+   📍 BUDHLADA APMC (ID: 100416)
+   📍 FARIDKOT APMC (ID: 100417)
+   📍 FATHEGARH SAHIB (ID: 100418)
+   📍 FAZILKA (ID: 100419)
+   📍 GIDDERBAHA (ID: 100420)
+   📍 GURDASPUR APMC (ID: 100421)
+   📍 HOSHIYARPUR (ID: 100422)
+   📍 KHANNA APMC (ID: 100423)
+   📍 KOTKAPURA APMC (ID: 100424)
+   📍 MALOUT APMC (ID: 100425)
+   📍 MANSA (ID: 100426)
+   📍 MAUR (ID: 100427)
+   📍 MOGA APMC (ID: 100428)
+   📍 MUKTSAR (ID: 100429)
+   📍 NAWANSHAHR MARKET (ID: 100430)
+   📍 RAMAN APMC (ID: 100431)
+   📍 RAMPURA PHUL (ID: 100432)
+   📍 ROPAR (ID: 100433)
+   📍 SANGRUR (ID: 100434)
+   📍 SARDULGARH APMC (ID: 100435)
+   📍 TAPPA (ID: 100436)
+   📍 TARN TARAN APMC (ID: 100437)
+   📍 AMMOOR (ID: 100438)
+   📍 ANAIMALAI (ID: 100439)
+   📍 ANNUR (ID: 100440)
+   📍 ANTHIYUR (ID: 100441)
+   📍 ARANI (ID: 100442)
+   📍 AVALURPET (ID: 100443)
+   📍 CHETPET (ID: 100444)
+   📍 CHEYYAR (ID: 100445)
+   📍 CUMBUM (ID: 100446)
+   📍 DESUR (ID: 100447)
+   📍 DINDIGUL (ID: 100448)
+   📍 ERODE (ID: 100449)
+   📍 GINGEE (ID: 100450)
+   📍 GOBICHETTIPALAYAM (ID: 100451)
+   📍 GUDIYATHAM (ID: 100452)
+   📍 HARUR (ID: 100453)
+   📍 KALAVAI (ID: 100454)
+   📍 KALLAKURICHI (ID: 100455)
+   📍 KAMUTHI (ID: 100456)
+   📍 KANCHEEPURAM (ID: 100457)
+   📍 KILPENNATHUR (ID: 100458)
+   📍 KUTHALAM (ID: 100459)
+   📍 LALGUDI (ID: 100460)
+   📍 MADURAI (ID: 100461)
+   📍 MADURANATHANGAM (ID: 100462)
+   📍 MAYILADUTHURAI (ID: 100463)
+   📍 MOOLANUR (ID: 100464)
+   📍 MUDHUKALATHUR (ID: 100465)
+   📍 NATHAM (ID: 100466)
+   📍 ODDANCHATRAM (ID: 100467)
+   📍 PALANI (ID: 100468)
+   📍 PANRUTI (ID: 100469)
+   📍 PARAMAKUDI (ID: 100470)
+   📍 PARAMATHI VELUR (ID: 100471)
+   📍 PERUNDURAI (ID: 100472)
+   📍 PETHAPPAMPATTI (ID: 100473)
+   📍 POLLACHI (ID: 100474)
+   📍 POLUR (ID: 100475)
+   📍 RAJAPALAYAM (ID: 100476)
+   📍 RAJASINGAMANGALAM (ID: 100477)
+   📍 SANKARAPURAM (ID: 100478)
+   📍 SATHYAMANGALAM (ID: 100479)
+   📍 SEMBANARKOIL (ID: 100480)
+   📍 SIRKALI (ID: 100481)
+   📍 THENI (ID: 100482)
+   📍 THIRUKOVILUR (ID: 100483)
+   📍 THIRUPATHUR (ID: 100484)
+   📍 THIRUPPUR (ID: 100485)
+   📍 THIYAGADURGAM (ID: 100486)
+   📍 TINDIVANAM (ID: 100487)
+   📍 UDUMALPET (ID: 100488)
+   📍 ULUNDURPETTAI (ID: 100489)
+   📍 USILAMPATTI (ID: 100490)
+   📍 VANDAVASI (ID: 100491)
+   📍 VANIYAMBADI (ID: 100492)
+   📍 VELLAKOIL (ID: 100493)
+   📍 VELLORE (ID: 100494)
+   📍 VETTAVALAM (ID: 100495)
+   📍 VIKIRAVANDI (ID: 100496)
+   📍 VILLUPURAM (ID: 100497)
+   📍 VIRUDHACHALAM (ID: 100498)
+   📍 VIRUDHUNAGAR (ID: 100499)
+   📍 ACHAMPET (ID: 100500)
+   📍 ATMAKUR (ID: 100501)
+   📍 BADEPALLY (ID: 100502)
+   📍 BHAINSA (ID: 100503)
+   📍 CHOPPADANDI (ID: 100504)
+   📍 DEVARAKADRA (ID: 100505)
+   📍 DEVARAKONDA (ID: 100506)
+   📍 ECHODA (ID: 100507)
+   📍 ENKOOR (ID: 100508)
+   📍 GADDIANNARAM (ID: 100509)
+   📍 GADWAL (ID: 100510)
+   📍 GAJWEL (ID: 100511)
+   📍 GANGADHARA (ID: 100512)
+   📍 GOLLAPALLY (ID: 100513)
+   📍 GUDIMALKAPUR (ID: 100514)
+   📍 HUSNABAD (ID: 100515)
+   📍 JAGTIAL (ID: 100516)
+   📍 JAMMIKUNTA (ID: 100517)
+   📍 JANGAON (ID: 100518)
+   📍 KALWAKURTHY (ID: 100519)
+   📍 KAMAREDDY (ID: 100520)
+   📍 KARIMNAGAR (ID: 100521)
+   📍 KESAMUDRAM (ID: 100522)
+   📍 MADNOOR (ID: 100523)
+   📍 MAHABUBABAD (ID: 100524)
+   📍 MAKTHAL (ID: 100525)
+   📍 METPALLY (ID: 100526)
+   📍 MIRYALAGUDA (ID: 100527)
+   📍 NAGARKURNOOL (ID: 100528)
+   📍 NAKREKAL (ID: 100529)
+   📍 NARAYANPET (ID: 100530)
+   📍 NARSAMPET (ID: 100531)
+   📍 NAWABPET (ID: 100532)
+   📍 PARGI (ID: 100533)
+   📍 PARKAL (ID: 100534)
+   📍 SADASIVPET (ID: 100535)
+   📍 SHADNAGAR (ID: 100536)
+   📍 SHANKARAPALLY (ID: 100537)
+   📍 SIDDIPET (ID: 100538)
+   📍 SURYAPETA (ID: 100539)
+   📍 TANDUR (ID: 100540)
+   📍 TIRUMALGIRI (ID: 100541)
+   📍 VATPALLY (ID: 100542)
+   📍 VIKARABAD (ID: 100543)
+   📍 WANAPARTHY ROAD (ID: 100544)
+   📍 WANAPARTHY TOWN (ID: 100545)
+   📍 ZAHEERABAD (ID: 100546)
+   📍 JALNA (ID: 100547)
+   📍 PARTUR (ID: 100548)
+   📍 TUMSAR (ID: 100549)
+   📍 RAJSAMAND (ID: 100550)
+   📍 RIDMALSAR (ID: 100551)
+   📍 NEGAMAM (ID: 100552)
+   📍 AMROHA APMC (ID: 100553)
+   📍 AYODHYA (ID: 100554)
+   📍 GONDA (ID: 100555)
+   📍 JAHANGIRABAD (ID: 100556)
+   📍 KOPAGANJ (ID: 100557)
+   📍 MOHAMADABAD APMC (ID: 100558)
+   📍 NOIDA APMC (ID: 100559)
+   📍 PILIBHIT (ID: 100560)
+   📍 SAHARANPUR (ID: 100561)
+   📍 DOUND (ID: 100736)
+   📍 Allain Duhangan (ID: 101000)
+   📍 BAIRA SIUL (ID: 101001)
+   📍 Bajoli Holi (ID: 101002)
+   📍 BASPA (ID: 101003)
+   📍 BUDHIL (ID: 101004)
+   📍 CHAMERA-III (ID: 101005)
+   📍 CHANJU-I (ID: 101006)
+   📍 CHUJACHEN (ID: 101007)
+   📍 CHUTAK (ID: 101008)
+   📍 DHAULIA GANGA (ID: 101009)
+   📍 DIKCHU (ID: 101010)
+   📍 INTEGRATED KASHANG (ID: 101011)
+   📍 KAMENG-Bichom Dam (ID: 101012)
+   📍 KAMENG-Tenga Dam (ID: 101013)
+   📍 KARCHAM WANGTOO (ID: 101014)
+   📍 Kiru (ID: 101015)
+   📍 KISHANGANGA (ID: 101016)
+   📍 Kutehr (ID: 101017)
+   📍 MALANA (ID: 101018)
+   📍 MALANA-II (ID: 101019)
+   📍 MANERIBHALI-I (ID: 101020)
+   📍 MANERIBHALI-II (DHARASU) (ID: 101021)
+   📍 Naitwar Mori (ID: 101022)
+   📍 NATHPA JHAKRI (ID: 101023)
+   📍 NIMOO BAZGO (ID: 101024)
+   📍 Pakal Dul (ID: 101025)
+   📍 Parbati St. II (ID: 101026)
+   📍 RANGANADI (ID: 101027)
+   📍 RANGIT (ID: 101028)
+   📍 RONGNICHU (ID: 101029)
+   📍 SAINJ (ID: 101030)
+   📍 SANJAY (BHABA) (ID: 101031)
+   📍 SAWRA KUDDU (ID: 101032)
+   📍 SEWA-II (ID: 101033)
+   📍 SHANAN (ID: 101034)
+   📍 Shongtong Karcham (ID: 101035)
+   📍 SHRINAGAR (ID: 101036)
+   📍 SINGOLI BHATWARI (ID: 101037)
+   📍 Sorang (ID: 101038)
+   📍 Subansiri Lower (ID: 101039)
+   📍 Tapovan Vishnugad (ID: 101040)
+   📍 TASHIDING (ID: 101041)
+   📍 TEESTA III (ID: 101042)
+   📍 Tidong-I (ID: 101043)
+   📍 UPPER SINDH-II (ID: 101044)
+   📍 Vishnugad Pipalkoti (ID: 101045)
+   📍 VISHNUPRAYAG (ID: 101046)
+   📍 Vyasi (ID: 101047)
+   📍 ABBOTT MOUNT (ID: 101048)
+   📍 ASAN BIRD SANCTUARY (ID: 101049)
+   📍 AULI (ID: 101050)
+   📍 BADRINATH (ID: 101051)
+   📍 BAGESHWAR (ID: 101052)
+   📍 BAIJNATH (ID: 101053)
+   📍 BHIMTAL (ID: 101054)
+   📍 BHOWALI (ID: 101055)
+   📍 BINSAR (ID: 101056)
+   📍 CHAKRATA (ID: 101057)
+   📍 CHAMBA (ID: 101058)
+   📍 CHAUKORI (ID: 101059)
+   📍 CHOPTA (ID: 101060)
+   📍 CORBETT NATIONAL PARK (ID: 101061)
+   📍 DEVPRAYAG (ID: 101062)
+   📍 DHANAULTI (ID: 101063)
+   📍 DHARCHULA (ID: 101064)
+   📍 GANGOTRI (ID: 101065)
+   📍 GHANGARIA (ID: 101066)
+   📍 GOPESHWAR (ID: 101067)
+   📍 GUPTKASHI (ID: 101068)
+   📍 GWALDAM (ID: 101069)
+   📍 HARSIL (ID: 101070)
+   📍 HEMKUND SAHIB (ID: 101071)
+   📍 JAGESHWAR (ID: 101072)
+   📍 JEOLIKOT (ID: 101073)
+   📍 KANATAL (ID: 101074)
+   📍 KEDARNATH (ID: 101075)
+   📍 KHIRSU (ID: 101076)
+   📍 LOHAGHAT (ID: 101077)
+   📍 MADHYAMAHESHWAR (ID: 101078)
+   📍 MUNSIYARI (ID: 101079)
+   📍 PIRAN KALIYAR SHARIF DARGAH (ID: 101080)
+   📍 RAJAJI NATIONAL PARK (ID: 101081)
+   📍 RAMGARH (ID: 101082)
+   📍 RANIKHET (ID: 101083)
+   📍 SATTAL (ID: 101084)
+   📍 TANAKPUR (ID: 101085)
+   📍 UDHAM SINGH NAGAR (ID: 101086)
+   📍 VALLEY OF FLOWERS (ID: 101087)
+   📍 YAMUNOTRI (ID: 101088)
+   📍 NDA - Pune (ID: 101090)
+   📍 Koregaon Park - Pune (ID: 101091)
+   📍 ANDAMAN HI TECH KISAN MANDI (ID: 101101)
+   📍 JAGGAYYAPETA APMC (ID: 101123)
+   📍 KHARUPETIA (ID: 101131)
+   📍 GAURIPUR (ID: 101132)
+   📍 DHING (ID: 101133)
+   📍 DAUDNAGAR (ID: 101134)
+   📍 ARA (ID: 101135)
+   📍 BUXAR (ID: 101136)
+   📍 DARBHANGA-ENAM (ID: 101137)
+   📍 MOHANIYA (ID: 101138)
+   📍 SINGHESWAR (ID: 101139)
+   📍 BIHARSHARIF (ID: 101140)
+   📍 SASARAM (ID: 101141)
+   📍 SAMASTIPUR (ID: 101142)
+   📍 HAJIPUR (ID: 101143)
+   📍 BEMETARA (ID: 101144)
+   📍 JASHPUR (ID: 101146)
+   📍 KATGHORA (ID: 101147)
+   📍 SARAIPALI (ID: 101148)
+   📍 AMBIKAPUR-ENAM (ID: 101150)
+   📍 PONDA MARKET YARD (ID: 101151)
+   📍 SANQUELIM MARKET YARD (ID: 101152)
+   📍 VALPOI MARKET YARD (ID: 101153)
+   📍 CANACONA MARKET YARD (ID: 101154)
+   📍 CURCHOREM MARKET YARD (ID: 101155)
+   📍 VIRAMGAM (ID: 101161)
+   📍 MALPUR (ID: 101174)
+   📍 DEODAR (ID: 101177)
+   📍 LAKHANI (ID: 101179)
+   📍 VALIA  APMC (ID: 101186)
+   📍 AHWA (ID: 101198)
+   📍 BHANVAD (ID: 101199)
+   📍 TALALAGIR (ID: 101212)
+   📍 MANDVI-ENAM (ID: 101221)
+   📍 UNJHA (ID: 101231)
+   📍 VIRPUR (ID: 101235)
+   📍 VASDA (ID: 101247)
+   📍 CHANASMA (ID: 101248)
+   📍 DHANGADRA (ID: 101266)
+   📍 KUKARMUDA (ID: 101268)
+   📍 UNCHAL (ID: 101271)
+   📍 VALOD (ID: 101272)
+   📍 DESAR (ID: 101275)
+   📍 KAPRADA (ID: 101279)
+   📍 BARARA (ID: 101281)
+   📍 BEHAL (ID: 101282)
+   📍 JUI (ID: 101283)
+   📍 LOHARU (ID: 101284)
+   📍 TOSHAM (ID: 101285)
+   📍 TIGAON (ID: 101286)
+   📍 BHUNA (ID: 101287)
+   📍 FARRUKHNAGAR (ID: 101289)
+   📍 PATAUDI (ID: 101290)
+   📍 SOHNA (ID: 101291)
+   📍 BASS (ID: 101293)
+   📍 BAHADURGARH (ID: 101295)
+   📍 BERI (ID: 101296)
+   📍 ALEWA (ID: 101297)
+   📍 SIWAN (ID: 101298)
+   📍 JUNDLA (ID: 101299)
+   📍 BABAIN (ID: 101302)
+   📍 HASSANPUR (ID: 101304)
+   📍 HATHIN (ID: 101305)
+   📍 BAPOLI (ID: 101307)
+   📍 SAMPLA (ID: 101308)
+   📍 DING (ID: 101309)
+   📍 KHARKHODA (ID: 101311)
+   📍 MUSTAFABAD (ID: 101312)
+   📍 RADAUR (ID: 101313)
+   📍 SMY NADAUN (ID: 101315)
+   📍 BAIJNATH (ID: 101316)
+   📍 DHARAMSHALA-ENAM (ID: 101317)
+   📍 SMY NAGROTA BAGWAN (ID: 101320)
+   📍 TAPRI (ID: 101321)
+   📍 SMY CHOURIBIHAL (ID: 101324)
+   📍 SMY KULLU (ID: 101325)
+   📍 SMY SHAAT (ID: 101326)
+   📍 CHAILCHOWK (ID: 101327)
+   📍 DHANOTU (ID: 101328)
+   📍 MANDI-ENAM (ID: 101329)
+   📍 KHARAPATHAR (ID: 101331)
+   📍 MEHANDLI (ID: 101332)
+   📍 SMY NERWA (ID: 101335)
+   📍 RAJGARH (ID: 101337)
+   📍 SMY DHARAMPUR (ID: 101338)
+   📍 SMY WAKHNAGHAT (ID: 101339)
+   📍 SMY TAKARLA (ID: 101342)
+   📍 KANISPORA (ID: 101343)
+   📍 SOPORE (ID: 101344)
+   📍 CHRARISHARIEF (ID: 101345)
+   📍 ZAZNA (ID: 101346)
+   📍 KATHUA (ID: 101347)
+   📍 KULGAM (ID: 101348)
+   📍 BUMHAMA (ID: 101349)
+   📍 HANDWARA (ID: 101350)
+   📍 PACHAAR (ID: 101351)
+   📍 PULWAMA-ENAM (ID: 101352)
+   📍 PHALAYANA (ID: 101353)
+   📍 BATOTE-ENAM (ID: 101354)
+   📍 SHOPIAN-ENAM (ID: 101355)
+   📍 SAVADATTI (ID: 101357)
+   📍 CHANNAGIRI (ID: 101358)
+   📍 TIPTUR (ID: 101359)
+   📍 ALIRAJPUR (ID: 101364)
+   📍 JOBAT (ID: 101365)
+   📍 ANUPPUR (ID: 101366)
+   📍 MUNGAOLI (ID: 101368)
+   📍 KATANGI (ID: 101369)
+   📍 BARWANI (ID: 101370)
+   📍 KHETIYA (ID: 101371)
+   📍 BHIND-ENAM (ID: 101372)
+   📍 BADA MALHERA (ID: 101375)
+   📍 HARPALPUR (ID: 101377)
+   📍 LAVKUSHNAGAR (ID: 101378)
+   📍 RAJNAGAR (ID: 101379)
+   📍 CHAURAI (ID: 101380)
+   📍 JABERA (ID: 101381)
+   📍 PATHARIA (ID: 101382)
+   📍 SONKATCH (ID: 101384)
+   📍 MANAWAR (ID: 101388)
+   📍 RAJGARH (ID: 101389)
+   📍 HARSUD (ID: 101390)
+   📍 SIRALI (ID: 101392)
+   📍 GAUTAMPURA (ID: 101393)
+   📍 JHABUA (ID: 101399)
+   📍 PETLAWAD (ID: 101400)
+   📍 THANDLA (ID: 101401)
+   📍 KASRAWAD (ID: 101402)
+   📍 SEGAON (ID: 101403)
+   📍 DALAUDA (ID: 101404)
+   📍 PIPALIYA (ID: 101405)
+   📍 HANUMANA (ID: 101406)
+   📍 BANKHEDI (ID: 101408)
+   📍 SEMRI HARCHAND (ID: 101409)
+   📍 GOTEGAON (ID: 101410)
+   📍 NARSINGHPUR-ENAM (ID: 101411)
+   📍 NIWARI (ID: 101412)
+   📍 PANNA-ENAM (ID: 101413)
+   📍 SILWANI (ID: 101416)
+   📍 KURAWAR (ID: 101417)
+   📍 NARSINGHGARH (ID: 101418)
+   📍 PACHORE (ID: 101419)
+   📍 SAILANA (ID: 101420)
+   📍 BAIKUNTHPUR (ID: 101421)
+   📍 CHAKGHAT (ID: 101422)
+   📍 DEORI (ID: 101423)
+   📍 GARHAKOTA (ID: 101424)
+   📍 RAHATGARH (ID: 101426)
+   📍 REHLI (ID: 101427)
+   📍 AMARPATAN (ID: 101428)
+   📍 MAIHAR (ID: 101430)
+   📍 CHHAPARA (ID: 101432)
+   📍 PALARI (ID: 101433)
+   📍 BEOHARI (ID: 101434)
+   📍 SHAHDOL (ID: 101435)
+   📍 BADARWAS (ID: 101436)
+   📍 KARERA (ID: 101437)
+   📍 SIDHI-ENAM (ID: 101439)
+   📍 SIRONJ (ID: 101443)
+   📍 PARNER (ID: 101446)
+   📍 TELHARA (ID: 101453)
+   📍 LAKHANDUR (ID: 101466)
+   📍 MEHEKAR (ID: 101470)
+   📍 NANDURA (ID: 101471)
+   📍 ARMORI-DESAIGANJ (ID: 101478)
+   📍 UMRED (ID: 101491)
+   📍 DHARMABAD (ID: 101493)
+   📍 UMARGA (ID: 101505)
+   📍 AKLUJ (ID: 101515)
+   📍 DUDHANI (ID: 101517)
+   📍 MALEGAON(W) (ID: 101524)
+   📍 ARNI (ID: 101525)
+   📍 BABHULGAON (ID: 101526)
+   📍 KIPHIRE (ID: 101529)
+   📍 LONGLENG (ID: 101530)
+   📍 MANGKOLEMBA (ID: 101531)
+   📍 TULI (ID: 101532)
+   📍 MON APMC (ID: 101533)
+   📍 NIULAND (ID: 101534)
+   📍 JALUKIE (ID: 101535)
+   📍 TENNING (ID: 101536)
+   📍 PFUTSERO APMC (ID: 101537)
+   📍 PHEK (ID: 101538)
+   📍 TSEMENYU (ID: 101539)
+   📍 TUENSANG (ID: 101540)
+   📍 BAGHTY (ID: 101541)
+   📍 WOKHA APMC (ID: 101542)
+   📍 GHATASHI (ID: 101543)
+   📍 ATHMALLIK (ID: 101544)
+   📍 PALLAHARA (ID: 101545)
+   📍 TALCHER (ID: 101546)
+   📍 BALANGIR (ID: 101547)
+   📍 PATNAGARH (ID: 101549)
+   📍 NILGIRI (ID: 101550)
+   📍 BANKI (ID: 101553)
+   📍 NARSINGHPUR (ID: 101555)
+   📍 DHENKANAL-ENAM (ID: 101556)
+   📍 KAMAKHYANAGAR (ID: 101558)
+   📍 BHANJANAGAR (ID: 101559)
+   📍 HINJILICUT (ID: 101561)
+   📍 JHARSUGUDA-ENAM (ID: 101563)
+   📍 JUNAGARH (ID: 101565)
+   📍 MUKHIGUDA (ID: 101567)
+   📍 CHAMPUA (ID: 101569)
+   📍 KEONJHAR (ID: 101570)
+   📍 KARANJIA (ID: 101574)
+   📍 RAIRANGPUR (ID: 101575)
+   📍 KHARIAR ROAD (ID: 101577)
+   📍 RAIRAKHOL (ID: 101579)
+   📍 SAMBALPUR-ENAM (ID: 101580)
+   📍 BIRAMAHARAJPUR (ID: 101581)
+   📍 SARGIPALI (ID: 101582)
+   📍 AJNALA (ID: 101583)
+   📍 ATTARI (ID: 101584)
+   📍 JANDIALA GURU GEHRI (ID: 101585)
+   📍 MEHTA (ID: 101586)
+   📍 RAYYA (ID: 101587)
+   📍 JAITO (ID: 101591)
+   📍 SADIQ (ID: 101592)
+   📍 JALALBAD (ID: 101593)
+   📍 GURUHARSAHAI (ID: 101594)
+   📍 MAKHU (ID: 101595)
+   📍 TALWANDI BHAI (ID: 101596)
+   📍 BATALA (ID: 101597)
+   📍 DERA BABA NANAK (ID: 101598)
+   📍 DINANAGAR (ID: 101599)
+   📍 FATEHGARH CHURIAN (ID: 101600)
+   📍 KALANAUR (ID: 101601)
+   📍 BHOGPUR (ID: 101602)
+   📍 NAKODAR (ID: 101603)
+   📍 SHAHKOT (ID: 101604)
+   📍 PHAGWARA (ID: 101605)
+   📍 SULTANPUR LODHI (ID: 101606)
+   📍 JAGRAON (ID: 101607)
+   📍 MACHHIWARA SAHIB (ID: 101608)
+   📍 MALERKOTLA (ID: 101609)
+   📍 BARETA (ID: 101610)
+   📍 DUDAN SADHAN (ID: 101611)
+   📍 NABHA (ID: 101612)
+   📍 PATRAN (ID: 101613)
+   📍 RAJPURA (ID: 101614)
+   📍 SAMANA (ID: 101615)
+   📍 DHURI (ID: 101617)
+   📍 KHANAURI (ID: 101618)
+   📍 LEHRAGAGA (ID: 101619)
+   📍 MOONAK (ID: 101620)
+   📍 SUNAM (ID: 101621)
+   📍 BALACHAUR (ID: 101622)
+   📍 BANGA (ID: 101623)
+   📍 BHIKHIWIND (ID: 101624)
+   📍 KHEMKARAN (ID: 101625)
+   📍 NAUSHEHARA PANNUAN (ID: 101626)
+   📍 PATTI (ID: 101627)
+   📍 KINATHUKADAVU (ID: 101633)
+   📍 SENJERI MALAIYADIPALAYAM (ID: 101634)
+   📍 SULUR (ID: 101635)
+   📍 THONDAMUTHUR (ID: 101636)
+   📍 CUDDALORE OT (ID: 101637)
+   📍 DHARMAPURI-ENAM (ID: 101642)
+   📍 PALACODE (ID: 101643)
+   📍 VADAMADURAI (ID: 101646)
+   📍 BHAVANI (ID: 101648)
+   📍 ELUMATHUR (ID: 101650)
+   📍 KODUMUDI (ID: 101651)
+   📍 PUNJAI PULIAMPADDI (ID: 101652)
+   📍 THALAVADI (ID: 101654)
+   📍 MANALURPET (ID: 101657)
+   📍 KULASEKHARAM (ID: 101659)
+   📍 HOSUR (ID: 101660)
+   📍 KRISHNAGIRI (ID: 101661)
+   📍 MELUR (ID: 101663)
+   📍 T VADIPATTI (ID: 101664)
+   📍 THIRUMANGALAM (ID: 101665)
+   📍 PERUMBALUR (ID: 101668)
+   📍 ALANGUDI (ID: 101669)
+   📍 ARANTHANGI (ID: 101670)
+   📍 ATTHUR (ID: 101674)
+   📍 EDAPPADI (ID: 101675)
+   📍 GANGAVALLI (ID: 101676)
+   📍 KONGANAPURAM (ID: 101678)
+   📍 MECHERI (ID: 101679)
+   📍 OMALUR (ID: 101680)
+   📍 THAMMAMPATTI (ID: 101681)
+   📍 VAZHAPPADI (ID: 101682)
+   📍 SINGAMPUNERI (ID: 101686)
+   📍 SIVAGANGAI (ID: 101687)
+   📍 KADAYANALLUR (ID: 101688)
+   📍 SANKARANKOVIL (ID: 101690)
+   📍 BUDALUR (ID: 101692)
+   📍 KUMBAKONAM (ID: 101693)
+   📍 PAPANASAM (ID: 101695)
+   📍 THANJAVUR (ID: 101697)
+   📍 REDHILLS (ID: 101700)
+   📍 MANNARKUDI (ID: 101704)
+   📍 AMBASAMUTHIRAM (ID: 101710)
+   📍 TIRUNELVELI (ID: 101711)
+   📍 MADATHUKULAM (ID: 101714)
+   📍 SATTUR (ID: 101720)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">imdfetch documentation</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">imdfetch command line demo</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="../index.html" title="previous chapter">imdfetch</a></li>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2025, Saket Choudhary.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.2.3</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+      |
+      <a href="../_sources/notebooks/demo.ipynb.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
