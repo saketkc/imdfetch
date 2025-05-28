@@ -6,8 +6,7 @@ from typing import List, Optional, Union
 
 import pandas as pd
 
-from .constants import (CITY_LIST_URL, WEATHER_TEST_URL_PREFIX,
-                        WEATHER_URL_PREFIX)
+from .constants import CITY_LIST_URL, WEATHER_TEST_URL_PREFIX, WEATHER_URL_PREFIX
 from .exceptions import CityNotFoundError, IMDWeatherError, NetworkError
 from .parser import WeatherDataParser
 from .utils import safe_get

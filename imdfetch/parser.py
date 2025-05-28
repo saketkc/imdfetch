@@ -9,10 +9,13 @@ import pandas as pd
 from bs4 import BeautifulSoup
 
 from .exceptions import DataParsingError
-from .utils import (clean_city_name, clean_parameter_name, convert_date_to_iso,
-                    parse_date)
-from .weather import (CityInfo, ForecastData, ForecastDay, WeatherData,
-                      WeatherParameter)
+from .utils import (
+    clean_city_name,
+    clean_parameter_name,
+    convert_date_to_iso,
+    parse_date,
+)
+from .weather import CityInfo, ForecastData, ForecastDay, WeatherData, WeatherParameter
 
 
 class WeatherDataParser:

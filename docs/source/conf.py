@@ -8,35 +8,35 @@
 
 import os
 import sys
-sys.path.insert(0, os.path.abspath('../..'))
 
-project = 'imdfetch'
-copyright = '2025, Saket Choudhary'
-author = 'Saket Choudhary'
+sys.path.insert(0, os.path.abspath("../.."))
 
-version = '0.1'
-release = '0.1'
+project = "imdfetch"
+copyright = "2025, Saket Choudhary"
+author = "Saket Choudhary"
+
+version = "0.1"
+release = "0.1"
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
 extensions = [
-    'sphinx.ext.autodoc',
-    'sphinx.ext.napoleon',
-    'myst_nb',
-    'sphinx.ext.viewcode',
-    'sphinx.ext.githubpages',
+    "sphinx.ext.autodoc",
+    "sphinx.ext.napoleon",
+    "myst_nb",
+    "sphinx.ext.viewcode",
+    "sphinx.ext.githubpages",
 ]
-templates_path = ['_templates']
+templates_path = ["_templates"]
 exclude_patterns = []
-
 
 
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
-html_theme = 'alabaster'
-html_static_path = ['_static']
+html_theme = "alabaster"
+html_static_path = ["_static"]
 myst_enable_extensions = [
     "amsmath",
     "colon_fence",
