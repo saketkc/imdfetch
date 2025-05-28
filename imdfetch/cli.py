@@ -96,10 +96,10 @@ def get_forecast(
                 # Color code the temperature range
                 min_colored = colorize_temperature(day.min_temp)
                 max_colored = colorize_temperature(day.max_temp)
-                print(f"   🌡️  Temperature: {min_colored} - {max_colored}")
-                print(f"   🌤️  Forecast: {day.forecast}")
+                print(f"🌡️ Temperature: {min_colored} - {max_colored}")
+                print(f"🌤️ Forecast: {day.forecast}")
                 if day.warnings:
-                    print(f"   ⚠️  Warnings: {day.warnings}")
+                    print(f"⚠️ Warnings: {day.warnings}")
                 print()
 
     except CityNotFoundError as e:
