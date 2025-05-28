@@ -3,10 +3,11 @@
 Batch processing examples for multiple cities
 """
 
-import pandas as pd
-from concurrent.futures import ThreadPoolExecutor, as_completed
-from typing import List, Dict, Any
 import time
+from concurrent.futures import ThreadPoolExecutor, as_completed
+from typing import Any, Dict, List
+
+import pandas as pd
 
 from imdfetch import IMDWeatherClient
 from imdfetch.exceptions import IMDWeatherError

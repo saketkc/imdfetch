@@ -3,23 +3,18 @@ Utility functions for IMD Weather package
 """
 
 import re
-import time
 import ssl
+import time
 from datetime import datetime
 from typing import Optional, Union
+
 import requests
+import urllib3
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
-import urllib3
 
-from .constants import (
-    DEFAULT_TIMEOUT,
-    DEFAULT_MAX_RETRIES,
-    DEFAULT_BACKOFF_FACTOR,
-    DEFAULT_HEADERS,
-    DATE_FORMATS,
-    MONTH_ABBREV,
-)
+from .constants import (DATE_FORMATS, DEFAULT_BACKOFF_FACTOR, DEFAULT_HEADERS,
+                        DEFAULT_MAX_RETRIES, DEFAULT_TIMEOUT, MONTH_ABBREV)
 from .exceptions import NetworkError
 
 # Disable SSL warnings if needed (optional)

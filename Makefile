@@ -13,15 +13,15 @@ test:  ## Run tests
 	python -m pytest tests/ -v
 
 test-cov:  ## Run tests with coverage
-	python -m pytest tests/ --cov=imd_weather --cov-report=html --cov-report=term
+	python -m pytest tests/ --cov=imdfetch --cov-report=html --cov-report=term
 
 lint:  ## Run linting
-	flake8 imd_weather/ tests/
-	mypy imd_weather/
+	flake8 imdfetch/ 
+	mypy imdfetch/
 
 format:  ## Format code
-	black imd_weather/ tests/ examples/
-	isort imd_weather/ tests/ examples/
+	black imdfetch/ examples/
+	isort imdfetch/ examples/
 
 clean:  ## Clean build artifacts
 	rm -rf build/
@@ -46,7 +46,7 @@ docs:  ## Build documentation
 	cd docs && make html
 
 docs-serve:  ## Serve documentation locally
-	cd docs/_build/html && python -m http.server 8000
+	cd docs/build/html && python -m http.server 8000
 
 example-basic:  ## Run basic usage example
 	python examples/basic_usage.py
@@ -55,7 +55,7 @@ example-batch:  ## Run batch processing example
 	python examples/batch_processing.py
 
 cli-help:  ## Show CLI help
-	python -m imd_weather --help
+	python -m imdfetch --help
 
 setup-dev:  ## Set up development environment
 	pip install -e ".[dev]"

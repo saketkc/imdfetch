@@ -3,18 +3,16 @@ HTML parsing functions for extracting weather data
 """
 
 import re
-from typing import List, Dict, Optional, Tuple
+from typing import Dict, List, Optional, Tuple
+
 import pandas as pd
 from bs4 import BeautifulSoup
 
-from .utils import (
-    clean_parameter_name,
-    clean_city_name,
-    parse_date,
-    convert_date_to_iso,
-)
-from .weather import WeatherData, ForecastData, ForecastDay, WeatherParameter, CityInfo
 from .exceptions import DataParsingError
+from .utils import (clean_city_name, clean_parameter_name, convert_date_to_iso,
+                    parse_date)
+from .weather import (CityInfo, ForecastData, ForecastDay, WeatherData,
+                      WeatherParameter)
 
 
 class WeatherDataParser:

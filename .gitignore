@@ -141,3 +141,6 @@ dmypy.json
 Thumbs.db
 ehthumbs.db
 Desktop.ini
+
+examples/weather_data.csv
+docs/build

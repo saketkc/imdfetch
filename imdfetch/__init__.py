@@ -7,9 +7,9 @@ __author__ = "Saket Choudhary"
 __email__ = "saketc@iitb.ac.in"
 
 from .client import IMDWeatherClient
+from .exceptions import DataParsingError, IMDWeatherError, NetworkError
 from .parser import WeatherDataParser
-from .weather import WeatherData, ForecastData, CityInfo
-from .exceptions import IMDWeatherError, DataParsingError, NetworkError
+from .weather import CityInfo, ForecastData, WeatherData
 
 __all__ = [
     "IMDWeatherClient",

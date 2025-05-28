@@ -4,13 +4,13 @@ Command-line interface for imdfetch package
 """
 
 import argparse
-import sys
 import json
+import sys
 from typing import Optional
 
 from . import IMDWeatherClient
-from .exceptions import IMDWeatherError, CityNotFoundError
-from .utils import colorize_temperature, colorize_humidity, format_date
+from .exceptions import CityNotFoundError, IMDWeatherError
+from .utils import colorize_humidity, colorize_temperature, format_date
 
 
 def search_cities(
