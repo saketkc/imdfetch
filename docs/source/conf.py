@@ -10,7 +10,7 @@ import os
 import sys
 sys.path.insert(0, os.path.abspath('../..'))
 
-project = 'imdfetch documentation'
+project = 'imdfetch'
 copyright = '2025, Saket Choudhary'
 author = 'Saket Choudhary'
 
