@@ -6,7 +6,7 @@ A Python package for fetching and parsing weather data from India Meteorological
 ## Installation
 
 ```bash
-pip install imdfetch
+pip install git+https://github.com/saketlab/imdfetch.git
 ```
 
 Or install from source:
