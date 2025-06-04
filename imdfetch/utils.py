@@ -217,11 +217,18 @@ def clean_city_name(city_text: str) -> Optional[str]:
 
     # Remove extra whitespace
     city = re.sub(r"\s+", " ", city_text.strip())
-
+    # Remove parantheses
+    # city = re.sub(r"\(", "-", city)
+    # city = re.sub(r"\)", "", city)
+    city = re.sub(r"\s*\([^)]*\)", "", city)  # Remove space and parentheses content
+    # OR if you want to keep the content:
+    city = re.sub(
+        r"\s*\(([^)]*)\)", r"-\1", city
+    )  # Replace " (content)" with "-content"
     # Remove common prefixes/suffixes that aren't part of city name
     city = re.sub(r"^(For|Weather|Report|Forecast):\s*", "", city, flags=re.IGNORECASE)
     city = re.sub(
-        r"\s*(Weather|Report|Forecast|Station|Airport|City)$",
+        r"\s*(Weather|Report|Forecast)$",
         "",
         city,
         flags=re.IGNORECASE,
@@ -235,7 +242,8 @@ def clean_city_name(city_text: str) -> Optional[str]:
 
     # Handle special cases
     city = city.replace("-", "-")  # Normalize hyphens
-
+    city = city.replace(" -", "-")
+    city = city.replace("- ", "-")
     return city.strip()
 
 
