@@ -51,10 +51,10 @@ docs = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/saketlab/imdfetch"
-Repository = "https://github.com/saketlab/imdfetch.git"
+Homepage = "https://github.com/saketkc/imdfetch"
+Repository = "https://github.com/saketkc/imdfetch.git"
 Documentation = "https://imdfetch.readthedocs.io/"
-"Bug Tracker" = "https://github.com/saketlab/imdfetch/issues"
+"Bug Tracker" = "https://github.com/saketkc/imdfetch/issues"
 
 [project.scripts]
 imdfetch = "imdfetch.cli:main"

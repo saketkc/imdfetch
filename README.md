@@ -12,7 +12,7 @@ pip install git+https://github.com/saketlab/imdfetch.git
 Or install from source:
 
 ```bash
-git clone https://github.com/saketlab/imdfetch.git
+git clone https://github.com/saketkc/imdfetch.git
 cd imdfetch
 pip install -e .
 ```
