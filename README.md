@@ -26,13 +26,45 @@ pip install -e .
 ```bash
 # Search for cities
 imdfetch search Mumbai
-imdfetch search "New Delhi"
+
+# Get current weather
+imdfetch weather  # Uses IP geolocation to choose the nearest IMD station
+imdfetch weather "Mumbai (Santacruz)"
+imdfetch weather "colaba" # regex for Mumbai (Colaba)
+imdfetch weather 13001  # Using city ID
 ```
 
+Output:
+
+```text
+$ imdfetch weather "chembur"
+🌤️  Current Weather for Mumbai-Chembur
+📅 Date: 24 June, 2026 (Wednesday)
+🌡️ Max Temperature: NA
+🌡️ Min Temperature: NA
+🌧️ 24h Rainfall (mm): NA
+💧 Relative Humidity at 08:30: NA
+💧 Relative Humidity at 17:30: NA
+⚠️ Observation values appear unavailable for this station.
+```
+
+IMD sometimes returns sentinel values such as `99.9`, `999`, or `999.00`
+when station observations are unavailable. The CLI displays those as `NA` and
+prints the warning above. The Python API preserves the raw values returned by
+IMD.
+
+```text
+$ imdfetch weather
+# Uses your public IP location, chooses the nearest IMD station with coordinates,
+# then prints the same current-weather format as above.
+```
+
+If IP geolocation is blocked by a network, VPN, or provider rate limit, pass a
+station explicitly:
+
 ```bash
-# Get current weather
 imdfetch weather "Mumbai (Santacruz)"
-imdfetch weather 13001  # Using city ID
+imdfetch weather 43057
 ```
 
 ```bash
@@ -70,16 +102,6 @@ for city in cities:
 ```
 
 
-## Features
-
-- 🌤️ Fetch current weather data (Past 24 Hours)
-- 📅 Get 7-day weather forecasts
-- 🏙️ Search and browse all available cities
-- 🔄 Robust error handling and retry mechanisms
-- 📊 Easy data export to pandas DataFrames
-- 🐍 Clean, pythonic API
-
-
 ## Detailed Usage
 
 ### Working with Cities
@@ -95,11 +117,11 @@ for city in mumbai_cities:
     print(f"{city.display_name} (ID: {city.city_id})")
 
 # Get city by ID
-city = client.get_city_by_id(12001)
+city = client.get_city_by_id(43279)
 if city:
     print(f"Found: {city.display_name}")
 
-# Get cities as DataFrame for analysis
+# Get cities as DataFrame
 df = client.get_cities_dataframe()
 print(df.head())
 ```
@@ -107,6 +129,9 @@ print(df.head())
 ### Current Weather Data
 
 ```python
+# Using your public IP location to choose the nearest IMD station
+weather = client.get_current_weather_for_ip()
+
 # Using city name
 weather = client.get_current_weather("Chennai")
 
@@ -158,52 +183,6 @@ print(f"Current temperature: {weather.get_parameter('Maximum Temperature')}")
 print(f"Tomorrow's forecast: {forecast.days[1].forecast}")
 ```
 
-### Error Handling
-
-```python
-from imdfetch.exceptions import CityNotFoundError, NetworkError, DataParsingError
-
-try:
-    weather = client.get_current_weather("NonExistentCity")
-except CityNotFoundError as e:
-    print(f"City not found: {e}")
-except NetworkError as e:
-    print(f"Network error: {e}")
-except DataParsingError as e:
-    print(f"Data parsing error: {e}")
-```
-
-### Advanced Configuration
-
-```python
-# Use test endpoint (if available)
-client = IMDWeatherClient(use_test_endpoint=True)
-
-# Refresh city cache
-cities = client.get_cities(refresh_cache=True)
-```
-
-## Data Models
-
-### WeatherData
-- `city`: City name
-- `date`: Date of the weather data
-- `parameters`: List of weather parameters
-- `get_parameter(name)`: Get specific parameter value
-- `to_dict()`: Convert to dictionary
-
-### ForecastData
-- `city`: City name
-- `forecast_date`: Date when forecast was generated
-- `days`: List of daily forecasts
-- `get_day_forecast(date)`: Get forecast for specific date
-- `to_dict()`: Convert to dictionary
-
-### CityInfo
-- `city_id`: Unique city identifier
-- `display_name`: City name as shown on IMD
-- `clean_name`: Cleaned/normalized city name
-- `full_value`: Full value string from IMD
 
 ## API Reference
 
@@ -214,6 +193,7 @@ cities = client.get_cities(refresh_cache=True)
 - `find_city(city_name, exact_match=False)`: Search for cities by name
 - `get_city_by_id(city_id)`: Get city info by ID
 - `get_current_weather(city_identifier)`: Get current weather data
+- `get_current_weather_for_ip()`: Get current weather for the nearest IMD station to your public IP location
 - `get_forecast(city_identifier)`: Get weather forecast
 - `get_complete_weather_data(city_identifier)`: Get both current and forecast data
 - `get_cities_dataframe()`: Get cities as pandas DataFrame
@@ -236,10 +216,3 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 This package is not officially affiliated with the India Meteorological Department. It's a third-party tool for accessing publicly available weather data.
 
-## Changelog
-
-### v0.1.0
-- Initial release
-- Basic weather data fetching
-- City search functionality
-- 7-day forecast support

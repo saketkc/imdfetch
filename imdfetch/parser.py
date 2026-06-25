@@ -3,7 +3,7 @@ HTML parsing functions for extracting weather data
 """
 
 import re
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, List
 
 import pandas as pd
 from bs4 import BeautifulSoup
@@ -48,7 +48,6 @@ class WeatherDataParser:
                 full_value = match[0] + match[1]
                 display_name = match[2]
 
-                # Extract numeric ID
                 id_match = re.match(r"^(\d{4,6})", full_value)
                 if id_match:
                     city_id = int(id_match.group(1))
@@ -81,7 +80,6 @@ class WeatherDataParser:
         """
         result = {}
 
-        # Extract city name
         font_city_pattern = r'Local Weather Report and Forecast For:\s*</b>\s*<FONT[^>]*color\s*=\s*["\']?blue["\']?[^>]*>([^<]+)</Font>'
         match = re.search(font_city_pattern, html_content, re.IGNORECASE)
         if match:
@@ -89,7 +87,6 @@ class WeatherDataParser:
             result["city"] = clean_city_name(city_text)
             result["raw_city_text"] = city_text
 
-        # Extract date
         dated_b_pattern = r"<B>Dated\s*:\s*([^<]+)</b>"
         match = re.search(dated_b_pattern, html_content, re.IGNORECASE)
         if match:
@@ -118,10 +115,8 @@ class WeatherDataParser:
         try:
             soup = BeautifulSoup(html_content, "html.parser")
 
-            # Get city and date info
             city_date_info = WeatherDataParser.parse_city_and_date(html_content)
 
-            # Find the table containing "Past 24 Hours Weather Data"
             past_24_table = None
             for table in soup.find_all("table"):
                 if "Past 24 Hours Weather Data" in table.get_text():
@@ -131,21 +126,18 @@ class WeatherDataParser:
             if not past_24_table:
                 raise DataParsingError("Past 24 Hours Weather Data table not found")
 
-            # Extract all rows
             rows = past_24_table.find_all("tr")
             parameters = []
 
             for row in rows:
                 cells = row.find_all(["td", "th"])
 
-                # Skip rows that don't have exactly 2 cells
                 if len(cells) != 2:
                     continue
 
                 param_text = cells[0].get_text(strip=True)
                 value_text = cells[1].get_text(strip=True)
 
-                # Skip the header row and empty rows
                 if (
                     "Past 24 Hours Weather Data" in param_text
                     or not param_text
@@ -190,13 +182,10 @@ class WeatherDataParser:
         try:
             soup = BeautifulSoup(html_content, "html.parser")
 
-            # Get city and date info
             city_date_info = WeatherDataParser.parse_city_and_date(html_content)
 
-            # Find the table containing "7 Day's Forecast"
             forecast_table = None
             for table in soup.find_all("table"):
-                table_text = table.get_text()
                 if "7 Day's Forecast" in table.get_text():
                     forecast_table = table
                     break
@@ -204,7 +193,6 @@ class WeatherDataParser:
                 raise DataParsingError("7-day forecast table not found")
 
             rows = forecast_table.find_all("tr")
-            # Find header row
             header_row = None
             for i, row in enumerate(rows):
                 row_text = row.get_text()
@@ -217,7 +205,6 @@ class WeatherDataParser:
             if header_row is None:
                 raise DataParsingError("Header row not found in forecast table")
 
-            # Extract forecast days
             forecast_days = []
             for row in rows[(header_row + 1) :]:
                 cells = row.find_all(["td", "th"])
@@ -233,7 +220,6 @@ class WeatherDataParser:
                         warnings = cell_texts[6]
                         rh_0830 = cell_texts[7]
                         rh_1730 = cell_texts[8]
-                        # Only add if we have a valid date
                         if date and re.match(r"\d{2}-[A-Za-z]{3}", date):
                             iso_date = convert_date_to_iso(date)
                             forecast_days.append(

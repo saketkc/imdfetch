@@ -15,6 +15,11 @@ class CityInfo:
     display_name: str
     full_value: str
     clean_name: Optional[str] = None
+    # Populated by IMDWeatherClient.get_cities(with_coordinates=True) or
+    # get_coordinates(); sourced from IMD's responsive JSON API.
+    latitude: Optional[float] = None
+    longitude: Optional[float] = None
+    station_name: Optional[str] = None
 
 
 @dataclass

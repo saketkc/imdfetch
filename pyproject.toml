@@ -1,13 +1,14 @@
 [build-system]
-requires = ["setuptools>=45", "wheel", "setuptools_scm[toml]>=6.2"]
+requires = ["setuptools>=77"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "imdfetch"
-version = "0.1.0"
+dynamic = ["version"]
 description = "A Python package for fetching and parsing weather data from India Meteorological Department (IMD)"
 readme = "README.md"
-license = {text = "MIT"}
+license = "MIT"
+license-files = ["LICENSE"]
 authors = [
     {name = "Saket Lab", email = "saketc@iitb.ac.in"}
 ]
@@ -17,17 +18,16 @@ maintainers = [
 classifiers = [
     "Development Status :: 3 - Alpha",
     "Intended Audience :: Developers",
-    "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.7",
-    "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
     "Topic :: Scientific/Engineering :: Atmospheric Science",
 ]
-requires-python = ">=3.7"
+requires-python = ">=3.9"
 dependencies = [
     "requests>=2.25.0",
     "beautifulsoup4>=4.9.0",
@@ -62,12 +62,15 @@ imdfetch = "imdfetch.cli:main"
 [tool.setuptools]
 packages = ["imdfetch"]
 
+[tool.setuptools.dynamic]
+version = {attr = "imdfetch.__version__"}
+
 [tool.setuptools.package-data]
 imdfetch = ["py.typed"]
 
 [tool.black]
 line-length = 88
-target-version = ['py37', 'py38', 'py39', 'py310', 'py311']
+target-version = ['py39', 'py310', 'py311', 'py312', 'py313']
 extend-exclude = '''
 /(
   # directories
@@ -85,6 +88,7 @@ extend-exclude = '''
 [tool.pytest.ini_options]
 minversion = "6.0"
 addopts = "-ra -q --strict-markers --strict-config"
+pythonpath = ["."]
 testpaths = [
     "tests",
 ]
@@ -94,7 +98,7 @@ python_files = [
 ]
 
 [tool.mypy]
-python_version = "3.7"
+python_version = "3.9"
 warn_return_any = true
 warn_unused_configs = true
 disallow_untyped_defs = true

@@ -2,7 +2,7 @@
 IMD Weather - A Python package for fetching and parsing weather data from India Meteorological Department (IMD)
 """
 
-__version__ = "0.1.0"
+__version__ = "0.2.0"
 __author__ = "Saket Choudhary"
 __email__ = "saketc@iitb.ac.in"
 
