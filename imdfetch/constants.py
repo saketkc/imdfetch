@@ -4,7 +4,6 @@ Constants used throughout the IMD Weather package
 
 # URLs
 BASE_URL = "https://internal.imd.gov.in"
-CITY_LIST_URL = f"{BASE_URL}/pages/city_weather_main_mausam.php"
 WEATHER_URL_PREFIX = "https://city.imd.gov.in/citywx/city_weather.php?id="
 WEATHER_TEST_URL_PREFIX = (
     "https://city.imd.gov.in/citywx/city_weather_test_try_warnings.php?id="
@@ -14,6 +13,7 @@ CITY_STATIC_API_URL = (
     "https://city.imd.gov.in/citywx/responsive/api/fetchCity_static.php"
 )
 CITY_STATIC_REFERER = "https://city.imd.gov.in/citywx/responsive/"
+CITY_SEARCH_API_URL = "https://city.imd.gov.in/citywx/responsive/api/search.php"
 IP_GEOLOCATION_URLS = [
     "https://ipwho.is/",
     "https://ipapi.co/json/",

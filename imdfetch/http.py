@@ -27,11 +27,11 @@ def _request(
     url: str,
     data: Optional[dict] = None,
     extra_headers: Optional[dict] = None,
+    params: Optional[dict] = None,
     max_retries: int = DEFAULT_MAX_RETRIES,
     timeout: int = DEFAULT_TIMEOUT,
 ) -> requests.Response:
-    """Issue an HTTP request with retry + SSL-verification fallback.
-    """
+    """Issue an HTTP request with retry + SSL-verification fallback."""
     headers = {**DEFAULT_HEADERS, **(extra_headers or {})}
     last_err: Optional[Exception] = None
     for attempt in range(max_retries + 1):
@@ -41,6 +41,7 @@ def _request(
                     method,
                     url,
                     data=data,
+                    params=params,
                     headers=headers,
                     timeout=timeout,
                     verify=verify,
@@ -84,10 +85,13 @@ def make_robust_request(
 
 
 def safe_get(
-    url: str, max_retries: int = DEFAULT_MAX_RETRIES, timeout: int = DEFAULT_TIMEOUT
+    url: str,
+    params: Optional[dict] = None,
+    max_retries: int = DEFAULT_MAX_RETRIES,
+    timeout: int = DEFAULT_TIMEOUT,
 ) -> requests.Response:
     """requests.get() with retry logic."""
-    return _request("GET", url, max_retries=max_retries, timeout=timeout)
+    return _request("GET", url, params=params, max_retries=max_retries, timeout=timeout)
 
 
 def safe_post(

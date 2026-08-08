@@ -10,7 +10,7 @@ from typing import Any, Callable, Dict, List, Optional, Tuple, Union
 import pandas as pd
 
 from .constants import (
-    CITY_LIST_URL,
+    CITY_SEARCH_API_URL,
     CITY_STATIC_API_URL,
     CITY_STATIC_REFERER,
     INDIA_BBOX,
@@ -72,8 +72,10 @@ class IMDWeatherClient:
         """
         if self._cities_cache is None or refresh_cache:
             try:
-                response = safe_get(CITY_LIST_URL)
-                self._cities_cache = self.parser.get_cities_dataframe(response.text)
+                response = safe_get(CITY_SEARCH_API_URL, params={"query": ""})
+                self._cities_cache = self.parser.parse_station_search(response.json())
+            except NetworkError:
+                raise
             except Exception as e:
                 raise IMDWeatherError(f"Failed to fetch cities: {str(e)}")
 

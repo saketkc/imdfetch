@@ -3,9 +3,8 @@ HTML parsing functions for extracting weather data
 """
 
 import re
-from typing import Dict, List
+from typing import Any, Dict, List
 
-import pandas as pd
 from bs4 import BeautifulSoup
 
 from .exceptions import DataParsingError
@@ -20,52 +19,6 @@ from .weather import CityInfo, ForecastData, ForecastDay, WeatherData, WeatherPa
 
 class WeatherDataParser:
     """Parser for IMD weather data"""
-
-    @staticmethod
-    def parse_city_list(html_content: str) -> pd.DataFrame:
-        """
-        Extract city list from IMD main page
-
-        Args:
-            html_content: HTML content containing city options
-
-        Returns:
-            DataFrame with city information
-
-        Raises:
-            DataParsingError: If parsing fails
-        """
-        try:
-            raw_data = []
-            option_pattern = r"<option value='(\d+)([^']*)'>(.*?)</option>"
-
-            matches = re.findall(option_pattern, html_content)
-
-            if not matches:
-                raise DataParsingError("No city data found in HTML content")
-
-            for match in matches:
-                full_value = match[0] + match[1]
-                display_name = match[2]
-
-                id_match = re.match(r"^(\d{4,6})", full_value)
-                if id_match:
-                    city_id = int(id_match.group(1))
-                    clean_name = display_name.strip()
-
-                    raw_data.append(
-                        {
-                            "city_id": city_id,
-                            "display_name": clean_name,
-                            "full_value": full_value,
-                        }
-                    )
-
-            raw_data.sort(key=lambda x: x["city_id"])
-            return pd.DataFrame(raw_data)
-
-        except Exception as e:
-            raise DataParsingError(f"Failed to parse city list: {str(e)}")
 
     @staticmethod
     def parse_city_and_date(html_content: str) -> Dict[str, str]:
@@ -245,26 +198,37 @@ class WeatherDataParser:
             raise DataParsingError(f"Failed to parse forecast data: {str(e)}")
 
     @staticmethod
-    def get_cities_dataframe(html_content: str) -> List[CityInfo]:
+    def parse_station_search(payload: Dict[str, Any]) -> List[CityInfo]:
         """
-        Get list of cities as CityInfo objects
+        Build CityInfo objects from the responsive site's search.php JSON.
 
         Args:
-            html_content: HTML content from city list page
+            payload: {"status": "1", "data": [{"station_id", "station"}, ...]}
 
         Returns:
-            List of CityInfo objects
+            List of CityInfo objects, sorted by city_id
+
+        Raises:
+            DataParsingError: If the payload carries no usable station records
         """
-        df = WeatherDataParser.parse_city_list(html_content)
         cities = []
 
-        for _, row in df.iterrows():
-            city_info = CityInfo(
-                city_id=row["city_id"],
-                display_name=row["display_name"],
-                full_value=row["full_value"],
-                clean_name=clean_city_name(row["display_name"]),
+        for record in payload.get("data") or []:
+            station_id = str(record.get("station_id") or "").strip()
+            name = str(record.get("station") or "").strip()
+            if not station_id.isdigit() or not name:
+                continue
+            cities.append(
+                CityInfo(
+                    city_id=int(station_id),
+                    display_name=name,
+                    full_value=station_id,
+                    clean_name=clean_city_name(name),
+                )
             )
-            cities.append(city_info)
 
+        if not cities:
+            raise DataParsingError("No station data found in search API response")
+
+        cities.sort(key=lambda c: c.city_id)
         return cities
