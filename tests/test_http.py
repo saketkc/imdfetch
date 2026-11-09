@@ -62,3 +62,47 @@ class TestSafePost:
         assert kwargs["headers"]["Referer"] == "https://ref.test"
         # Default headers are still merged in.
         assert "User-Agent" in kwargs["headers"]
+
+
+class TestRetryPolicy:
+    def _failing(self, mock_request, status):
+        resp = _ok_response()
+        resp.raise_for_status.side_effect = requests.exceptions.HTTPError(
+            str(status), response=MagicMock(status_code=status)
+        )
+        mock_request.return_value = resp
+
+    @pytest.mark.parametrize("status", [401, 403, 404])
+    @patch("imdfetch.http.time.sleep")
+    @patch("imdfetch.http.requests.request")
+    def test_permanent_client_errors_are_not_retried(
+        self, mock_request, mock_sleep, status
+    ):
+        self._failing(mock_request, status)
+
+        with pytest.raises(NetworkError):
+            http.safe_get("https://example.test")
+
+        assert mock_request.call_count == 1
+        mock_sleep.assert_not_called()
+
+    @pytest.mark.parametrize("status", [408, 429, 500, 503])
+    @patch("imdfetch.http.time.sleep")
+    @patch("imdfetch.http.requests.request")
+    def test_transient_statuses_are_retried(self, mock_request, _sleep, status):
+        self._failing(mock_request, status)
+
+        with pytest.raises(NetworkError):
+            http.safe_get("https://example.test", max_retries=2)
+
+        assert mock_request.call_count == 3
+
+    @patch("imdfetch.http.time.sleep")
+    @patch("imdfetch.http.requests.request")
+    def test_verified_get_refuses_insecure_fallback(self, mock_request, _sleep):
+        mock_request.side_effect = requests.exceptions.SSLError("bad cert")
+
+        with pytest.raises(NetworkError):
+            http.verified_get("https://example.test")
+
+        assert all(c.kwargs["verify"] is True for c in mock_request.call_args_list)

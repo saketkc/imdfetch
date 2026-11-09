@@ -27,10 +27,11 @@ pip install -e .
 # Search for cities
 imdfetch search Mumbai
 
-# Get current weather
+# Get IMD's latest observations
 imdfetch weather  # Uses IP geolocation to choose the nearest IMD station
 imdfetch weather "Mumbai (Santacruz)"
 imdfetch weather "colaba" # regex for Mumbai (Colaba)
+imdfetch weather Mumbai   # every station matching the name
 imdfetch weather 13001  # Using city ID
 ```
 
@@ -38,8 +39,8 @@ Output:
 
 ```text
 $ imdfetch weather "chembur"
-🌤️  Current Weather for Mumbai-Chembur
-📅 Date: 24 June, 2026 (Wednesday)
+🌤️ Latest Observations for Mumbai-Chembur
+📅 Bulletin Date: 24 June, 2026 (Wednesday)
 🌡️ Max Temperature: NA
 🌡️ Min Temperature: NA
 🌧️ 24h Rainfall (mm): NA
@@ -47,6 +48,11 @@ $ imdfetch weather "chembur"
 💧 Relative Humidity at 17:30: NA
 ⚠️ Observation values appear unavailable for this station.
 ```
+
+IMD's city API has no current temperature, so these are the latest recorded
+values. Max Temperature is usually the previous day's maximum, and when IMD gives its date
+the CLI shows it as `Max Temperature (recorded ...)`. The Python API exposes it
+as `weather.max_date`, and the record's update time as `weather.updated_at`.
 
 IMD sometimes returns sentinel values such as `99.9`, `999`, or `999.00`
 when station observations are unavailable. The CLI displays those as `NA` and
@@ -73,6 +79,26 @@ imdfetch forecast "Mumbai-Powai"
 ```
 
 ```bash
+# Past week of observations plus predictions, alongside normals
+imdfetch history "Mumbai-Colaba"
+```
+
+```bash
+# IMD nowcast alerts valid right now (about 3 hours ahead, by district)
+imdfetch nowcast
+imdfetch nowcast Chennai
+```
+
+For scripts and agents, `--format json` reports failures as
+`{"error": {"type": ..., "message": ...}}` on stdout, and an ambiguous name also
+lists `matches` with station IDs to retry with. Exit codes are `0` success, `1`
+other failure, `2` bad usage, `3` city not found, `4` ambiguous city, and `5`
+network failure.
+
+Forecasts are daily; IMD's city API has no hourly data. Nowcasts are district
+alerts from NDMA's public [SACHET](https://sachet.ndma.gov.in/) feed, with no station-level values.
+
+```bash
 # List available cities
 imdfetch cities --limit 10
 imdfetch cities --limit 0  # Show all cities
@@ -87,12 +113,16 @@ from imdfetch import IMDWeatherClient
 # Initialize the client
 client = IMDWeatherClient()
 
-# Get current weather for a city
-weather = client.get_current_weather("Mumbai")
+# Get the latest observations for a station
+weather = client.get_current_weather("Mumbai-Colaba")
 print(f"Temperature in {weather.city}: {weather.get_parameter('Maximum Temperature')}")
 
+# A city with several stations returns a list, one entry per station
+for station in client.get_current_weather("Mumbai"):
+    print(station.city, station.get_parameter("Maximum Temperature"))
+
 # Get 7-day forecast
-forecast = client.get_forecast("Delhi")
+forecast = client.get_forecast("New Delhi-Safdarjung")
 print(f"Tomorrow's forecast: {forecast.days[1].forecast}")
 
 # Search for cities
@@ -133,7 +163,7 @@ print(df.head())
 weather = client.get_current_weather_for_ip()
 
 # Using city name
-weather = client.get_current_weather("Chennai")
+weather = client.get_current_weather("Chennai-Nungambakkam")
 
 # Using city ID
 weather = client.get_current_weather(43279)
@@ -177,7 +207,7 @@ forecast_dict = forecast.to_dict()
 
 ```python
 # Get both current weather and forecast in one call
-weather, forecast = client.get_complete_weather_data("Kolkata")
+weather, forecast = client.get_complete_weather_data("Kolkata-Alipore")
 
 print(f"Current temperature: {weather.get_parameter('Maximum Temperature')}")
 print(f"Tomorrow's forecast: {forecast.days[1].forecast}")
@@ -192,10 +222,12 @@ print(f"Tomorrow's forecast: {forecast.days[1].forecast}")
 - `get_cities(refresh_cache=False)`: Get all available cities
 - `find_city(city_name, exact_match=False)`: Search for cities by name
 - `get_city_by_id(city_id)`: Get city info by ID
-- `get_current_weather(city_identifier)`: Get current weather data
+- `get_current_weather(city_identifier)`: Get the latest observations; a name matching several stations (up to 25) returns a list with one entry per station, and a station that could not be fetched has empty `parameters`
 - `get_current_weather_for_ip()`: Get current weather for the nearest IMD station to your public IP location
 - `get_forecast(city_identifier)`: Get weather forecast
 - `get_complete_weather_data(city_identifier)`: Get both current and forecast data
+- `get_daily_temperatures(city_identifier)`: Get observed, normal, and predicted temperatures by date
+- `get_nowcasts(area=None)`: Get a `NowcastReport` of IMD alerts in effect now; `unreadable > 0` means `alerts` may be incomplete
 - `get_cities_dataframe()`: Get cities as pandas DataFrame
 
 ## Contributing

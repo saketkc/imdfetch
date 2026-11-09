@@ -7,9 +7,23 @@ __author__ = "Saket Choudhary"
 __email__ = "saketc@iitb.ac.in"
 
 from .client import IMDWeatherClient
-from .exceptions import DataParsingError, IMDWeatherError, NetworkError
+from .exceptions import (
+    AmbiguousCityError,
+    CityNotFoundError,
+    DataParsingError,
+    IMDWeatherError,
+    NetworkError,
+)
 from .parser import WeatherDataParser
-from .weather import CityInfo, ForecastData, WeatherData
+from .weather import (
+    CityInfo,
+    DailyTemperature,
+    ForecastData,
+    Nowcast,
+    NowcastReport,
+    TemperatureHistory,
+    WeatherData,
+)
 
 __all__ = [
     "IMDWeatherClient",
@@ -17,6 +31,12 @@ __all__ = [
     "WeatherData",
     "ForecastData",
     "CityInfo",
+    "DailyTemperature",
+    "Nowcast",
+    "NowcastReport",
+    "TemperatureHistory",
+    "AmbiguousCityError",
+    "CityNotFoundError",
     "IMDWeatherError",
     "DataParsingError",
     "NetworkError",

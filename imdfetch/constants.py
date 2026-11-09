@@ -14,6 +14,11 @@ CITY_STATIC_API_URL = (
 )
 CITY_STATIC_REFERER = "https://city.imd.gov.in/citywx/responsive/"
 CITY_SEARCH_API_URL = "https://city.imd.gov.in/citywx/responsive/api/search.php"
+SACHET_RSS_URL = "https://sachet.ndma.gov.in/cap_public_website/rss/rss_india.xml"
+SACHET_ALERT_PREFIX = "https://sachet.ndma.gov.in/cap_public_website/FetchXMLFile"
+NOWCAST_MAX_HOURS = 6
+# Above this, a name is too loose to fetch station by station.
+MAX_STATION_MATCHES = 25
 IP_GEOLOCATION_URLS = [
     "https://ipwho.is/",
     "https://ipapi.co/json/",

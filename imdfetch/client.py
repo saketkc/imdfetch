@@ -2,10 +2,12 @@
 Main client class for interacting with IMD weather services
 """
 
+import logging
+import re
 from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime, timedelta
 from math import asin, cos, radians, sin, sqrt
-from typing import Any, Callable, Dict, List, Optional, Tuple, Union
+from typing import Any, Callable, Dict, List, Optional, Tuple, Union, overload
 
 import pandas as pd
 
@@ -16,26 +18,54 @@ from .constants import (
     INDIA_BBOX,
     IP_GEOLOCATION_URLS,
     JSON_PARAM_FIELDS,
+    MAX_STATION_MATCHES,
     WEATHER_PARAM_NAMES,
     WEATHER_TEST_URL_PREFIX,
     WEATHER_URL_PREFIX,
 )
-from .exceptions import CityNotFoundError, IMDWeatherError, NetworkError
+from .exceptions import (
+    AmbiguousCityError,
+    CityNotFoundError,
+    IMDWeatherError,
+    NetworkError,
+)
 from .http import safe_get, safe_post
+from .nowcast import fetch_nowcasts
 from .parser import WeatherDataParser
 from .weather import (
     CityInfo,
+    DailyTemperature,
     ForecastData,
     ForecastDay,
+    NowcastReport,
+    TemperatureHistory,
     WeatherData,
     WeatherParameter,
 )
+
+logger = logging.getLogger(__name__)
 
 
 def _clean(v: Any) -> Optional[str]:
     """Stripped string for a JSON value; None preserved. ``_clean(v) or ""``
     where an empty-string default is wanted (IMD values carry trailing \\r\\n)."""
     return None if v is None else str(v).strip()
+
+
+def _date_or_none(v: Any) -> Optional[str]:
+    """A date string, or None for empty values and IMD's literal "NA"."""
+    text = _clean(v)
+    return None if not text or text.upper() == "NA" else text
+
+
+def _warning_text(rec: Dict, day: int) -> Optional[str]:
+    """Readable warning for a forecast day, or None when there is no warning."""
+    texts = rec.get("wText")
+    text = _clean(texts[day]) if isinstance(texts, list) and day < len(texts) else None
+    if text:
+        return None if text.lower() == "no warning" else text
+    code = _clean(rec.get(f"warning{day}")) or ""
+    return f"IMD warning code {code}" if re.search(r"[1-9]", code) else None
 
 
 class IMDWeatherClient:
@@ -131,37 +161,69 @@ class IMDWeatherClient:
                 return city
         return None
 
-    def get_current_weather(self, city_identifier: Union[int, str]) -> WeatherData:
+    @overload
+    def get_current_weather(self, city_identifier: int) -> WeatherData: ...
+
+    @overload
+    def get_current_weather(
+        self, city_identifier: str
+    ) -> Union[WeatherData, List[WeatherData]]: ...
+
+    def get_current_weather(
+        self, city_identifier: Union[int, str]
+    ) -> Union[WeatherData, List[WeatherData]]:
         """
-        Get current weather data for a city
+        Get current weather data for a station, or every station in a city
 
         Args:
             city_identifier: Either city ID (int) or city name (str)
 
         Returns:
-            WeatherData object
+            WeatherData for an ID or a name identifying one station. A name
+            matching several stations, such as "Mumbai", returns a list with one
+            entry per station. A station that could not be fetched stays in the
+            list with empty parameters.
 
         Raises:
             CityNotFoundError: If city is not found
+            AmbiguousCityError: If a name matches over MAX_STATION_MATCHES stations
             NetworkError: If unable to fetch weather data
             IMDWeatherError: If parsing fails
         """
-        city_id = self._resolve_city_id(city_identifier)
-
-        json_result = self._try_json(city_id, self._weather_from_json)
-        if json_result is not None:
-            return json_result
-
         try:
-            url = f"{self.weather_url_prefix}{city_id}"
-            response = safe_get(url)
-            weather_data = self.parser.parse_past_24_hours(response.text)
-            weather_data.city_id = city_id
-            return weather_data
-        except NetworkError:
-            raise
-        except Exception as e:
-            raise IMDWeatherError(f"Failed to get current weather: {str(e)}")
+            return self._load_weather(city_identifier)
+        except AmbiguousCityError as e:
+            if len(e.matches) > MAX_STATION_MATCHES:
+                raise
+            return self._weather_for_stations(e.matches)
+
+    def _load_weather(self, city_identifier: Union[int, str]) -> WeatherData:
+        return self._load(
+            city_identifier,
+            self._weather_from_json,
+            self._weather_from_html,
+            "current weather",
+        )
+
+    def _weather_for_stations(self, cities: List[CityInfo]) -> List[WeatherData]:
+        """Fetch several stations, keeping failed ones visible with no readings."""
+        errors: List[IMDWeatherError] = []
+
+        def fetch(city: CityInfo) -> WeatherData:
+            try:
+                return self._load_weather(city.city_id)
+            except IMDWeatherError as e:
+                logger.warning("Could not fetch station %s: %s", city.city_id, e)
+                errors.append(e)
+                return WeatherData(
+                    city=city.display_name, date="", city_id=city.city_id
+                )
+
+        with ThreadPoolExecutor(max_workers=8) as executor:
+            results = list(executor.map(fetch, cities))
+        if len(errors) == len(cities):
+            raise errors[-1]
+        return results
 
     def get_forecast(self, city_identifier: Union[int, str]) -> ForecastData:
         """
@@ -178,22 +240,12 @@ class IMDWeatherClient:
             NetworkError: If unable to fetch forecast data
             IMDWeatherError: If parsing fails
         """
-        city_id = self._resolve_city_id(city_identifier)
-
-        json_result = self._try_json(city_id, self._forecast_from_json)
-        if json_result is not None:
-            return json_result
-
-        try:
-            url = f"{self.weather_url_prefix}{city_id}"
-            response = safe_get(url)
-            forecast_data = self.parser.parse_forecast_table(response.text)
-            forecast_data.city_id = city_id
-            return forecast_data
-        except NetworkError:
-            raise
-        except Exception as e:
-            raise IMDWeatherError(f"Failed to get forecast: {str(e)}")
+        return self._load(
+            city_identifier,
+            self._forecast_from_json,
+            self._forecast_from_html,
+            "forecast",
+        )
 
     def get_complete_weather_data(
         self, city_identifier: Union[int, str]
@@ -207,34 +259,50 @@ class IMDWeatherClient:
         Returns:
             Tuple of (WeatherData, ForecastData)
         """
-        city_id = self._resolve_city_id(city_identifier)
-
-        # One JSON call yields both current conditions and the 7-day forecast.
-        json_result = self._try_json(
-            city_id,
+        # One response yields both current conditions and the 7-day forecast.
+        return self._load(
+            city_identifier,
             lambda rec, cid: (
                 self._weather_from_json(rec, cid),
                 self._forecast_from_json(rec, cid),
             ),
+            lambda html, cid: (
+                self._weather_from_html(html, cid),
+                self._forecast_from_html(html, cid),
+            ),
+            "complete weather data",
         )
+
+    def _load(
+        self,
+        city_identifier: Union[int, str],
+        from_json: Callable[[Dict, int], Any],
+        from_html: Callable[[str, int], Any],
+        label: str,
+    ) -> Any:
+        """Read IMD's JSON API, using the HTML page only if that yields nothing."""
+        city_id = self._resolve_city_id(city_identifier)
+        json_result = self._try_json(city_id, from_json)
         if json_result is not None:
             return json_result
 
         try:
-            url = f"{self.weather_url_prefix}{city_id}"
-            response = safe_get(url)
-
-            weather_data = self.parser.parse_past_24_hours(response.text)
-            weather_data.city_id = city_id
-
-            forecast_data = self.parser.parse_forecast_table(response.text)
-            forecast_data.city_id = city_id
-
-            return weather_data, forecast_data
+            response = safe_get(f"{self.weather_url_prefix}{city_id}")
+            return from_html(response.text, city_id)
         except NetworkError:
             raise
         except Exception as e:
-            raise IMDWeatherError(f"Failed to get complete weather data: {str(e)}")
+            raise IMDWeatherError(f"Failed to get {label}: {str(e)}")
+
+    def _weather_from_html(self, html: str, city_id: int) -> WeatherData:
+        weather_data = self.parser.parse_past_24_hours(html)
+        weather_data.city_id = city_id
+        return weather_data
+
+    def _forecast_from_html(self, html: str, city_id: int) -> ForecastData:
+        forecast_data = self.parser.parse_forecast_table(html)
+        forecast_data.city_id = city_id
+        return forecast_data
 
     @staticmethod
     def _weather_from_json(rec: Dict, city_id: int) -> WeatherData:
@@ -260,6 +328,8 @@ class IMDWeatherClient:
             raw_city_text=station,
             raw_date_text=date_text,
             parameters=params,
+            max_date=_date_or_none(rec.get("max_date")),
+            updated_at=_date_or_none(rec.get("updat")),
         )
 
     @staticmethod
@@ -292,7 +362,7 @@ class IMDWeatherClient:
                     min_temp=_clean(rec.get(f"min{i}")) or "",
                     max_temp=_clean(rec.get(f"max{i}")) or "",
                     forecast=_clean(rec.get(f"forecast{i}")) or "",
-                    warnings=_clean(rec.get(f"warning{i}")),
+                    warnings=_warning_text(rec, i),
                     rh_0830=_clean(rec.get(f"rh0830d{i}")),
                     rh_1730=_clean(rec.get(f"rh1730d{i}")),
                     iso_date=iso_date,
@@ -311,28 +381,106 @@ class IMDWeatherClient:
     ) -> Optional[Any]:
         """Build a result from the responsive JSON API, or None to fall back.
 
-        IMD migrated city.imd.gov.in to a SPA backed by a JSON API; the old HTML
-        "Past 24 Hours" table no longer exists. Callers try this first and fall
-        back to the legacy HTML scrape only when it returns None.
+        The HTML page lacks max_date and updat.
         """
         try:
             rec = self._fetch_city_static(city_id)
             if rec:
                 return builder(rec, city_id)
-        except (NetworkError, ValueError, IMDWeatherError):
-            pass
+            logger.warning("IMD JSON API had no record for station %s", city_id)
+        except (NetworkError, ValueError, IMDWeatherError) as e:
+            logger.warning("IMD JSON API failed for station %s: %s", city_id, e)
         return None
 
-    def _fetch_city_static(self, city_id: int) -> Optional[Dict]:
-        """Fetch a station's record from the responsive JSON API (incl. lat/lon)."""
+    @staticmethod
+    def _post_city_static(city_id: int) -> Any:
+        """POST to the JSON API: normally [station record, date-keyed history]."""
         resp = safe_post(
             CITY_STATIC_API_URL,
             data={"ID": city_id},
             extra_headers={"Referer": CITY_STATIC_REFERER},
         )
-        payload = resp.json()
+        return resp.json()
+
+    def _fetch_city_static(self, city_id: int) -> Optional[Dict]:
+        """Fetch a station's record from the responsive JSON API (incl. lat/lon)."""
+        payload = self._post_city_static(city_id)
         rec = payload[0] if isinstance(payload, list) and payload else payload
         return rec if isinstance(rec, dict) else None
+
+    def get_daily_temperatures(
+        self, city_identifier: Union[int, str]
+    ) -> TemperatureHistory:
+        """
+        Get past observations and upcoming predictions for a station
+
+        IMD publishes up to 14 days: the past week, today and the next 6 days.
+        Values IMD has not recorded or predicted are None.
+
+        Args:
+            city_identifier: Either city ID (int) or city name (str)
+
+        Returns:
+            TemperatureHistory with days in date order
+
+        Raises:
+            CityNotFoundError: If city is not found
+            NetworkError: If unable to fetch data
+            IMDWeatherError: If IMD's response has no usable history
+        """
+        city_id = self._resolve_city_id(city_identifier)
+        try:
+            payload = self._post_city_static(city_id)
+        except ValueError as e:
+            raise IMDWeatherError(f"Invalid response from IMD: {e}")
+
+        rec, history = (
+            payload[:2]
+            if isinstance(payload, list) and len(payload) > 1
+            else (None, None)
+        )
+        if not (isinstance(rec, dict) and isinstance(history, dict) and history):
+            raise IMDWeatherError(f"IMD returned no history for station {city_id}")
+        return self._history_from_json(rec, history, city_id)
+
+    def get_nowcasts(self, area: Optional[str] = None) -> NowcastReport:
+        """
+        Get IMD nowcast alerts that are valid right now
+
+        Args:
+            area: Optional district or state name to match, e.g. "Chennai"
+
+        Returns:
+            NowcastReport
+
+        Raises:
+            NetworkError: If the feed or every current alert cannot be reached
+            DataParsingError: If the alert feed is malformed
+        """
+        return fetch_nowcasts(area)
+
+    @staticmethod
+    def _history_from_json(
+        rec: Dict, history: Dict, city_id: int
+    ) -> TemperatureHistory:
+        """Build a TemperatureHistory from the API's date-keyed second element."""
+        return TemperatureHistory(
+            city=_clean(rec.get("station")) or "",
+            city_id=city_id,
+            days=[
+                DailyTemperature(
+                    date=day,
+                    max_temp=v.get("MAX"),
+                    min_temp=v.get("MIN"),
+                    normal_max=v.get("MAX_N"),
+                    normal_min=v.get("MIN_N"),
+                    forecast_max=v.get("F_MAX"),
+                    forecast_min=v.get("F_MIN"),
+                )
+                for day, v in sorted(history.items())
+                if isinstance(v, dict)
+            ],
+        )
 
     @staticmethod
     def _extract_latlon(rec: Optional[Dict]) -> Optional[Tuple[float, float]]:
@@ -536,7 +684,8 @@ class IMDWeatherClient:
         match_names = [
             city.display_name for city in matches[:5]
         ]  # Show first 5 matches
-        raise CityNotFoundError(
+        raise AmbiguousCityError(
             f"Multiple cities found matching '{city_identifier}'. "
-            f"Please be more specific. Matches: {', '.join(match_names)}"
+            f"Please be more specific. Matches: {', '.join(match_names)}",
+            matches,
         )

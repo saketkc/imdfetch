@@ -27,6 +27,14 @@ class CityNotFoundError(IMDWeatherError):
     pass
 
 
+class AmbiguousCityError(CityNotFoundError):
+    """Raised when a city name matches several stations; matches lists them"""
+
+    def __init__(self, message: str, matches: list) -> None:
+        super().__init__(message)
+        self.matches = matches
+
+
 class InvalidDataError(IMDWeatherError):
     """Raised when received data is invalid or corrupted"""
 

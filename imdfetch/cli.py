@@ -6,14 +6,45 @@ Command-line interface for imdfetch package
 import argparse
 import json
 import sys
-from typing import Optional, Tuple
+from typing import Any, Dict, NoReturn, Optional, Tuple, Union
 
 from . import IMDWeatherClient
-from .exceptions import CityNotFoundError, IMDWeatherError, NetworkError
+from .exceptions import AmbiguousCityError, CityNotFoundError, NetworkError
 from .utils import colorize_humidity, colorize_temperature, format_date
+from .weather import WeatherData
 
 
-def _is_missing_observation(param_name: str, value: Optional[str]) -> bool:
+def _exit_code(error: Exception) -> int:
+    """1 is a general failure; 2 is reserved by argparse for bad usage."""
+    if isinstance(error, AmbiguousCityError):
+        return 4
+    if isinstance(error, CityNotFoundError):
+        return 3
+    if isinstance(error, NetworkError):
+        return 5
+    return 1
+
+
+def _fail(
+    error: Exception, output_format: str = "text", hint: Optional[str] = None
+) -> NoReturn:
+    """Report an error in the requested format and exit with its code."""
+    if output_format == "json":
+        detail: Dict[str, Any] = {"type": type(error).__name__, "message": str(error)}
+        if isinstance(error, AmbiguousCityError):
+            detail["matches"] = [
+                {"city_id": city.city_id, "name": city.display_name}
+                for city in error.matches
+            ]
+        print(json.dumps({"error": detail}, indent=2))
+    else:
+        print(f"❌ {error}")
+        if hint:
+            print(hint)
+    sys.exit(_exit_code(error))
+
+
+def _is_missing_observation(param_name: str, value: Union[str, float, None]) -> bool:
     if value is None:
         return True
 
@@ -36,7 +67,9 @@ def _is_missing_observation(param_name: str, value: Optional[str]) -> bool:
     return False
 
 
-def _display_observation(param_name: str, value: Optional[str]) -> Tuple[str, bool]:
+def _display_observation(
+    param_name: str, value: Union[str, float, None]
+) -> Tuple[str, bool]:
     missing = _is_missing_observation(param_name, value)
     return ("NA" if missing else str(value).strip(), missing)
 
@@ -56,13 +89,49 @@ def search_cities(
             print(f"   📍 {city.display_name} (ID: {city.city_id})")
 
     except Exception as e:
-        print(f"❌ Error searching cities: {e}")
-        sys.exit(1)
+        _fail(e)
+
+
+def _print_weather(weather: WeatherData) -> None:
+    print(f"🌤️ Latest Observations for {weather.city}")
+    if weather.date:
+        print(f"📅 Bulletin Date: {format_date(weather.date)}")
+    if weather.updated_at:
+        print(f"🕒 Updated by IMD: {weather.updated_at}")
+
+    observations = [
+        _display_observation(name, weather.get_parameter(name))
+        for name in (
+            "Maximum Temperature",
+            "Minimum Temperature",
+            "24 Hours Rainfall",
+            "Relative Humidity at 08:30",
+            "Relative Humidity at 17:30",
+        )
+    ]
+    max_temp, min_temp, rainfall, humidity_0830, humidity_1730 = [
+        text for text, _ in observations
+    ]
+
+    recorded = (
+        f" (recorded {format_date(weather.max_date, include_day=False)})"
+        if weather.max_date
+        else ""
+    )
+    print(f"🌡️ Max Temperature{recorded}: {colorize_temperature(max_temp)}")
+    print(f"🌡️ Min Temperature: {colorize_temperature(min_temp)}")
+    print(f"🌧️ 24h Rainfall (mm): {rainfall}")
+    print(f"💧 Relative Humidity at 08:30: {colorize_humidity(humidity_0830)}")
+    print(f"💧 Relative Humidity at 17:30: {colorize_humidity(humidity_1730)}")
+    if any(missing for _, missing in observations):
+        print("⚠️ Observation values appear unavailable for this station.")
+    if weather.max_date:
+        print("ℹ️ These are IMD's latest reported values, not a live reading.")
 
 
 def get_weather(
     client: IMDWeatherClient,
-    city_identifier: Optional[str] = None,
+    city_identifier: Union[int, str, None] = None,
     output_format: str = "text",
 ) -> None:
     """Get current weather for a city"""
@@ -70,79 +139,40 @@ def get_weather(
         if city_identifier is None:
             weather = client.get_current_weather_for_ip()
         else:
-            if city_identifier.isdigit():
-                city_identifier = int(city_identifier)
             weather = client.get_current_weather(city_identifier)
 
         if output_format == "json":
-            print(json.dumps(weather.to_dict(), indent=2))
+            data = (
+                [w.to_dict() for w in weather]
+                if isinstance(weather, list)
+                else weather.to_dict()
+            )
+            print(json.dumps(data, indent=2))
+        elif isinstance(weather, list):
+            print(f"🏙️  {len(weather)} stations match '{city_identifier}':\n")
+            for station in weather:
+                _print_weather(station)
+                print()
         else:
-            print(f"🌤️ Current Weather for {weather.city}")
-            print(f"📅 Date: {format_date(weather.date)}")
+            _print_weather(weather)
 
-            max_temp, max_missing = _display_observation(
-                "Maximum Temperature", weather.get_parameter("Maximum Temperature")
-            )
-            min_temp, min_missing = _display_observation(
-                "Minimum Temperature", weather.get_parameter("Minimum Temperature")
-            )
-            rainfall, rainfall_missing = _display_observation(
-                "24 Hours Rainfall", weather.get_parameter("24 Hours Rainfall")
-            )
-            humidity_0830, humidity_0830_missing = _display_observation(
-                "Relative Humidity at 08:30",
-                weather.get_parameter("Relative Humidity at 08:30"),
-            )
-            humidity_1730, humidity_1730_missing = _display_observation(
-                "Relative Humidity at 17:30",
-                weather.get_parameter("Relative Humidity at 17:30"),
-            )
-            observation_unavailable = any(
-                [
-                    max_missing,
-                    min_missing,
-                    rainfall_missing,
-                    humidity_0830_missing,
-                    humidity_1730_missing,
-                ]
-            )
-
-            print(f"🌡️ Max Temperature: {colorize_temperature(max_temp)}")
-            print(f"🌡️ Min Temperature: {colorize_temperature(min_temp)}")
-            print(f"🌧️ 24h Rainfall (mm): {rainfall}")
-            print(f"💧 Relative Humidity at 08:30: {colorize_humidity(humidity_0830)}")
-            print(f"💧 Relative Humidity at 17:30: {colorize_humidity(humidity_1730)}")
-            if observation_unavailable:
-                print("⚠️ Observation values appear unavailable for this station.")
-
-    except CityNotFoundError as e:
-        print(f"❌ {e}")
-        sys.exit(1)
-    except NetworkError as e:
-        if city_identifier is None:
-            print(f"❌ Error inferring weather location from IP: {e}")
-            print(
-                'Pass a city or station ID instead, e.g. `imdfetch weather "Mumbai"`.'
-            )
-        else:
-            print(f"❌ Error getting weather: {e}")
-        sys.exit(1)
     except Exception as e:
-        print(f"❌ Error getting weather: {e}")
-        sys.exit(1)
+        hint = (
+            'Pass a city or station ID instead, e.g. `imdfetch weather "Delhi"`.'
+            if city_identifier is None and isinstance(e, NetworkError)
+            else None
+        )
+        _fail(e, output_format, hint)
 
 
 def get_forecast(
     client: IMDWeatherClient,
-    city_identifier: str,
+    city_identifier: Union[int, str],
     days: int = 7,
     output_format: str = "text",
 ) -> None:
     """Get weather forecast for a city"""
     try:
-        if city_identifier.isdigit():
-            city_identifier = int(city_identifier)
-
         forecast = client.get_forecast(city_identifier)
         if output_format == "json":
             print(json.dumps(forecast.to_dict(), indent=2))
@@ -160,12 +190,71 @@ def get_forecast(
                     print(f"⚠️ Warnings: {day.warnings}")
                 print()
 
-    except CityNotFoundError as e:
-        print(f"❌ {e}")
-        sys.exit(1)
     except Exception as e:
-        print(f"❌ Error getting forecast: {e}")
-        sys.exit(1)
+        _fail(e, output_format)
+
+
+def _temp_cell(value: Optional[float]) -> str:
+    return _display_observation("temperature", value)[0]
+
+
+def show_history(
+    client: IMDWeatherClient,
+    city_identifier: Union[int, str],
+    output_format: str = "text",
+) -> None:
+    """Show past observations and upcoming predictions for a city"""
+    try:
+        history = client.get_daily_temperatures(city_identifier)
+        if output_format == "json":
+            print(json.dumps(history.to_dict(), indent=2))
+            return
+
+        print(f"📈 Daily Temperatures for {history.city} (°C)")
+        print(
+            f"{'Date':<12}{'Max':>7}{'Fcst Max':>10}{'Norm Max':>10}"
+            f"{'Min':>7}{'Fcst Min':>10}{'Norm Min':>10}"
+        )
+        for day in history.days:
+            print(
+                f"{day.date:<12}{_temp_cell(day.max_temp):>7}"
+                f"{_temp_cell(day.forecast_max):>10}{_temp_cell(day.normal_max):>10}"
+                f"{_temp_cell(day.min_temp):>7}"
+                f"{_temp_cell(day.forecast_min):>10}{_temp_cell(day.normal_min):>10}"
+            )
+
+    except Exception as e:
+        _fail(e, output_format)
+
+
+def show_nowcast(
+    client: IMDWeatherClient, area: Optional[str] = None, output_format: str = "text"
+) -> None:
+    """Show IMD nowcast alerts that are valid right now"""
+    try:
+        report = client.get_nowcasts(area)
+        if output_format == "json":
+            print(json.dumps(report.to_dict(), indent=2))
+            return
+
+        for nowcast in report.alerts:
+            print(f"⚡ {nowcast.event} ({nowcast.severity}) - {nowcast.sender}")
+            print(f"📍 {nowcast.area}")
+            print(f"📝 {nowcast.headline}")
+            print(f"🕒 Valid: {nowcast.effective} to {nowcast.expires}")
+            print()
+
+        if report.unreadable:
+            print(
+                f"⚠️ {report.unreadable} alert(s) could not be read, "
+                "so this list may be incomplete."
+            )
+        elif not report.alerts:
+            where = f" for '{area}'" if area else ""
+            print(f"✅ No active IMD nowcast alerts{where}.")
+
+    except Exception as e:
+        _fail(e, output_format)
 
 
 def list_cities(client: IMDWeatherClient, limit: Optional[int] = None) -> None:
@@ -188,8 +277,11 @@ def list_cities(client: IMDWeatherClient, limit: Optional[int] = None) -> None:
             print("Use --limit 0 to show all cities")
 
     except Exception as e:
-        print(f"❌ Error listing cities: {e}")
-        sys.exit(1)
+        _fail(e)
+
+
+def _city_arg(text: str) -> Union[int, str]:
+    return int(text) if text.isdigit() else text
 
 
 def main():
@@ -216,30 +308,45 @@ Examples:
         "--exact", action="store_true", help="Perform exact match search"
     )
 
-    weather_parser = subparsers.add_parser("weather", help="Get current weather")
+    weather_parser = subparsers.add_parser(
+        "weather", help="Get IMD's latest observations"
+    )
     weather_parser.add_argument(
         "city",
         nargs="?",
+        type=_city_arg,
         help="City name or ID. If omitted, use IP geolocation to find the nearest IMD station.",
-    )
-    weather_parser.add_argument(
-        "--format",
-        choices=["text", "json"],
-        default="text",
-        help="Output format (default: text)",
     )
 
     forecast_parser = subparsers.add_parser("forecast", help="Get weather forecast")
-    forecast_parser.add_argument("city", help="City name or ID")
+    forecast_parser.add_argument("city", type=_city_arg, help="City name or ID")
     forecast_parser.add_argument(
         "--days", type=int, default=7, help="Number of forecast days (default: 7)"
     )
-    forecast_parser.add_argument(
-        "--format",
-        choices=["text", "json"],
-        default="text",
-        help="Output format (default: text)",
+
+    history_parser = subparsers.add_parser(
+        "history", help="Show past observations and upcoming predictions"
     )
+    history_parser.add_argument("city", type=_city_arg, help="City name or ID")
+
+    nowcast_parser = subparsers.add_parser(
+        "nowcast", help="Show IMD nowcast alerts valid right now"
+    )
+    nowcast_parser.add_argument(
+        "area", nargs="?", help="District or state name. If omitted, all of India."
+    )
+    for command_parser in (
+        weather_parser,
+        forecast_parser,
+        history_parser,
+        nowcast_parser,
+    ):
+        command_parser.add_argument(
+            "--format",
+            choices=["text", "json"],
+            default="text",
+            help="Output format (default: text)",
+        )
 
     cities_parser = subparsers.add_parser("cities", help="List all available cities")
     cities_parser.add_argument(
@@ -264,6 +371,10 @@ Examples:
             get_weather(client, args.city, args.format)
         elif args.command == "forecast":
             get_forecast(client, args.city, args.days, args.format)
+        elif args.command == "history":
+            show_history(client, args.city, args.format)
+        elif args.command == "nowcast":
+            show_nowcast(client, args.area, args.format)
         elif args.command == "cities":
             limit = None if args.limit == 0 else args.limit
             list_cities(client, limit)

@@ -19,7 +19,7 @@ logger = logging.getLogger(__name__)
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
-__all__ = ["make_robust_request", "safe_get", "safe_post"]
+__all__ = ["make_robust_request", "safe_get", "safe_post", "verified_get"]
 
 
 def _request(
@@ -30,12 +30,13 @@ def _request(
     params: Optional[dict] = None,
     max_retries: int = DEFAULT_MAX_RETRIES,
     timeout: int = DEFAULT_TIMEOUT,
+    allow_insecure: bool = True,
 ) -> requests.Response:
-    """Issue an HTTP request with retry + SSL-verification fallback."""
+    """Issue an HTTP request with retry + optional SSL-verification fallback."""
     headers = {**DEFAULT_HEADERS, **(extra_headers or {})}
     last_err: Optional[Exception] = None
     for attempt in range(max_retries + 1):
-        for verify in (True, False):
+        for verify in (True, False) if allow_insecure else (True,):
             try:
                 resp = requests.request(
                     method,
@@ -51,11 +52,14 @@ def _request(
             except requests.exceptions.SSLError as e:
                 last_err = e
                 logger.warning(
-                    "SSL error for %s %s; retrying without verification", method, url
+                    "SSL error for %s %s with verify=%s", method, url, verify
                 )
                 continue
             except requests.exceptions.RequestException as e:
                 last_err = e
+                status = e.response.status_code if e.response is not None else None
+                if status and 400 <= status < 500 and status not in (408, 429):
+                    raise NetworkError(f"{method} {url} failed: {e}") from e
                 logger.warning(
                     "Request error on attempt %d/%d for %s %s: %s",
                     attempt + 1,
@@ -92,6 +96,11 @@ def safe_get(
 ) -> requests.Response:
     """requests.get() with retry logic."""
     return _request("GET", url, params=params, max_retries=max_retries, timeout=timeout)
+
+
+def verified_get(url: str) -> requests.Response:
+    """GET with retry that refuses the insecure TLS fallback."""
+    return _request("GET", url, allow_insecure=False)
 
 
 def safe_post(

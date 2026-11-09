@@ -20,8 +20,8 @@ lint:  ## Run linting
 	mypy imdfetch/
 
 format:  ## Format code
-	black imdfetch/ examples/
-	isort imdfetch/ examples/
+	ruff check --select I --fix .
+	ruff format .
 
 clean:  ## Clean build artifacts
 	rm -rf build/

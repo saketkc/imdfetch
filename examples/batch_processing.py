@@ -26,6 +26,9 @@ def get_weather_for_city(client: IMDWeatherClient, city_name: str) -> Dict[str, 
     """
     try:
         weather = client.get_current_weather(city_name)
+        # a city returns one entry per station; failed ones have empty parameters
+        if isinstance(weather, list):
+            weather = next((w for w in weather if w.parameters), weather[0])
         return {
             "city": weather.city,
             "date": weather.date,
